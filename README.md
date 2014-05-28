@@ -1,2 +1,4 @@
 JSProject
 =========
+
+required Node, + npm
