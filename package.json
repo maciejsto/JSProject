@@ -1,0 +1,24 @@
+{
+  "name": "JSProject",
+  "version": "0.0.0",
+  "description": "we dont know what that is",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maciejsto/JSProject.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "project"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maciejsto/JSProject/issues"
+  },
+  "homepage": "https://github.com/maciejsto/JSProject"
+}
