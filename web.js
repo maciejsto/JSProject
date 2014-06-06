@@ -41,7 +41,11 @@ app.listen(port, function() {
    //d = "";
    var c = db.collection('mongodb').find().toArray(function(err,data){
  	  console.log(data);
- 	  
+ 	 app.get('/', function(req, res) {
+ 		  res.send(data);
+ 		  
+ 		  //res.send(fetch_data(c));
+ 		});
 	 
    });
   
