@@ -1,24 +1,31 @@
 {
   "name": "JSProject",
   "version": "0.0.0",
-  "description": "we dont know what that is",
-  "main": "server.js",
+  "description": "JSProject\r =========",
+  "main": "web.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node web.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/maciejsto/JSProject.git"
+    "url": "ssh://git@github.com/maciejsto/JSProject.git"
   },
-  "keywords": [
-    "js",
-    "javascript",
-    "project"
-  ],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/maciejsto/JSProject/issues"
   },
-  "homepage": "https://github.com/maciejsto/JSProject"
+  "homepage": "https://github.com/maciejsto/JSProject",
+  "dependencies": {
+    "express": "^4.4.1",
+    "logfmt": "^1.1.2"
+  },
+  "engines": {
+	    "node": "0.10.x"
+	  }
 }
