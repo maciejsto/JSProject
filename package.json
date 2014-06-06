@@ -23,9 +23,10 @@
   "homepage": "https://github.com/maciejsto/JSProject",
   "dependencies": {
     "express": "^4.4.1",
-    "logfmt": "^1.1.2"
+    "logfmt": "^1.1.2",
+    "mongodb": "^1.4.5"
   },
   "engines": {
-	    "node": "0.10.x"
-	  }
+    "node": "0.10.x"
+  }
 }
