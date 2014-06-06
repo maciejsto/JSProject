@@ -1,7 +1,6 @@
 // web.js
 var express = require("express");
 var logfmt = require("logfmt");
-var mongo = require('mongodb');
 var app = express();
 
 app.use(logfmt.requestLogger());
@@ -15,7 +14,7 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });
 
-
+var mongo = require('mongodb');
 
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
