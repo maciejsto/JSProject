@@ -79,6 +79,7 @@ var services = {
     },
     //'model.userRoles': require(ROOT_PATH + 'models/auth/userRoles'),
     mongoose: require('mongoose'),
+    mongo: require('mongo'),
     //passport: require('passport'),
     //'passport.google': require('passport-google'),
     //'passport.local': require('passport-local'),
@@ -95,10 +96,11 @@ var services = {
     schema: function addService(sm) {
         return sm.get('mongoose').Schema;
     },
-    
     users:  function addService(sm) {
-    	var mongo = require('mongodb');
-    	
+    	var mongo = sm.get('mongo');
+        // todo get db;
+        var users = require(ROOT_PATH + 'src/service/users')(db);
+        return users;
     },
     //soap: require('soap-q')(require('soap')),
     //validator: require('validator'),
