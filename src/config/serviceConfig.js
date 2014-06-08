@@ -119,7 +119,5 @@ var services = {
     when: require('when'),
     //xmlParser: require('libxmljs'),
     //xml2js: require('xml2js')
-    
-    
 };
 module.exports.services = services;
