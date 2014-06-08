@@ -80,6 +80,19 @@ var services = {
     //'model.userRoles': require(ROOT_PATH + 'models/auth/userRoles'),
     mongoose: require('mongoose'),
     mongo: require('mongo'),
+    mongoDb: function addService(sm) {
+        var mongo = sm.get('mongo');
+        var mongoDb;
+        var dbUri = sm.get('config').mongoDb.uri;
+        function afterDbConnect(err, db) {
+            if (!err) {
+                return console.log("you are connected to mongodb on heroku :D");
+            }
+            mongoDb = db;
+            return db;
+        }
+        mongo.Db.connect(dbUri, afterDbConnect);
+    },
     //passport: require('passport'),
     //'passport.google': require('passport-google'),
     //'passport.local': require('passport-local'),
@@ -97,9 +110,8 @@ var services = {
         return sm.get('mongoose').Schema;
     },
     users:  function addService(sm) {
-    	var mongo = sm.get('mongo');
-        // todo get db;
-        var users = require(ROOT_PATH + 'src/service/users')(db);
+        var mongoDb = sm.get('mongoDb');
+        var users = require(ROOT_PATH + 'src/service/users')(mongoDb);
         return users;
     },
     //soap: require('soap-q')(require('soap')),
