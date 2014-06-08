@@ -16,9 +16,10 @@ var services = {
             res.header('Access-Control-Allow-Headers', 'Content-Type');
             next();
         };
-        
+        app.use("/bower_components",express.static(ROOT_PATH + 'bower_components'));
         app.use(allowCrossDomain);
         app.use(express.static(ROOT_PATH + 'src/front'));
+        
         return app;
     },
     //articles: {},
