@@ -13,8 +13,15 @@ var mongo = require('mongodb');
 
 
 app.get('/', function(req, res) {
-  res.send('Hello World!');
-  res.render('helloworld', { title: 'Hello, World!' })
+
+  db.collection('mongodb').find().toArray(function(err, data){
+				console.log(data);
+	  res.send(data);
+  });
+  
+  
+  
+  
   
 });
 
@@ -25,6 +32,7 @@ app.listen(port, function() {
 });
 
  
+
 
  var mongoUri = process.env.MONGOLAB_URI ||
    process.env.MONGOHQ_URL ||
@@ -46,6 +54,30 @@ app.listen(port, function() {
     }
   
   
+	function fetch(){
+		
+			db.collection('mongodb').find().toArray(function(err, data){
+				//console.log(data);
+			});
+	
+	}
+	var c = db.collection('mongodb', function(er, collection) {
+ 	    var tmp = [];
+		var d = collection.find().toArray(function(er,rs) {
+ 	    	//console.log(rs);
+ 	    	tmp = rs;
+ 	    });
+ 	    
+ 	  });
+	
+	//console.log(c);
+	//fetch();
+
+ 	
+	
+
+	
+  
 		
 	db.collection('mongodb').find().toArray(function(err, data){
 		//console.log(data);
@@ -53,4 +85,5 @@ app.listen(port, function() {
 	
   
  });
+
 
