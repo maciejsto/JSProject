@@ -4,7 +4,7 @@
 'use strict';
 var ROOT_PATH = __dirname + '/../../';
 var services = {
-    _: require('lodash-node'),   // lodash??
+    _: require('lodash-node'),
     app: function addService(sm) {
         var express = sm.get('express');
         var app = express();
@@ -35,30 +35,10 @@ var services = {
     	
     	return logger; 
     },
-    
-    
-    
-//    'controller.rest': function addService(sm) {
-//        return require(ROOT_PATH + 'controllers/rest')(
-//            sm.get('config'),
-//            sm.get('log'),
-//            sm.get('app'),
-//            sm.get('expres.restify.mongoose'),
-//            sm.get('http'),
-//            sm.get('model.restEndPoints')
-//        );
-//    },
 //    'controller.referenceSearch': function addService(sm) {
 //        return require(ROOT_PATH + 'controllers/referenceSearch')(
 //            sm.get('log'),
 //            sm.get('service.web.pubmed'),
-//            sm.get('q'));
-//    },
-    // also called web-of-science
-//    'controller.referenceSearch.isi': function addService(sm) {
-//        return require(ROOT_PATH + 'controllers/referenceSearch')(
-//            sm.get('log'),
-//            sm.get('service.web.isi'),
 //            sm.get('q'));
 //    },
     port: (process.env.PORT || 8081),
@@ -84,6 +64,7 @@ var services = {
         var mongo = sm.get('mongo');
         var mongoDb;
         var dbUri = sm.get('config').mongoDb.uri;
+        mongo.Db.connect(dbUri, afterDbConnect);
         function afterDbConnect(err, db) {
             if (!err) {
                 return console.log("you are connected to mongodb on heroku :D");
@@ -91,7 +72,6 @@ var services = {
             mongoDb = db;
             return db;
         }
-        mongo.Db.connect(dbUri, afterDbConnect);
     },
     //passport: require('passport'),
     //'passport.google': require('passport-google'),
