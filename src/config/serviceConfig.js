@@ -95,6 +95,11 @@ var services = {
     schema: function addService(sm) {
         return sm.get('mongoose').Schema;
     },
+    
+    users:  function addService(sm) {
+    	var mongo = require('mongodb');
+    	
+    },
     //soap: require('soap-q')(require('soap')),
     //validator: require('validator'),
     when: require('when'),
