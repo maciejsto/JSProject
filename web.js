@@ -9,11 +9,15 @@ var app = sm.get('app');
 var logfmt = sm.get('logfmt');
 var mongo = require('mongodb');
 
+//var db_uri = 
+//express.static("/");		// zaserwuje katalog -> defaultoow index.thml
+//app.use(express.static(__dirname + 'src/front'));
 
 
 
 app.get('/', function(req, res) {
-  res.send('Hello World!');
+	
+  //res.send('Hello World!');
   res.render('helloworld', { title: 'Hello, World!' })
   
 });
@@ -48,7 +52,8 @@ app.listen(port, function() {
   
 		
 	db.collection('mongodb').find().toArray(function(err, data){
-		//console.log(data);
+		console.log(data);
+		
 	});
 	
   
