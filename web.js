@@ -9,6 +9,7 @@ var when = sm.get('when');
 var astronautModel = sm.get('astronaut');
 var hbs = require('hbs');
 var express=require('express');
+var fs = require('fs');
 
 var routes = require('./src/routes');
 
@@ -28,6 +29,10 @@ app.set('view engine', 'ejs');
 //configuration
 
 app.get('/', routes.index);
+
+var about = require('./src/routes/about');
+app.get('/about', about.about);
+
 //mongoose.connect(db_uri);
 //var newAstro = new astronautModel(astroData); // new astronaut document
 //newAstro.save(); //save to database
@@ -45,6 +50,14 @@ usersF(function(err,users){
 	});
 //	console.log(users.insert(10,"Maciek"));
 });
+
+fs.readdirSync('./src/controllers').forEach(function (file) {
+	  if(file.substr(-3) == '.js') {
+	      route = require('./src/controllers/' + file);
+	      route.controller(app);
+	  }
+	});
+
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function () {
