@@ -32,7 +32,8 @@
     "mongodb": "^1.4.5",
     "mongoose": "^3.8.12",
     "when": "^3.2.3",
-    "hbs":"*"
+    "hbs":"*",
+    "ejs": "*"
   },
   "engines": {
     "node": "0.10.x"
