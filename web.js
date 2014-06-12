@@ -10,6 +10,8 @@ var astronautModel = sm.get('astronaut');
 var hbs = require('hbs');
 var express=require('express');
 
+var routes = require('./src/routes');
+
 
 var astroData = {
 	    name : 'John Schimmel',
@@ -18,16 +20,14 @@ var astroData = {
 	};
 
 
-app.set('view engine', 'html');
-app.engine('html', hbs.__express);
+
+app.set('views', __dirname + '/src/views');
+app.set('view engine', 'ejs');
+//app.engine('html', hbs.__express);
+
 //configuration
 
-app.get('/index.html', function(req, res) {
-	console.log('rendering');
-	
-    //res.render('./src/front/index.html',{a:"some data"});
-});
-
+app.get('/', routes.index);
 //mongoose.connect(db_uri);
 //var newAstro = new astronautModel(astroData); // new astronaut document
 //newAstro.save(); //save to database
