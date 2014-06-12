@@ -2,6 +2,7 @@
  * Created by syzer on 5/15/2014.
  */
 'use strict';
+
 var ROOT_PATH = __dirname + '/../../';
 var services = {
     _: require('lodash-node'),
@@ -59,18 +60,29 @@ var services = {
     },
     //'model.userRoles': require(ROOT_PATH + 'models/auth/userRoles'),
     mongoose: require('mongoose'),
-    mongo: require('mongo'),
+    mongo: require('mongodb'),
     mongoDb: function addService(sm) {
         var mongo = sm.get('mongo');
-        var mongoDb;
+        var mongoDb = {};	// this does not return anything ?
         var dbUri = sm.get('config').mongoDb.uri;
-        mongo.Db.connect(dbUri, afterDbConnect);
-        function afterDbConnect(err, db) {
-            if (!err) {
-                return console.log("you are connected to mongodb on heroku :D");
-            }
-            mongoDb = db;
-            return db;
+        var when = sm.get('when');
+        
+        return function dbConnect(callback){
+        	mongo.Db.connect(dbUri,function(err, db){
+        		
+	        		if (err){
+	        			return callback(err);
+	        		}
+	        	mongoDb = db;
+	        	db.collection('mongodb', function(err, testColl){
+	        		
+	        		if (err){
+	        			return callback(err);
+	        		}
+	        		console.log("you are connected to mongodb on heroku :)");
+	        		callback(null,db);
+	        	});
+        	});
         }
     },
     //passport: require('passport'),
@@ -90,14 +102,21 @@ var services = {
         return sm.get('mongoose').Schema;
     },
     users:  function addService(sm) {
-        var mongoDb = sm.get('mongoDb');
-        var users = require(ROOT_PATH + 'src/service/users')(mongoDb);
-        return users;
+		var mongoDb = sm.get('mongoDb');
+        var when = sm.get('when');
+        
+       return function getUsers(callback){
+			mongoDb(function(err, db){
+					var users = require(ROOT_PATH + 'src/service/users')(db);
+					callback(null, users);
+				});
+        }
     },
-    //soap: require('soap-q')(require('soap')),
-    //validator: require('validator'),
-    when: require('when'),
-    //xmlParser: require('libxmljs'),
-    //xml2js: require('xml2js')
+    astronaut: function addService(sm){
+    	var astronaut = require(ROOT_PATH + "src/service/astronauts");
+    	return astronaut;
+    },
+
+    when: require('when')
 };
 module.exports.services = services;
