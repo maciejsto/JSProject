@@ -10,7 +10,6 @@ var astronautModel = sm.get('astronaut');
 var hbs = require('hbs');
 var express=require('express');
 var fs = require('fs');
-
 var routes = require('./src/routes');
 
 
@@ -22,16 +21,16 @@ var astroData = {
 
 
 
-app.set('views', __dirname + '/src/views');
-app.set('view engine', 'ejs');
+//app.set('views', __dirname + '/src/views');
+//app.set('view engine', 'ejs');
 //app.engine('html', hbs.__express);
 
 //configuration
 
-app.get('/', routes.index);
+//app.get('/', routes.index);
 
-var about = require('./src/routes/about');
-app.get('/about', about.about);
+//var about = require('./src/routes/about');
+//app.get('/about', about.about);
 
 //mongoose.connect(db_uri);
 //var newAstro = new astronautModel(astroData); // new astronaut document
@@ -53,7 +52,9 @@ usersF(function(err,users){
 
 fs.readdirSync('./src/controllers').forEach(function (file) {
 	  if(file.substr(-3) == '.js') {
+		  console.log("routes",file);
 	      route = require('./src/controllers/' + file);
+	      console.log(route);
 	      route.controller(app);
 	  }
 	});
