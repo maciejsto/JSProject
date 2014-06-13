@@ -3,7 +3,8 @@
  */
 'use strict';
 
-var ROOT_PATH = __dirname + '/../../';
+var ROOT_PATH = __dirname + '/../';
+console.log(ROOT_PATH);
 var services = {
     _: require('lodash-node'),
     app: function addService(sm) {
@@ -20,15 +21,19 @@ var services = {
         app.use("/bower_components",express.static(ROOT_PATH + 'bower_components'));
         app.use(allowCrossDomain);
         app.use(express.static(ROOT_PATH + 'src/front'));
-        
         return app;
     },
-    //articles: {},
+    astronaut: function addService(sm){
+    	var astronaut = require(ROOT_PATH + "service/astronauts");
+    	return astronaut;
+    },
     bodyParser: require('body-parser')(),
     //cheerio: require('cheerio'),
     //cookieParser: require('cookie-parser')(),
     connect: require('connect'),
-    config: require(ROOT_PATH + 'src/config/config')(),
+//    config: require(ROOT_PATH + 'src/backend/config/config')(),
+    config: require(ROOT_PATH + 'config/config')(),
+    
     
     'logfmt': function addService(sm){
     	var logfmt = require('logfmt');
@@ -92,12 +97,11 @@ var services = {
     //request: require('request'),
     restify: require('express-restify-mongoose'),
     'service.web.driverjs': function addService(sm) {
-        return require(ROOT_PATH + 'services/web/driverjs')(
+        return require(ROOT_PATH + 'service/web/driverjs')(
             require('webdriverjs'),
             sm.get('config')
         );
     },
-    //soap: require('soap'),
     schema: function addService(sm) {
         return sm.get('mongoose').Schema;
     },
@@ -107,15 +111,12 @@ var services = {
         
        return function getUsers(callback){
 			mongoDb(function(err, db){
-					var users = require(ROOT_PATH + 'src/service/users')(db);
+					var users = require(ROOT_PATH + 'service/users')(db);
 					callback(null, users);
 				});
         }
     },
-    astronaut: function addService(sm){
-    	var astronaut = require(ROOT_PATH + "src/service/astronauts");
-    	return astronaut;
-    },
+    
 
     when: require('when')
 };
