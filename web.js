@@ -3,14 +3,14 @@ var sm = require("./src/service/manager")(services);
 var app = sm.get('app');
 var mongo = require('mongodb');		//use sm.get
 var db_uri = sm.get('config').mongoDb.uri;
-var usersF = sm.get('users');
+var Users = sm.get('users');
 var mongoose = sm.get('mongoose');
 var when = sm.get('when');
 var astronautModel = sm.get('astronaut');
-var hbs = require('hbs');
+//var hbs = require('hbs');
 var express=require('express');
 var fs = require('fs');
-var routes = require('./src/routes');
+//var routes = require('./src/routes');
 
 
 var astroData = {
@@ -19,36 +19,14 @@ var astroData = {
 	    walkedOnMoon : false
 	};
 
-
-
-//app.set('views', __dirname + '/src/views');
-//app.set('view engine', 'ejs');
-//app.engine('html', hbs.__express);
-
-//configuration
-
-//app.get('/', routes.index);
-
-//var about = require('./src/routes/about');
-//app.get('/about', about.about);
-
-//mongoose.connect(db_uri);
-//var newAstro = new astronautModel(astroData); // new astronaut document
-//newAstro.save(); //save to database
-//app.get('/', function(req, res){
-//		res.render('index.html', {a: "astro: "+newAstro['name']});
-//	  res.render('./src/front/index',{'a': newAstro['name']});
-//	  res.send('hello world'); //replace with your data here
-//	});
-
-
-usersF(function(err,users){
-	console.log(users.createC("testC"));
+Users(function(err,users){
+	console.log(users.createCollection("testC"));
 	users.get('testC',function(err,data){
 		console.log(data);
 	});
 //	console.log(users.insert(10,"Maciek"));
 });
+
 
 fs.readdirSync('./src/controllers').forEach(function (file) {
 	  if(file.substr(-3) == '.js') {

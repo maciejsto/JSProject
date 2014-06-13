@@ -32,12 +32,6 @@ module.exports.controller = function(app) {
 /**
  * About page route
  */
-  app.get('/about', function(req, res) {
-      // any logic goes here
-//      res.render('about', { title: 'sdkjsamdksadlksamdsamldmsadlmsaldsadmsaldmsamdsamdlmsaldmsalkdsalkdmlksa' },function(){
-    	  console.log("rendering ");
-//      });
-  });
 //  app.get('/about', function(req, res) {
       // any logic goes here
 //      res.render('about',{'some_data':'incoming_data'})

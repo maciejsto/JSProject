@@ -5,14 +5,17 @@ module.exports = function (db) {
     "use strict";
 
     //private 
-    
     var users = 'users';
     var user_name = 'user_name';
     var user_id = 'user_id';
     
+    
+    
     return {
     
-    	//public 
+    	/*
+    	 * @public function wchich gets collection
+    	 */
     	get: function(col_name,callback){
     		var tmp = {
 				user_id:  "_id",
@@ -28,10 +31,12 @@ module.exports = function (db) {
 
     			callback(null,data);
     		});
-//    		callback(null,data);
     	},
     	
-    	createC: function(new_col){
+    	/**
+    	 * @public function creates new collection
+    	 */
+    	createCollection: function(new_col){
     		if (!db.collectionExists == new_col){
     			console.log('creating collection users');
     			db.createCollection(new_col);
@@ -40,23 +45,17 @@ module.exports = function (db) {
     		}
     	},
     	
-    	dummyf: function(){
-    		return 0;
-    	},
-    	
-    
+    	/*
+    	 * @public function insert some data
+    	 */
     	insert: function(new_user_id, new_user_name){
-//    		if(! db.collection("testC").find({user_id: new_user_id})){
     		db.collection('testC', function (er, collection) {
               collection.insert({'user_id': new_user_id,'user_name': new_user_name}, {safe: true}, function (er, rs) {
             	  console.log('done inserting ');
               });
     		});
-//              });
-//          });
-//    			db.getCollection("testC").save({user_id:new_user_id,user_name: new_user_name},function(){'done'});
-//    		}
     	}
+    	
     }
     
 };
