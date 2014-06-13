@@ -10,7 +10,7 @@ var about = require('../routes/about');
 
 module.exports.controller = function(app) {
 
-	
+//	console.log("userss: ",Users);
 	app.set('views',  './src/views');
 	app.set('view engine', 'ejs');
 //	app.engine('html', hbs.__express);
@@ -23,10 +23,12 @@ module.exports.controller = function(app) {
  * a home page route
  * 
  */
-  app.get('/about', function(req, res) {
+  app.get('/about', function(req, res, next) {
       // any logic goes here
-	  
-	  res.locals.d = JSON.parse({d:"data"});
+	  var abstracts = {data:"dposamdpoamdpsamd"};
+	  res.jsonp(abstracts);
+	  res.set('Content-Type', 'application/json; charset=utf-8');
+	  next();
   });
 
 /**
