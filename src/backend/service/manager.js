@@ -52,6 +52,14 @@ module.exports = function (initialServices) {
             return services.hasOwnProperty(serviceName);
         },
 
+        //TODO
+        list: function() {
+
+            services.forEach(function(service, i) {
+                return [];
+            });
+        },
+
         //TODO merge services between modules also might merge initialServices
         mergeServices: function () {}
     };
