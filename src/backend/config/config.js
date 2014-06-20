@@ -8,6 +8,9 @@ module.exports = function () {
         rest: {
             port: 3000
         },
+        Serial: {
+            port: "COM3"
+        },
         mongoDb: {
             uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
             options: {

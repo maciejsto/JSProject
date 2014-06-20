@@ -1,17 +1,15 @@
-/**
- * New node file
- */
+'use strict';
 var routes = require("../../routes");
 var about = require('../../routes/about');
 var arduino = require('../../routes/arduino');
 
 module.exports.controller = function(app, UserModel) {
 
-	app.set('views',  './src/front/views')
-	app.set('view engine', 'ejs')
-	app.get('/', routes.index)
+	app.set('views',  './src/front/views');
+	app.set('view engine', 'ejs');
+	app.get('/', routes.index);
 //	app.get('/about', about.about.d(UserModel))
-    app.get('/about', about.list)
+    app.get('/about', about.list);
     //app.get('/', routes.index);
     //app.post('/tasks', tasks.markAllCompleted)
     //app.post('/about', about.add);
