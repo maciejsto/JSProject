@@ -1,10 +1,53 @@
-/**
- * New node file
- */
 
-exports.about = function(req, res){
-	res.render('about', { 
-		title: 'Express',
-		user: 'Maciek',
-	});
+/*
+
+ */
+"use strict";
+
+exports.about = {
+    d: function(model){
+
+       return function (req, res){
+           model(function(err, user){
+
+               user.get('testC',function(err, data){
+
+                   var listOfObjects = data;
+                   var ObjectsAsString = [];
+
+                   listOfObjects.forEach(function(item){
+                       var string_item = JSON.stringify(item);
+                       ObjectsAsString.push(string_item);
+                   });
+                   res.render('about',{
+                       title: 'Express',
+                       //user: JSON.stringify(ObjectsAsString[0])
+                       user: data[0]
+                   });
+               });
+           });
+       };
+    },
+
+    f: function(req, res){
+        res.render('about', {
+            title: 'Express',
+            user: "Maciek"
+
+        });
+    }
+};
+
+exports.list = function(req, res, next){
+    //req.db.find().toArray(function(error, users){
+    //    if (error) return next(error);
+        res.render('about', {
+            title: 'Todo List',
+            //user: users || []
+            user: {
+                name: "adsaadasadsad"
+            }
+        });
+    //});
+
 };

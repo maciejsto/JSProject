@@ -8,7 +8,7 @@ module.exports = function (db) {
     var users = 'users';
     var user_name = 'user_name';
     var user_id = 'user_id';
-    
+    var testCollection = db.collection('testC');
     
     
     return {
@@ -22,7 +22,7 @@ module.exports = function (db) {
 				user_name:  "_name",
     		};
     		
-    		(db.collection(col_name).find()).limit(4).sort({"_id":1}).toArray(function(err, data){
+    		(db.collection(col_name).find({})).limit(4).sort({"_id":1}).toArray(function(err, data){
     			tmp = data;
     			
     			if (err){
@@ -54,7 +54,13 @@ module.exports = function (db) {
             	  console.log('done inserting ');
               });
     		});
-    	}
+    	},
+
+        findById: function(userId){
+            if (! testCollection.find(userId)) return;
+          var user = testCollection.find(userId);
+          return user;
+        },
     	
     }
     

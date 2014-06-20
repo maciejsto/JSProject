@@ -23,10 +23,31 @@ var services = {
         app.use(express.static(ROOT_PATH + 'src/front'));
         return app;
     },
+
+    arduino: function addService(sm){
+
+        return function(portName){
+            var SerialPort = require("serialport").SerialPort;
+            var SerialPort = new SerialPort(portName,
+                {
+                    bauderate: 9600,
+                },false);
+            return SerialPort;
+        };
+    },
+    arduinomodel: function addService(sm){
+        var serialPort = sm.get('arduino');
+        var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
+        return arduinoModel;
+    },
     astronaut: function addService(sm){
     	var astronaut = require(ROOT_PATH + "service/astronauts");
     	return astronaut;
     },
+    about: function addService(sm){
+        return require(ROOT_PATH + "../routes/about")
+    },
+
     bodyParser: require('body-parser')(),
     //cheerio: require('cheerio'),
     //cookieParser: require('cookie-parser')(),
@@ -64,8 +85,14 @@ var services = {
         );
     },
     //'model.userRoles': require(ROOT_PATH + 'models/auth/userRoles'),
+
     mongoose: require('mongoose'),
     mongo: require('mongodb'),
+
+    db: function addService(sm){
+        return require(ROOT_PATH + "/service/db");
+    },
+
     mongoDb: function addService(sm) {
         var mongo = sm.get('mongo');
         var mongoDb = {};	// this does not return anything ?
@@ -102,17 +129,21 @@ var services = {
             sm.get('config')
         );
     },
+    routes: function addService(sm){
+        var routes = require(ROOT_PATH + "../routes");
+        return routes;
+    },
     schema: function addService(sm) {
         return sm.get('mongoose').Schema;
     },
+
     users:  function addService(sm) {
-		var mongoDb = sm.get('mongoDb');
-        var when = sm.get('when');
-        
+        var mongoDb = sm.get('mongoDb');
+
        return function getUsers(callback){
 			mongoDb(function(err, db){
 					var users = require(ROOT_PATH + 'service/users')(db);
-					callback(null, users);
+					return callback(null, users); //TODO with or without return ??
 				});
         }
     },
