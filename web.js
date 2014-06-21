@@ -9,9 +9,14 @@ var express = sm.get('express');
 var fs = sm.get('fs');
 var routes = sm.get('routes');
 var about = sm.get('about');
-var COM_PORT = sm.get('config').Serial.port;    // COM3
-var serialPort = sm.get('serial')(COM_PORT);
 
+
+
+
+
+app.set('views',  './src/front/views');
+app.set('view engine', 'ejs');
+app.get('/', routes.index);
 
 var controllers = [];   //global variables holding list of controllers files
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {

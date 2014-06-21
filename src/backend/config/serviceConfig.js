@@ -28,15 +28,16 @@ var services = {
 
         return function(portName){
             var SerialPort = require("serialport").SerialPort;
-            var SerialPort = new SerialPort(portName,
+            var serialPort = new SerialPort(portName,
                 {
                     bauderate: 9600,
-                },false);
-            return SerialPort;
+                });
+            return serialPort;
         };
     },
     arduinomodel: function addService(sm){
-        var serialPort = sm.get('serial');
+        var COM3 = sm.get('config').Serial.port;
+        var serialPort = sm.get('serial')("COM3");
         var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
         return arduinoModel;
     },

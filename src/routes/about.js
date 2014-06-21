@@ -5,7 +5,7 @@
 "use strict";
 
 exports.about = {
-    d: function(model){
+    showUserData: function(model){
 
        return function (req, res){
            model(function(err, user){
@@ -29,7 +29,7 @@ exports.about = {
        };
     },
 
-    f: function(req, res){
+    dummyFunction: function(req, res){
         res.render('about', {
             title: 'Express',
             user: "Maciek"
@@ -42,12 +42,12 @@ exports.list = function(req, res, next){
     //req.db.find().toArray(function(error, users){
     //    if (error) return next(error);
         res.render('about', {
-            title: 'Todo List',
+            title: 'Expresss',
             //user: users || []
             user: {
-                name: "adsaadasadsad"
+                name: "test name"
             }
         });
     //});
-
+    next();
 };
