@@ -17,9 +17,11 @@ module.exports.controller = function(app, arduinoModel){
     //app.get('/about', about.list);
     //app.get('/about', about.about.d(userModel));
 
-    var serialData = arduinoModel.getSerialData();
-    var temperatureData = arduinoModel.getTemperatureData();
-    var internalSensorData = arduinoModel.getInternalTemperatureSensorData();
+    //var serialData = arduinoModel.getSerialData();
+    var serialData_Mock = "data";
+    //var temperatureData = arduinoModel.getTemperatureData();
+
+    //var internalSensorData = arduinoModel.getInternalTemperatureSensorData();
 
     app.get('/arduino', function(req, res){
 
@@ -27,7 +29,7 @@ module.exports.controller = function(app, arduinoModel){
         var abstract = {
             serial   : serialData,
             temp     : temperatureData,
-            internal : internalSensorData,
+            internal : internalSensorData
         }
 
         res.render('arduino', {
