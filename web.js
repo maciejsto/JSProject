@@ -1,54 +1,154 @@
 'use strict';
+
+
 var services = require("./src/backend/config/serviceConfig").services;
 var sm = require("./src/backend/service/manager")(services);
 var app = sm.get('app');
+//var io = sm.get('socket')(app);
 var mongo = sm.get('mongo');
 var db_uri = sm.get('config').mongoDb.uri;
-var userModel = sm.get('users');
 var express = sm.get('express');
 var fs = sm.get('fs');
+var usersModel = sm.get('users');
+var serialPort = sm.get('serial')(sm.get('config').Serial.port);
+var arduinoModel = sm.get('arduinomodel')(serialPort);
 var routes = sm.get('routes');
-var about = sm.get('about');
+var port = Number(process.env.PORT || 5000);
 
 
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server,{
+    "transports": ["polling"],
+    "polling duration": 10
+});
+var conf = require('./src/backend/config/index')();
 
 
+io.sockets.on('connection', function (socket) {
+    socket.emit('message', { message: 'welcome to the chat' });
+    socket.on('send', function (data) {
+        console.log('data-server side ',data);
+        io.sockets.emit('message', data);
+    });
+    socket.on('myevent',function(data){
+        console.log('data, from client',data);
+    });
+});
+//var ap = require('express')();
+//var server = require('http').Server(ap);
+/*
 
-app.set('views',  './src/front/views');
+
+var http = sm.get('http');
+var conf = require('./src/backend/config/index')();
+var server = http.createServer(app);
+var io = sm.get('socket');
+*/
+/*
+var socket = io.listen(server,{
+    "transports": ["xhr-polling"],
+    "polling duration": 10
+});
+*/
+
+
+//SOCKET IO// TODO -> write some code for debugging sockets
+//var server = require('http').Server(app);
+//var io = require('socket.io');
+
+//server.listen(port, function(){
+//    console.log("http server Listening on " + port);
+//});
+//var io = io.listen(server);
+
+// Heroku won't actually allow us to use WebSockets
+// so we have to setup polling instead.
+// https://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
+
+
+/*
+socket.on('connection', function(socket){
+    socket.emit('message', {message:"Hello socket io!!!!"});
+    socket.on('myevent', function (data) {
+        console.log(data);
+    });
+
+});
+
+*/
+/*
+io.on('connection', function (socket) {
+    socket.emit('message', { message: 'world' });
+    //socket.on('my other event', function (data) {
+    //    console.log(data);
+    //});
+});
+*/
+
+//APP SETTINGS//
+app.set('views', __dirname + '/src/front/views');
 app.set('view engine', 'ejs');
-app.get('/', routes.index);
 
 var controllers = [];   //global variables holding list of controllers files
+
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {
     if (file.substr(-3) === '.js') {
-        console.log("routes", file);
+        console.log("controller:", file);
         controllers.push(file);
     }
 });
-var userController = require('./src/backend/controllers/' + controllers[1]);
-var arduinoController = require('./src/backend/controllers/' + controllers[0]);
-//route.controller(app, sm.get('users'));
-userController.controller(app, sm.get('users'));
-arduinoController.controller(app, sm.get('arduinomodel'));
+var userController = require('./src/backend/controllers/' + controllers[3]);
+var arduinoController = require('./src/backend/controllers/' + controllers[1]);
+
+//var arduinoController = controllers[0];
+//var userController = controllers[1];
+
+//CONTROLLERS -> inject Models if applicable
+userController.controller(app, usersModel);
+arduinoController.controller(app, arduinoModel);
 
 
-var error = require("./src/routes/error");
+
+//ROUTES//
+
+app.get('/', routes.index);
+app.get('/about', routes.about.dummyFunction);
+/*
 app.get('*', function(req, res){
-    res.render('error', function(err, html){
+    res.render('error',function(err, html){
         res.send(html);
     });
+
 })
+*/
+//app.get('/arduino', routes.arduino);
+//app.get('*', routes.error);
+
+app.all("/admin*",routes.admin);
 
 
-var port = Number(process.env.PORT || 5000);
+//START SERVER ON DEDICATED PORT//
+
+
+/*
 app.listen(port, function () {
     console.log("Listening on " + port);
 });
+*/
+
+server.listen(3000, function(){
+    console.log("http server listening on port: ");
+});
+
+
+
+
+
+
+
 
 //tests
 /**************************************************
-
-
 
  serialPort.on('open',function(){
     console.log('port open')
@@ -58,16 +158,14 @@ app.listen(port, function () {
         console.log(err.message)
     })
 })
+
  mongoose.connect(db_uri);   //ok
  var db = mongoose.connection;   //ok
 
-
-var astroData = {
+ var astroData = {
     name: 'John Schimmel',
     skills: ['floating', 'repairing satellites'],
     walkedOnMoon: false
 };
 
-
-
-*/
+ */
