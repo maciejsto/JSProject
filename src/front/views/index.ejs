@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html ng-app>
 <% include header %>
+<script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+<script>
+    var socket = io.connect('http://jsproject.herokuapp.com');
+
+    socket.on('connect',function() {
+        console.log('Client has connected to the server!');
+        socket.emit("on connect from clinet");
+    });
+    socket.on('message', function(data){
+        console.log(data.message);
+        socket.emit("on message from client");
+        socket.emit('myevent', { my: 'data' });
+    });
+
+    /*var socket = io.connect('http://localhost:3000');
+
+     */
+</script>
+<hr>
 <body>
     <% include navbar %>
 
@@ -26,6 +45,7 @@
     <div class="container">
         <% include content %>
         <hr>
+
 
         <% include footer %>
     </div>
