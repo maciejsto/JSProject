@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html ng-app>
+<html>
 <% include header %>
-<script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
-<script>
-    var socket = io.connect('http://jsproject.herokuapp.com');
 
+<script>
+
+    var socket = io.connect(window.location.hostname);
+    var tmp;
     socket.on('connect',function() {
-        console.log('Client has connected to the server!');
+        console.log('from Client: Client has connected to the server!');
         socket.emit("on connect from clinet");
     });
+    var myrand = function(){
+            return Math.floor((Math.random() * 100) + 1);
+    };
     socket.on('message', function(data){
-        console.log(data.message);
+        console.log("num:",data.message);
+        var tmp = data.message;
+        var socketdiv = $("#socket");
+        socketdiv.html(tmp);
         socket.emit("on message from client");
-        socket.emit('myevent', { my: 'data' });
+        socket.emit('myevent', { randnum: myrand()});
+    });
+    socket.on('serverReq', function(data){
+       console.log('data from server:', data);
     });
 
-    /*var socket = io.connect('http://localhost:3000');
-
-     */
 </script>
 <hr>
 <body>
@@ -27,18 +34,19 @@
     <div class="jumbotron">
         <div class="container">
             <h1>Hello, Heroku and Node :D</h1>
-            <div ng-controller = "arduinoController">
+            <div>
                 <p>This is a template for a simple marketing or informational
                     website. It includes a large callout called a jumbotron and three
                     supporting pieces of content. Use it as a starting point to create
                     something more unique.</p>
                 <p>
+            </div>
+            <div id="socket">
 
             </div>
 
                 <a class="btn btn-primary btn-lg" role="button">Learn more
                     &raquo;</a>
-            </p>
         </div>
     </div>
 
