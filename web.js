@@ -1,39 +1,38 @@
 'use strict';
 
-
 var services = require("./src/backend/config/serviceConfig").services;
 var sm = require("./src/backend/service/manager")(services);
 var app = sm.get('app');
-//var io = sm.get('socket')(app);
-var mongo = sm.get('mongo');
-var db_uri = sm.get('config').mongoDb.uri;
-var express = sm.get('express');
+//var mongo = sm.get('mongo');
+//var db_uri = sm.get('config').mongoDb.uri;
+//var express = sm.get('express');
 var fs = sm.get('fs');
 var usersModel = sm.get('users');
-var serialPort = sm.get('serial')(sm.get('config').Serial.port);
-var arduinoModel = sm.get('arduinomodel')(serialPort);
+//var serialPort = sm.get('serial')(sm.get('config').Serial.port);
+var arduinoModel = sm.get('arduinomodel');
 var routes = sm.get('routes');
-var port = Number(process.env.PORT || 5000);
+var port = Number(process.env.PORT || 3000);
+var server = sm.get('httpServer');
+var io = sm.get('io')(server);
+//var conf = require('./src/backend/config/index')();
 
-
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server,{
-    "transports": ["polling"],
-    "polling duration": 10
-});
-var conf = require('./src/backend/config/index')();
-
+var myrand = function(){
+    return Math.floor((Math.random() * 100) + 1);
+}
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('message', { message: 'welcome to the chat' });
+    socket.emit('message', { message: 'welcome to the chat, on connection' });
     socket.on('send', function (data) {
         console.log('data-server side ',data);
-        io.sockets.emit('message', data);
+        //io.sockets.emit('message', data);
     });
     socket.on('myevent',function(data){
         console.log('data, from client',data);
+        socket.emit('message', {message:myrand()});
     });
-});
+})
+
+
 //var ap = require('express')();
 //var server = require('http').Server(ap);
 /*
@@ -53,8 +52,6 @@ var socket = io.listen(server,{
 
 
 //SOCKET IO// TODO -> write some code for debugging sockets
-//var server = require('http').Server(app);
-//var io = require('socket.io');
 
 //server.listen(port, function(){
 //    console.log("http server Listening on " + port);
@@ -66,24 +63,6 @@ var socket = io.listen(server,{
 // https://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
 
 
-/*
-socket.on('connection', function(socket){
-    socket.emit('message', {message:"Hello socket io!!!!"});
-    socket.on('myevent', function (data) {
-        console.log(data);
-    });
-
-});
-
-*/
-/*
-io.on('connection', function (socket) {
-    socket.emit('message', { message: 'world' });
-    //socket.on('my other event', function (data) {
-    //    console.log(data);
-    //});
-});
-*/
 
 //APP SETTINGS//
 app.set('views', __dirname + '/src/front/views');
@@ -104,7 +83,7 @@ var arduinoController = require('./src/backend/controllers/' + controllers[1]);
 //var userController = controllers[1];
 
 //CONTROLLERS -> inject Models if applicable
-userController.controller(app, usersModel);
+userController.controller(app, usersModel,io.sockets);
 arduinoController.controller(app, arduinoModel);
 
 
@@ -129,15 +108,14 @@ app.all("/admin*",routes.admin);
 
 //START SERVER ON DEDICATED PORT//
 
-
 /*
 app.listen(port, function () {
     console.log("Listening on " + port);
 });
 */
 
-server.listen(3000, function(){
-    console.log("http server listening on port: ");
+server.listen(port, function(){
+    console.log("http server listening on port: ",port);
 });
 
 
