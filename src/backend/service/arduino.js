@@ -1,5 +1,3 @@
-
-
 /*
  *Arduino model wihich provides data flow between Arduino board and Node server
  */
@@ -8,7 +6,7 @@
  */
 //TODO require mandatory models/confuguration
 
-module.exports = function(serialPort) {
+module.exports = function (serialPort) {
     'use strict';
 
     var buffer = {
@@ -19,10 +17,10 @@ module.exports = function(serialPort) {
 
     return {
 
-        rawData: {data : buffer},
+        rawData: {data: buffer},
 
         //private functions
-        getSerialData: function(){
+        getSerialData: function () {
             var cleanData = ''; // this stores the clean data
             var readData = '';  // this stores the buffer
             //return {"data": "getting serial data"};
@@ -39,7 +37,7 @@ module.exports = function(serialPort) {
                         if (readData.indexOf('B') >= 0 && readData.indexOf('A') >= 0) {
                             cleanData = readData.substring(readData.indexOf('A') + 1, readData.indexOf('B'));
                             readData = '';
-                            console.log("serial_raw_data: ",cleanData);
+                            console.log("serial_raw_data: ", cleanData);
                             buffer.serial[0] = cleanData;
                         }
                     })
@@ -51,14 +49,14 @@ module.exports = function(serialPort) {
 
         },
 
-        getTemperatureData: function(){
+        getTemperatureData: function () {
             var cleanData = ''; // this stores the clean data
             var readData = '';  // this stores the buffer
             //return {"data": "getting temperature data"}
             //TODO
             (function stream() {
                 serialPort.on('open', function () {
-                    serialPort.on('data', function (data) {
+                    serialPort.on('data', function pleaseNameMeBecauseImLost (data) {
                         readData += data.toString();
                         if (readData.indexOf('X') >= 0 && readData.indexOf('Z') >= 0) {
                             cleanData = readData.substring(readData.indexOf('Z') + 1, readData.indexOf('X'));
@@ -66,16 +64,16 @@ module.exports = function(serialPort) {
                             console.log("temperature_data: ", cleanData);
                             buffer.temperature[0] = cleanData;
                         }
-                    })
-                })
+                    });
+                });
             })();
             return buffer.temperature;
         },
 
-        getInternalTemperatureSensorData: function(){
-            return {"data": "getting internal sensor data"}
+        getInternalTemperatureSensorData: function () {
+            return {"data": "getting internal sensor data"};
             //TODO get temperature from Arduinos internal sensor and display
-        },
+        }
 
 
         //TODO other functions ****************************************
