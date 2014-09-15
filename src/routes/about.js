@@ -4,7 +4,7 @@
  */
 "use strict";
 
-exports.about = {
+module.exports.about = {
     showUserData: function(model){
 
        return function (req, res){
@@ -16,8 +16,8 @@ exports.about = {
                    var ObjectsAsString = [];
 
                    listOfObjects.forEach(function(item){
-                       var string_item = JSON.stringify(item);
-                       ObjectsAsString.push(string_item);
+                       var itemString = JSON.stringify(item);
+                       ObjectsAsString.push(itemString);
                    });
                    res.render('about',{
                        title: 'Express',
