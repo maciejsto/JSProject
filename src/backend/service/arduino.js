@@ -34,13 +34,14 @@ module.exports = function (serialPort) {
                         buffer.serial[0] = readData[0];
                         //console.log(buffer.serial);
 
+                        // streamSerialDataToUser?
                         if (readData.indexOf('B') >= 0 && readData.indexOf('A') >= 0) {
                             cleanData = readData.substring(readData.indexOf('A') + 1, readData.indexOf('B'));
                             readData = '';
                             console.log("serial_raw_data: ", cleanData);
                             buffer.serial[0] = cleanData;
                         }
-                    })
+                    });
                 });
             })();
 
