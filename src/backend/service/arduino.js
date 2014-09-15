@@ -1,7 +1,7 @@
 
 
 /*
- *Arduino model wihich provides data flow betweend Arduino board and Node server
+ *Arduino model wihich provides data flow between Arduino board and Node server
  */
 /**
  * Created by Maciej on 6/16/2014.
@@ -9,10 +9,11 @@
 //TODO require mandatory models/confuguration
 
 module.exports = function(serialPort) {
+    'use strict';
 
-    this.buffer = {
+    var buffer = {
         serial: [],
-        temperature: [],
+        temperature: []
     };
 
 
@@ -42,7 +43,7 @@ module.exports = function(serialPort) {
                             buffer.serial[0] = cleanData;
                         }
                     })
-                })
+                });
             })();
 
             return buffer.serial;
