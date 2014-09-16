@@ -26,43 +26,33 @@ var services = {
         return app;
     },
 
-    serial: function addService(sm){
+    serial: function addService(sm){    //this returns a function , good for callback
 
         return function(portName){
             var SerialPort = require("serialport").SerialPort;
             var serialPort = new SerialPort(portName,
                 {
-                    bauderate: 9600
-                },false);   //second param is openFlag by default set to true which means open port immediatelly
+                    bauderate: sm.get('config').Serial.bauderate
+
+                },true, function(err){
+                    if( err){
+                        console.log('error when opening serial port');
+                    }
+                    console.log('port connected');
+                });   //second param is openFlag by default set to true which means open port immediatelly
             return serialPort;
         };
     },
     arduinomodel: function addService(sm){
-
-        //var COM3 = sm.get('config').Serial.port;
-        try {
-            //return function(callback){
-                var serialPort = sm.get('serial')(sm.get('config').Serial.port);
-                //var serialportFactory = require("serialport");
-                //serialPort.on('open', function(err) {
-                  //  if (err) {
-                  //      console.log("device not found on port: ", sm.get('config').Serial.port);
-                  //  }
-                    var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
-                    return arduinoModel;
-                //});
-             //};
-
-
-        }catch(error){
-            console.log("device not found");
-        }//var serialPort = sm.get('serial')("COM3");
-
+        var serialPort = sm.get('serial')(sm.get('config').Serial.port);
+        var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
+        return arduinoModel;
     },
     astronaut: function addService(sm){
     	var astronaut = require(ROOT_PATH + "service/astronauts");
     	return astronaut;
     },
+
     about: function addService(sm){
         return require(ROOT_PATH + "../routes/about");
     },

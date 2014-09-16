@@ -3,10 +3,13 @@ var routes = require("../../routes");
 var about = require('../../routes/about');
 var arduino = require('../../routes/arduino');
 
+
 module.exports.controller = function(app, UserModel) {
 
-    app.get('/about', about.about.showUserData(UserModel));
-    app.get('/about', about.about.dummyFunction);
+    // routes could be used here but app gets messy,
+    // better to keep them in web.js file
+    //app.get('/about', about.about.showUserData(UserModel));
+    //app.get('/about', about.about.dummyFunction);
     //app.get('/about', about.list);
     //app.get('/', routes.index);
     //app.post('/tasks', tasks.markAllCompleted)

@@ -3,7 +3,7 @@
 
  */
 "use strict";
-
+//about route
 exports.about = {
     showUserData: function(model){
 
@@ -42,7 +42,7 @@ exports.list = function(req, res, next){
     //req.db.find().toArray(function(error, users){
     //    if (error) return next(error);
         res.render('about', {
-            title: 'Expresss',
+            title: 'Expresss List',
             //user: users || []
             user: {
                 name: "test name"

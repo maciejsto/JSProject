@@ -4,23 +4,61 @@
 <body>
 <% include navbar %>
 
+<script>
+    var socket = io.connect();
+    var tmp;
+    socket.on('connect',function() {
+        console.log('from Client: Client has connected to the server!!');
+    });
+    var myrand = function(){
+        return Math.floor((Math.random() * 100) + 1);
+    };
+    socket.on('serialData', function(data){
+        console.log("num:",data.message);
+        var tmp = data.message;
+        var socketdiv = $("#serialData").find('p');
+        socketdiv.html(tmp);
+        //socket.emit('myevent', { randnum: myrand()});
+        socket.emit('myevent',function(data){
+            setTimeout(500);
+        });
+    });
+    socket.on('serverReq', function(data){
+        console.log('data from server:', data);
+    });
+
+
+
+
+</script>
+
 <div class="container">
     <div class="page-header">
-        <h1>
-            Arduino <small>One of the collest electronic prototyping platforms:D</small>
-        </h1>
+
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">About Arduino</div>
+        <div class="panel-heading">
+            <h1>
+                Arduino <small>One of the collest electronic prototyping platforms:D</small>
+            </h1>
+            <h2>This is my socket.io test file</h2>
+
+        </div>
         <div class="panel-body">
             <p>My tutorial on how to use bootstrap to create a responsive
                 website and display data from Arduino board:D.</p>
         </div>
     </div>
     <div class="user_data">
-        <p>Arduino serial data: <%= serial_data %></p>
-        <p>Arduino temperature data: <%= temperature %></p>
-        <p>Arduino internal temp sensor data: <%= internal_sensor.data %></p>
+        <div id="serialData">
+            <p></p>
+        </div>
+
+
+
+        <p>Arduino serial data: <b><%= serial_data.data %></b></p>
+        <p>Arduino temperature data: <b><%= temperature %></b></p>
+        <p>Arduino internal temp sensor data: <b><%= internal_sensor.data %></b></p>
     </div>
     <hr>
 

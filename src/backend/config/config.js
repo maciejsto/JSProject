@@ -9,7 +9,8 @@ module.exports = function () {
             port: 3000
         },
         Serial: {
-            port: "COM3"
+            port: "COM3",
+            bauderate: 9600
         },
         mongoDb: {
             uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
