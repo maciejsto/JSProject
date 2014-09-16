@@ -14,16 +14,14 @@ module.exports = BaseController.extend({
 
 
     run: function(req, res, next) {
-        this.f();
         var v = new View(res, 'admin');
+        var self = this;
         v.render({
             title: 'Administration',
             content: 'Welcome to the control panel'
         });
     },
-    f: function(){
 
-    },
     authorize: function(req) {
         return (
             req.session &&

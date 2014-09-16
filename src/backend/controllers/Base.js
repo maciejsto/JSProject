@@ -10,7 +10,8 @@ module.exports = {
     },
     run: function(req, res, next) {
 
+    },
+    f: function() {
+        console.log('calling f from Base Controller...');
     }
-
-
 }

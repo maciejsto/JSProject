@@ -26,27 +26,13 @@ var services = {
         return app;
     },
 
-    serial: function addService(sm){    //this returns a function , good for callback
 
-        return function(portName){
-            var SerialPort = require("serialport").SerialPort;
-            var serialPort = new SerialPort(portName,
-                {
-                    bauderate: sm.get('config').Serial.bauderate
-
-                },true, function(err){
-                    if( err){
-                        console.log('error when opening serial port');
-                    }
-                    console.log('port connected');
-                });   //second param is openFlag by default set to true which means open port immediatelly
-            return serialPort;
-        };
-    },
     arduinomodel: function addService(sm){
-        var serialPort = sm.get('serial')(sm.get('config').Serial.port);
-        var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
-        return arduinoModel;
+        return function(serialPort){
+            //var serialPort = sm.get('serial')(sm.get('config').Serial.port);
+            var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
+            return arduinoModel;
+        };
     },
     astronaut: function addService(sm){
     	var astronaut = require(ROOT_PATH + "service/astronauts");
@@ -186,6 +172,25 @@ var services = {
         return sm.get('mongoose').Schema;
     },
 
+    serial: function addService(sm){    //this returns a function , good for callback
+
+        return function(portName){
+            var SerialPort = require("serialport").SerialPort;
+            var serialPort = new SerialPort(portName,
+                {
+                    bauderate: sm.get('config').Serial.bauderate
+
+                },true, function(err){
+                    if( err){
+                        console.log('error when opening serial port');
+                    }else{
+                        console.log('port connected');
+                    }
+
+                });   //second param is openFlag by default set to true which means open port immediatelly
+            return serialPort;
+        };
+    },
     socket: function addService(sm) {
         var socket = require('socket.io');
         return socket;
