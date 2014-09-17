@@ -12,7 +12,6 @@ var services = {
         var app = express();
         app.use(sm.get('bodyParser'))
         app.use(sm.get('methodOverride'));
-
         var allowCrossDomain = function (req, res, next) {
             res.header('Access-Control-Allow-Origin', '*');//config.allowedDomains
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -22,7 +21,7 @@ var services = {
         app.use("/bower_components",express.static(ROOT_PATH + 'bower_components'));
         app.use(allowCrossDomain);
         app.use(express.static(ROOT_PATH + 'src/front'));
-
+        app.locals.appname = "Express.js Arduino App";
         return app;
     },
 
@@ -88,6 +87,7 @@ var services = {
         var httpServer = http.createServer(app);
         return httpServer;
     },
+    logger: require('morgan'),
     methodOverride: require('method-override')(),
     'model.restEndPoints': function addService(sm) {
         return require(ROOT_PATH + 'models/restEndpoints') (
@@ -100,6 +100,7 @@ var services = {
 
     mongoose: require('mongoose'),
     mongo: require('mongodb'),
+    mongoskin: require('mongoskin'),
 
     db: function addService(sm){
         return require(ROOT_PATH + "/service/db");
@@ -134,6 +135,7 @@ var services = {
         	});
         }
     },
+    path: require('path'),
     //passport: require('passport'),
     //'passport.google': require('passport-google'),
     //'passport.local': require('passport-local'),

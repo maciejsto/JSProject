@@ -5,6 +5,8 @@
 "use strict";
 //about route
 exports.about = {
+
+    //public function
     showUserData: function(model){
 
        return function (req, res){
@@ -29,6 +31,7 @@ exports.about = {
        };
     },
 
+    //public function
     dummyFunction: function(req, res){
         res.render('about', {
             title: 'Express',
@@ -38,6 +41,7 @@ exports.about = {
     }
 };
 
+//for test purpose
 exports.list = function(req, res, next){
     //req.db.find().toArray(function(error, users){
     //    if (error) return next(error);

@@ -10,10 +10,20 @@
 //Arduino Service
 module.exports = function(serialPort) {
 
+
+    //private
     this.buffer = {
         serial: [],
         temperature: []
     };
+
+    //private function
+    this.getUltraSonicSensorData = function(){
+        //TODO get data from Arduino Ultrasonic Sensor to mesure distance
+        console.log('getting ultrasonic data...');
+    };
+
+    //public
     return {
 
         rawData: {data : buffer},
@@ -65,13 +75,21 @@ module.exports = function(serialPort) {
         getInternalTemperatureSensorData: function(){
             return {"data": "getting internal sensor data"}
             //TODO get temperature from Arduinos internal sensor and display
-        }
+        },
         //working until here
 
 
 
 
+
+
         //TODO other functions ****************************************
+
+        getDistance: function(){
+
+          //distance in (m)
+          var distance = this.getUltraSonicSensorData();    //this is still mock
+        }
     };
 
 };

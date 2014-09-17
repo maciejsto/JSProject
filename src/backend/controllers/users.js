@@ -18,15 +18,25 @@ module.exports.controller = function(app, UserModel) {
     //app.del('/tasks/:task_id', tasks.del);
     //app.get('/tasks/completed', tasks.completed);
 
-	UserModel(function(err,users) {
-		console.log(users.createCollection("testC"))
-		users.get('testC',function(err,data){
-			console.log("users_data: ",data)
-            app.get('/about', function(req, res){
-                res.send('about',{user:data})
-            })
-        })
-	})
+    app.get('/about', function(req, res, next){
+        UserModel(function(err,users) {
+            //console.log(users.createCollection("testC"))
+            users.get('testC',function(err,data){
+                console.log("users_data: ",data);
+                //app.get('/about', function(req, res){
+                    //res.send('about',{user: data});
+                    res.status('about').render('about',{user: data});
+                //});
+            });
+        });
+    });
+
+    app.get('/users/:id', function(req, res, next){
+        var id = req.params.id;
+        console.log(id);
+        //TODO ...
+    });
+
 
 /**
  ************************** JUST FOR TEST PURPOSE *************************************************

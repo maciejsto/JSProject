@@ -11,6 +11,8 @@ module.exports = {
     run: function(req, res, next) {
 
     },
+
+    // function just for test
     f: function() {
         console.log('calling f from Base Controller...');
     }

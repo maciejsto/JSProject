@@ -14,6 +14,7 @@ module.exports = BaseController.extend({
 
 
     run: function(req, res, next) {
+        //this.authorize(req)   TODO cant call method with this keyword !!
         var v = new View(res, 'admin');
         var self = this;
         v.render({

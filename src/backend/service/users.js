@@ -16,10 +16,10 @@ module.exports = function (db) {
     	/*
     	 * @public function wchich gets collection
     	 */
-    	get: function(col_name,callback){
+    	get: function(col_name, callback){
     		var tmp = {
 				user_id:  "_id",
-				user_name:  "_name",
+				user_name:  "_name"
     		};
     		
     		(db.collection(col_name).find({})).limit(4).sort({"_id":1}).toArray(function(err, data){
@@ -60,7 +60,7 @@ module.exports = function (db) {
             if (! testCollection.find(userId)) return;
           var user = testCollection.find(userId);
           return user;
-        },
+        }
     	
     }
     
