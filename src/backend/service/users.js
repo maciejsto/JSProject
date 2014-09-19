@@ -8,7 +8,7 @@ module.exports = function (db) {
     var users = 'users';
     var user_name = 'user_name';
     var user_id = 'user_id';
-    var testCollection = db.collection('testC');
+    var testCollection = db.collection('users');
     
     
     return {
@@ -19,7 +19,7 @@ module.exports = function (db) {
     	get: function(col_name, callback){
     		var tmp = {
 				user_id:  "_id",
-				user_name:  "_name"
+				user_name:  "user_name"
     		};
     		
     		(db.collection(col_name).find({})).limit(4).sort({"_id":1}).toArray(function(err, data){

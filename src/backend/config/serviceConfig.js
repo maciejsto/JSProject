@@ -107,33 +107,37 @@ var services = {
     },
 
     mongoDb: function addService(sm) {
+
         var mongo = sm.get('mongo');
         var mongoDb = {};	// this does not return anything ?
         var dbUri = sm.get('config').mongoDb.uri;
         var when = sm.get('when');
         
-        return function dbConnect(callback){
+        return function dbConnect(uri, callback){
             //mongo.Db.connect(dbUri,function(err, db){
-        	mongo.Db.connect(dbUri,function(err, db){
+        	mongo.Db.connect(dbUri, function(err, db){
 
 	        		if (err){
                         console.log('error when connecting to database');
 	        			//return callback(err);
 	        		}else{
                         mongoDb = db;
+                        console.log("you are connected to mongodb:",db.databaseName);
+                        callback(null,db);
+                        /*
                         db.collection('mongodb', function(err, testColl){
 
                             if (err){
                                 //return callback(err);
                             }
-                            console.log("you are connected to mongodb on heroku :)");
-                            callback(null,db);
+
                         });
+                        */
                     }
 
 
         	});
-        }
+        };
     },
     path: require('path'),
     //passport: require('passport'),
@@ -200,13 +204,14 @@ var services = {
 
     users:  function addService(sm) {
         var mongoDb = sm.get('mongoDb');
-
+        var dbUri = sm.get('config').mongoDb.uri;
        return function getUsers(callback){
-			mongoDb(function(err, db){
+			mongoDb(dbUri, function(err, db){
+
 					var users = require(ROOT_PATH + 'service/users')(db);
 					return callback(null, users); //TODO with or without return ??
 				});
-        }
+        };
     },
     
 
