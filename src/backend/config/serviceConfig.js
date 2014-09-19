@@ -87,7 +87,6 @@ var services = {
         var httpServer = http.createServer(app);
         return httpServer;
     },
-    logger: require('morgan'),
     methodOverride: require('method-override')(),
     'model.restEndPoints': function addService(sm) {
         return require(ROOT_PATH + 'models/restEndpoints') (
