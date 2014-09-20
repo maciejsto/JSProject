@@ -3,7 +3,73 @@ var routes = require("../../routes");
 var about = require('../../routes/about');
 var arduino = require('../../routes/arduino');
 
+var BaseController = require('./Base'),
+    View = require('../../front/views/Base');
 
+
+
+//ok
+//using a construction function
+function myNewOb(){
+    this.name = "new name";
+    this.run = function(req,res,next){
+
+    };
+
+}
+//not ok
+var obj = function(){
+    //private
+    this.name = 'User';
+    this.db = db;
+    this.users = {};
+  return {
+       name: 'ala',
+      init: function(db){
+          this.db = db;
+      },
+      run: function(req,res,next){
+
+      }
+  };
+};
+//ok
+//using object initializer
+var o = {
+
+    name: 'User',
+    users: {},
+    init: function(client){
+    var uri = "mongodb://127.0.0.1:27017/test";
+    client.connect(uri, function(err, db){
+        var col = db.collection('users');
+        col.find().toArray(function(err, items){
+        });
+    });
+
+    },
+
+    run: function(req, res, next){
+
+        var v = new View(res, 'users');
+        var self = this;
+        v.render({
+            title: 'Users List',
+            content: 'user_list'
+        });
+    }
+};
+
+//ok
+//using anonymus object definition
+//{params...}
+
+
+module.exports = BaseController.extend(new myNewOb());
+
+
+
+/*
 module.exports.controller = function(app, UserModel) {
 
     // routes could be used here but app gets messy,
@@ -38,13 +104,6 @@ module.exports.controller = function(app, UserModel) {
     });
 
 
-/**
- ************************** JUST FOR TEST PURPOSE *************************************************
- * a home page route
- *
- * 
- */
-/*
   app.get('/about', function(req, res, next) {
       // any logic goes here
 	  var abstracts = {data:"dposamdpoamdpsamd"};
@@ -54,5 +113,5 @@ module.exports.controller = function(app, UserModel) {
 	  next();
   });
 
-  */
 }
+*/

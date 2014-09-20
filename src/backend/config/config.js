@@ -2,7 +2,7 @@
  * Created by syzer on 4/24/2014.
  */
 
-/*
+
 var config = {
 
     local: {
@@ -109,8 +109,8 @@ module.exports = function(mode){
     return config[mode || process.argv[2] || 'local'] || config.local;
 }
 
-*/
 
+/*
 module.exports = function () {
     'use strict';
 
@@ -149,4 +149,4 @@ module.exports = function () {
         }
     };
 };
-
+*/

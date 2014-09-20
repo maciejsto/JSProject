@@ -98,7 +98,20 @@ var services = {
     //'model.userRoles': require(ROOT_PATH + 'models/auth/userRoles'),
 
     mongoose: require('mongoose'),
-    mongo: require('mongodb'),
+    mongooseapi: function addService(sm){
+      var uri = sm.get('config').mongoDb.uri;
+      var mongoose = sm.get('mongoose');
+        var options = {
+            db: { native_parser: true },
+            server: { poolSize: 5 },
+            replset: { rs_name: 'myReplicaSetName' },
+            user: '',
+            pass: ''
+        }
+        return mongoose.connect(uri, options);
+    },
+    mongo: require('mongodb').Db,
+    mongoClient: require('mongodb').MongoClient,
     mongoskin: require('mongoskin'),
 
     db: function addService(sm){
@@ -109,10 +122,11 @@ var services = {
 
         var mongo = sm.get('mongo');
         var mongoDb = {};	// this does not return anything ?
-        var dbUri = sm.get('config').mongoDb.uri;
+
         var when = sm.get('when');
         
-        return function dbConnect(uri, callback){
+        return function dbConnect(callback){
+            var dbUri = sm.get('config').mongoDb.uri;
             //mongo.Db.connect(dbUri,function(err, db){
         	mongo.Db.connect(dbUri, function(err, db){
 
@@ -122,19 +136,8 @@ var services = {
 	        		}else{
                         mongoDb = db;
                         console.log("you are connected to mongodb:",db.databaseName);
-                        callback(null,db);
-                        /*
-                        db.collection('mongodb', function(err, testColl){
-
-                            if (err){
-                                //return callback(err);
-                            }
-
-                        });
-                        */
-                    }
-
-
+                        callback(null, mongoDb);
+                    };
         	});
         };
     },
@@ -203,9 +206,9 @@ var services = {
 
     users:  function addService(sm) {
         var mongoDb = sm.get('mongoDb');
-        var dbUri = sm.get('config').mongoDb.uri;
+        //var dbUri = sm.get('config').mongoDb.uri;
        return function getUsers(callback){
-			mongoDb(dbUri, function(err, db){
+			mongoDb(function(err, db){
 
 					var users = require(ROOT_PATH + 'service/users')(db);
 					return callback(null, users); //TODO with or without return ??
