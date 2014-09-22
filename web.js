@@ -100,6 +100,6 @@ app.all('/users*', function(req,res,next){
 console.log('name of Admin Controller: ',AdminController.name);
 
 //START SERVER ON DEDICATED PORT//
-server.listen(port, function(){
+server.listen(process.env.PORT || port, function(){
     console.log("http server listening on port: ",server.address().port, server.address().address);
 });
