@@ -17,7 +17,7 @@ var services = {
         app.use(sm.get('bodyParser'));
         app.use(sm.get('methodOverride'));
         //app.use(morgan('dev'));
-        app.use(session({secret: 'keyboard cat'}))
+        //app.use(session({secret: 'keyboard cat'}))
         var allowCrossDomain = function (req, res, next) {
             res.header('Access-Control-Allow-Origin', '*');//config.allowedDomains
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -206,7 +206,7 @@ var services = {
             return serialPort;
         };
     },
-    session: require('express-session'),
+    //session: require('express-session'),
     socket: function addService(sm) {
         var socket = require('socket.io');
         return socket;
