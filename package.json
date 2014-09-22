@@ -31,8 +31,8 @@
     "lodash-node": "^2.4.1",
     "logfmt": "^1.1.2",
     "method-override": "^2.0.2",
-    "mongodb": "^1.4.5",
-    "mongoose": "^3.8.12",
+    "mongoose": "^3.8.16",
+    "mongoskin": "^1.4.4",
     "socket.io": "^1.1.0",
     "when": "^3.2.3"
   },
