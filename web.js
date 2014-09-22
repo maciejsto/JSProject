@@ -39,7 +39,7 @@ var userController = require('./src/backend/controllers/' + controllers[3]);
 var arduinoController = require('./src/backend/controllers/' + controllers[1]);
 
 //userController.controller(app, usersModel, io);
-arduinoController.controller(app, arduinoModel, io);
+arduinoController.run(app, arduinoModel, io);
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 
