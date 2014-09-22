@@ -10,7 +10,7 @@ var services = {
     app: function addService(sm) {
         var express = sm.get('express');
         var app = express();
-        var session = sm.get('session');
+        //var session = sm.get('session');
         var bodyParser = sm.get('bodyParser');
         //var morgan = sm.get('morgan');
         var router = express.Router();
