@@ -10,8 +10,14 @@ var services = {
     app: function addService(sm) {
         var express = sm.get('express');
         var app = express();
-        app.use(sm.get('bodyParser'))
+        var session = sm.get('session');
+        var bodyParser = sm.get('bodyParser');
+        var morgan = sm.get('morgan');
+        var router = express.Router();
+        app.use(sm.get('bodyParser'));
         app.use(sm.get('methodOverride'));
+        app.use(morgan('dev'));
+        app.use(session({secret: 'keyboard cat'}))
         var allowCrossDomain = function (req, res, next) {
             res.header('Access-Control-Allow-Origin', '*');//config.allowedDomains
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -112,7 +118,8 @@ var services = {
     },
     mongo: require('mongodb').Db,
     mongoClient: require('mongodb').MongoClient,
-    mongoskin: require('mongoskin'),
+    //mongoskin: require('mongoskin'),
+    morgan: require('morgan'),
 
     db: function addService(sm){
         return require(ROOT_PATH + "/service/db");
@@ -199,6 +206,7 @@ var services = {
             return serialPort;
         };
     },
+    session: require('express-session'),
     socket: function addService(sm) {
         var socket = require('socket.io');
         return socket;

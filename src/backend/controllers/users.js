@@ -11,8 +11,31 @@ var BaseController = require('./Base'),
 //ok
 //using a construction function
 function myNewOb(){
-    this.name = "new name";
-    this.run = function(req,res,next){
+
+
+    //private funciton
+    var name = "new name";
+    this.db = {};
+    var init = function(){
+        console.log('this is init ..');
+    };
+
+
+
+    return {
+        //public functions
+        name: this.name,
+
+        run: function(req, res, next, db, app){
+            init();
+            var v = new View(res, 'users');
+            var self = this;
+            v.render({
+                title: 'Users List',
+                content: 'user_list'
+            });
+        }
+
 
     };
 
@@ -65,7 +88,7 @@ var o = {
 //{params...}
 
 
-module.exports = BaseController.extend(new myNewOb());
+module.exports = BaseController.extend(o);
 
 
 
