@@ -12,11 +12,11 @@ var services = {
         var app = express();
         var session = sm.get('session');
         var bodyParser = sm.get('bodyParser');
-        var morgan = sm.get('morgan');
+        //var morgan = sm.get('morgan');
         var router = express.Router();
         app.use(sm.get('bodyParser'));
         app.use(sm.get('methodOverride'));
-        app.use(morgan('dev'));
+        //app.use(morgan('dev'));
         app.use(session({secret: 'keyboard cat'}))
         var allowCrossDomain = function (req, res, next) {
             res.header('Access-Control-Allow-Origin', '*');//config.allowedDomains
@@ -119,7 +119,7 @@ var services = {
     mongo: require('mongodb').Db,
     mongoClient: require('mongodb').MongoClient,
     //mongoskin: require('mongoskin'),
-    morgan: require('morgan'),
+    //morgan: require('morgan'),
 
     db: function addService(sm){
         return require(ROOT_PATH + "/service/db");
