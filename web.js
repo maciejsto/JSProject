@@ -49,13 +49,15 @@ var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 
 io.on('connection', function (socket) {
+
     setTimeout(function(){
         socket.emit('message', {data: 'message1'});
     },1000);
 
     socket.on('myevent', function(data){
         setTimeout(function(){
-            socket.emit('message', {data: 'message2'});
+            var data = arduinoModel.getSerialData();
+            socket.emit('message', {data: JSON.stringify(data[0])});
         },1000);
 
     });

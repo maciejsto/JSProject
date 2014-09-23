@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f04e732f-ea53-437e-8689-fd416d7ad274" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/front/views/arduino.ejs" afterPath="$PROJECT_DIR$/src/front/views/arduino.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/backend/controllers/arduinoController.js" afterPath="$PROJECT_DIR$/src/backend/controllers/arduinoController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.js" afterPath="$PROJECT_DIR$/web.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="JSProject.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -110,11 +107,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="web.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/web.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.0792317" vertical-offset="487" max-vertical-offset="2706">
-                  <caret line="63" column="11" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="11" />
+                <state vertical-scroll-proportion="0.5282113" vertical-offset="858" max-vertical-offset="2750">
+                  <caret line="59" column="65" selection-start-line="59" selection-start-column="65" selection-end-line="59" selection-end-column="65" />
                   <folding />
                 </state>
               </provider>
@@ -164,11 +161,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="arduinoController.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="arduinoController.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/backend/controllers/arduinoController.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.8715486" vertical-offset="1650" max-vertical-offset="2684">
-                  <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
+                <state vertical-scroll-proportion="0.3697479" vertical-offset="0" max-vertical-offset="2684">
+                  <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -300,9 +297,9 @@
         <option value="$PROJECT_DIR$/src/backend/controllers/users.js" />
         <option value="$PROJECT_DIR$/Procfile.txt" />
         <option value="$PROJECT_DIR$/src/front/views/index.ejs" />
-        <option value="$PROJECT_DIR$/web.js" />
         <option value="$PROJECT_DIR$/src/front/views/arduino.ejs" />
         <option value="$PROJECT_DIR$/src/backend/controllers/arduinoController.js" />
+        <option value="$PROJECT_DIR$/web.js" />
       </list>
     </option>
   </component>
@@ -935,7 +932,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/web.js</url>
-          <line>108</line>
+          <line>110</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
@@ -1318,18 +1315,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web.js">
+    <entry file="file://$PROJECT_DIR$/src/backend/controllers/arduinoController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0792317" vertical-offset="487" max-vertical-offset="2706">
-          <caret line="63" column="11" selection-start-line="63" selection-start-column="11" selection-end-line="63" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.3697479" vertical-offset="0" max-vertical-offset="2684">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/controllers/arduinoController.js">
+    <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8715486" vertical-offset="1650" max-vertical-offset="2684">
-          <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.5282113" vertical-offset="858" max-vertical-offset="2750">
+          <caret line="59" column="65" selection-start-line="59" selection-start-column="65" selection-end-line="59" selection-end-column="65" />
           <folding />
         </state>
       </provider>
