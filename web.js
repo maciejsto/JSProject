@@ -40,12 +40,23 @@ var arduinoController = require('./src/backend/controllers/' + controllers[1]);
 
 //userController.controller(app, usersModel, io);
 arduinoController.run(app, arduinoModel, io);
+console.log('arduinoControllr name: ',arduinoController.getName());
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 
 
 
 io.on('connection', function (socket) {
+    setTimeout(function(){
+        socket.emit('message', {data: 'message1'});
+    },1000);
+
+    socket.on('myevent', function(data){
+        setTimeout(function(){
+            socket.emit('message', {data: 'message2'});
+        },1000);
+
+    });
     /*
 serialPort.on('open',function() {
  console.log('serialport opened');

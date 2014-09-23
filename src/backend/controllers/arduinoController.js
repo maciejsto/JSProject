@@ -13,14 +13,18 @@ var arduinoModell = require('../../backend/service/arduino');
 //Arduino Controller
 function ArduinoController() {
 
+    var name = 'ArduinoController';
 
     return {
 
-        name: 'ArduinoController',
+        getName: function(){
+            return name;
+        },
 
         run: function (app, arduinoModel, io) {
 
-            app.get('/arduino', function (req, res, next) {
+            app.route('/arduino')
+                .get(function (req, res, next) {
 
                 //TODO
 

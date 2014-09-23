@@ -8,19 +8,19 @@
     var socket = io.connect();
     var tmp;
     socket.on('connect',function() {
-        console.log('from Client: Client has connected to the server!!');
+        console.log('from Client_ard: Client has connected to the server!!');
     });
     var myrand = function(){
         return Math.floor((Math.random() * 100) + 1);
     };
     socket.on('serialData', function(data){
-        console.log("num:",data.message);
+        console.log("data: data goes here: ",data.message);
         var tmp = data.message;
         var socketdiv = $("#serialData").find('p');
         socketdiv.html(tmp);
         //socket.emit('myevent', { randnum: myrand()});
         socket.emit('myevent',function(data){
-            setTimeout(500);
+            setTimeout(1000);
         });
     });
     socket.on('serverReq', function(data){
