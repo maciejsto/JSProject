@@ -84,7 +84,7 @@ function ArduinoController() {
                  */
             });
 
-
+        /*
             app.all('/arduino/:model?/:id?', function (req, res, next) {
                 console.log('arduino model: ' + req.params.model + " with id: " + req.params.id);
                 res.render('about', {d: "some_nice_data:DDDDD"});
@@ -108,6 +108,7 @@ function ArduinoController() {
                 });
                 next();
             });
+            */
         }
 
     };

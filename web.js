@@ -59,7 +59,7 @@ io.on('connection', function (socket) {
         },1000);
 
     });
-    /*
+
 serialPort.on('open',function() {
  console.log('serialport opened');
  serialPort.on('data', function (data) {
@@ -68,11 +68,11 @@ serialPort.on('open',function() {
         console.log('port opened');
         arduinoModel.getSerialData(function(data){
             console.log('inside arduino callback');
-            socket.emit('serialData', {message: data});
+            //socket.emit('serialData', {message: data});
         });
     });
 
-*/
+
 });
 
 app.use(function(req,res,next){
