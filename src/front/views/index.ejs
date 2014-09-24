@@ -23,8 +23,8 @@
             var tmp = data.message;
             var socketdiv = $("#socket");
             socketdiv.html(tmp);
-            socket.emit("on message from client");
-            socket.emit('myevent', { randnum: myrand()});
+            socket.emit('myevent',{});
+            //socket.emit('myevent', { randnum: myrand()});
         },1000);
 
     });
