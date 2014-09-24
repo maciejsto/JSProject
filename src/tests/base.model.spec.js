@@ -17,6 +17,7 @@ describe("Models", function(){
     });
 
     //Second test
+    /*
     it("should be extendable", function(next){
         var model = new Model(dbMockup);
         var OtherTypeOfModel = model.extend({
@@ -28,6 +29,6 @@ describe("Models", function(){
         next();
     });
 
-
+    */
 
 });
