@@ -49,7 +49,7 @@ var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 
 io.on('connection', function (socket) {
-
+    console.log('client connected');
     setTimeout(function(){
         socket.emit('message', {data: 'message1'});
     },1000);
