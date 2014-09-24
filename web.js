@@ -57,7 +57,8 @@ io.on('connection', function (socket) {
     socket.on('myevent', function(data){
         setTimeout(function(){
             var data = arduinoModel.getSerialData();
-            socket.emit('message', {data: JSON.stringify(data[0])});
+            socket.emit('message', {data: 'echo message'});
+            //socket.emit('message', {data: JSON.stringify(data[0])});
         },1000);
 
     });
