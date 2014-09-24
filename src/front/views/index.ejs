@@ -4,9 +4,9 @@
 
 <script>
 
-    var socket = io.connect();
+    var socket = io.connect('http://jsproject.herokuapp.com');
     var tmp;
-    socket.on('connect',function('http://jsproject.herokuapp.com') {
+    socket.on('connect',function() {
         console.log('from Client_: Client has connected to the server!');
         //socket.emit("on connect from clinet");
     });
