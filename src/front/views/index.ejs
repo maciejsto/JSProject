@@ -13,9 +13,9 @@
 
     });
     socket.on('updateData',function(data){
-        socket.emit();
+        //socket.emit();
     });
-    socket.on('arduinoData',function(data){
+    socket.on('updateState',function(data){
         console.log("arduinoData in index", data);// server console
         //socket.emit('ServerGotArduinoData');
         socket.emit('stateChanged',{state: 'state'});
@@ -30,13 +30,14 @@
     };
 
 
-
+    /*
     socket.on('arduinoData', function(data){
             console.log(data);
             var socketdiv = $("#socket");
             socketdiv.html(tmp);
 
     });
+    */
     /*
     socket.on('serverReq', function(data){
        console.log('data from server:', data);

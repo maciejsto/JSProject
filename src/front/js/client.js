@@ -18,7 +18,7 @@ var ardu = function() {
         setTimeout(function () {
             console.log('calling ardu..');
 
-            socket.emit('arduinoData', {arduinoData: '_some dummy data from arduiuno'});
+            socket.emit('arduData', {arduinoData: '_some dummy data from arduiuno'});
             //var data = arduinoModel.getSerialData();
 
             //console.log("data",data);
@@ -37,7 +37,7 @@ socket.on('connect', function () {
 
 
 
-    socket.on('getArduinoData', function (data) {
+    socket.on('updateState', function (data) {
             ardu();
             //var data = arduinoModel.getSerialData();
             //console.log(JSON.stringify(data));
