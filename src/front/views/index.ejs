@@ -25,19 +25,14 @@
     };
 
 
-    /*
-    socket.on('message', function(data){
-        setTimeout(function(){
-            console.log("num:",data);
-            var tmp = data.message;
+
+    socket.on('arduinoData', function(data){
+            console.log(data);
             var socketdiv = $("#socket");
             socketdiv.html(tmp);
-            socket.emit('myevent',{});
-            //socket.emit('myevent', { randnum: myrand()});
-        },1000);
 
     });
-
+    /*
     socket.on('serverReq', function(data){
        console.log('data from server:', data);
     });
