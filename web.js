@@ -55,6 +55,7 @@ io.on('connection', function (socket) {
 
 
     socket.on('stateChanged', function(data){
+        console.log('got emit from index.ejs');
         socket.emit('updateState',{data: 'server asks for data..'});
     });
 
