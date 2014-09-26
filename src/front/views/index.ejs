@@ -18,7 +18,7 @@
     socket.on('updateState',function(data){
         console.log("server request:", data);// server console
         //socket.emit('ServerGotArduinoData');
-        //socket.emit('stateChanged',{state: 'state'});
+        socket.emit('getupdateState',{state: 'state'});
     });
     socket.on('arduData', function(data){
         console.log('arduino_data:', data);

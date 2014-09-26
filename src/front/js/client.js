@@ -37,7 +37,7 @@ socket.on('connect', function () {
 
 
 
-    socket.on('updateState', function (data) {
+    socket.on('getupdateState', function (data) {
             ardu();
             //var data = arduinoModel.getSerialData();
             //console.log(JSON.stringify(data));
