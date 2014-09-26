@@ -14,6 +14,7 @@ var arduinoModell = require('../../backend/service/arduino');
 function ArduinoController() {
 
     var name = 'ArduinoController';
+    var model = {}; // ex. arduino model
 
     return {
 
@@ -23,11 +24,13 @@ function ArduinoController() {
 
         run: function (app, arduinoModel, io) {
 
+
+
             app.route('/arduino')
                 .get(function (req, res, next) {
 
                 //TODO
-
+                //arduinoModel.connect();
                 //app.get('/arduino', arduino.arduino) //ok but could be better
                 //app.get('/about', about.list);
                 //app.get('/about', about.about.d(userModel));

@@ -5,7 +5,9 @@ var app = sm.get('app');
 var fs = sm.get('fs');
 var usersModel = sm.get('users');
 var serialPort = sm.get('serial')(sm.get('config').Serial.port);
-var arduinoModel = sm.get('arduinomodel')(serialPort);
+//var arduinoModel = sm.get('arduinomodel')(serialPort);
+var arduinoModel = sm.get('arduinomodel');
+
 var routes = sm.get('routes');
 var server = sm.get('httpServer');
 var io = sm.get('io')(server);
@@ -55,7 +57,7 @@ io.on('connection', function (socket) {
     },1000);
     socket.on('arduinoData',function(data){
         console.log("arduinoData", data);// server console
-        socket.emit('ServerGotArduinoData');
+        socket.emit('ServerGotArduinoData',{data: 'got it '});
     });
     /*
     socket.on('myevent', function(data){

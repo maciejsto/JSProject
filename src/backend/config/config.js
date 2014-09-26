@@ -10,7 +10,8 @@ var config = {
         port: 3000,
         Serial: {
             port: "COM3",
-            bauderate:9600
+            bauderate:9600,
+            flag: false
         },
         mongoDb: {
             uri: 'mongodb://127.0.0.1:27017/test',
@@ -43,7 +44,8 @@ var config = {
         port:4000,
         Serial: {
             port: "COM3",
-            bauderate:9600
+            bauderate:9600,
+            flag: false
         },
         mongoDb: {
             uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
@@ -76,7 +78,8 @@ var config = {
         port: 5000,
         Serial: {
             port: "COM3",
-            bauderate:9600
+            bauderate:9600,
+            flag: false
         },
         mongoDb: {
             uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',

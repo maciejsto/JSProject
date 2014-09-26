@@ -3,8 +3,8 @@
 <% include header %>
 
 <script>
-    /*
-    var socket = io.connect('http://jsproject.herokuapp.com');
+
+    var socket = io.connect();
     var tmp;
     socket.on('connect',function() {
         console.log('from index_page: Client has connected to the server!');
@@ -21,7 +21,7 @@
         console.log("arduinoData", data);// server console
         socket.emit('ServerGotArduinoData');
     });
-    */
+
     /*
     socket.on('message', function(data){
         setTimeout(function(){

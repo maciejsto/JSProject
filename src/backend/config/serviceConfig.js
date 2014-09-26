@@ -195,7 +195,9 @@ var services = {
                 {
                     bauderate: sm.get('config').Serial.bauderate
 
-                },true, function(err){
+                }
+                ,sm.get('config').Serial.flag
+                , function(err,state){  // flag determines if port is automatically opened , true -> open, false -> not open
                     if( err){
                         console.log('error when opening serial port');
                     }else{
