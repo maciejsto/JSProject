@@ -32,13 +32,13 @@ var ardu = function() {
 socket.on('connect', function () {
 
     console.log('client connected to server');
-    socket.emit('arduData', {data: 'sadsadsadsdsdsadsadsadsads'});
+    //socket.emit('arduData', {data: 'sadsadsadsdsdsadsadsadsads'});
     //arduinoModel.connect();
     //ardu();
 
 
 
-    socket.on('getupdateState', function (data) {
+    socket.on('updateState', function (data) {
             ardu();
             //var data = arduinoModel.getSerialData();
             //console.log(JSON.stringify(data));

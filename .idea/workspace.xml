@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f04e732f-ea53-437e-8689-fd416d7ad274" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/front/js/client.js" afterPath="$PROJECT_DIR$/src/front/js/client.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/front/views/index.ejs" afterPath="$PROJECT_DIR$/src/front/views/index.ejs" />
     </list>
     <ignored path="JSProject.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,18 +81,18 @@
           <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/web.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="905" max-vertical-offset="3102">
+                <state vertical-scroll-proportion="0.0" vertical-offset="1037" max-vertical-offset="3102">
                   <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="client.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="client.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/front/js/client.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.52460986" vertical-offset="355" max-vertical-offset="1210">
-                  <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+                <state vertical-scroll-proportion="0.6830732" vertical-offset="311" max-vertical-offset="1210">
+                  <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
                   <folding />
                 </state>
               </provider>
@@ -161,11 +162,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="index.ejs" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/front/views/index.ejs">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.4114713" vertical-offset="0" max-vertical-offset="2266">
-                  <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+                <state vertical-scroll-proportion="0.54862845" vertical-offset="66" max-vertical-offset="2310">
+                  <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -293,8 +294,8 @@
         <option value="$PROJECT_DIR$/src/backend/service/arduino.js" />
         <option value="$PROJECT_DIR$/src/front/views/users.ejs" />
         <option value="$PROJECT_DIR$/web.js" />
-        <option value="$PROJECT_DIR$/src/front/views/index.ejs" />
         <option value="$PROJECT_DIR$/src/front/js/client.js" />
+        <option value="$PROJECT_DIR$/src/front/views/index.ejs" />
       </list>
     </option>
   </component>
@@ -1304,24 +1305,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="905" max-vertical-offset="3102">
+        <state vertical-scroll-proportion="0.0" vertical-offset="971" max-vertical-offset="3102">
           <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/front/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4114713" vertical-offset="0" max-vertical-offset="2266">
-          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/front/js/client.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52460986" vertical-offset="355" max-vertical-offset="1210">
-          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.6830732" vertical-offset="311" max-vertical-offset="1210">
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/front/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54862845" vertical-offset="66" max-vertical-offset="2310">
+          <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
           <folding />
         </state>
       </provider>
