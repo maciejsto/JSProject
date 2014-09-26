@@ -16,8 +16,12 @@
         //socket.emit();
     });
     socket.on('updateState',function(data){
-        console.log("arduinoData in index", data);// server console
+        console.log("server request:", data);// server console
         //socket.emit('ServerGotArduinoData');
+        //socket.emit('stateChanged',{state: 'state'});
+    });
+    socket.on('arduData', function(data){
+        console.log('arduino_data:', data);
         socket.emit('stateChanged',{state: 'state'});
     });
 

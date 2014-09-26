@@ -52,6 +52,8 @@ var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 io.on('connection', function (socket) {
     console.log('client connected');
+
+
     socket.on('stateChanged', function(data){
         socket.emit('updateState',{data: 'server asks for data..'});
     });
