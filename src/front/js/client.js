@@ -32,8 +32,9 @@ var ardu = function() {
 socket.on('connect', function () {
 
     console.log('client connected to server');
+    socket.emit('arduData', {data: 'sadsadsadsdsdsadsadsadsads'});
     //arduinoModel.connect();
-    ardu();
+    //ardu();
 
 
 
