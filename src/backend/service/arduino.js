@@ -8,7 +8,7 @@
  */
 //TODO require mandatory models/confuguration
 //Arduino Service
-module.exports = function(serialPort) {
+module.exports = function() {
 
 
     //private
@@ -28,8 +28,16 @@ module.exports = function(serialPort) {
 
         rawData: {data : buffer},
 
+        connect: function(portName){
+
+        },
+        disconnect: function(){
+
+        },
+
         //private functions -> GetSerialData ***************************
         getSerialData: function(){
+
             var cleanData = ''; // this stores the clean data
             var readData = '';  // this stores the buffer
             //return {"data": "getting serial data"};
@@ -88,7 +96,7 @@ module.exports = function(serialPort) {
         getDistance: function(){
 
           //distance in (m)
-          var distance = this.getUltraSonicSensorData();    //this is still mock
+          var distance = getUltraSonicSensorData();    //this is still mock
         }
     };
 

@@ -53,7 +53,11 @@ io.on('connection', function (socket) {
     setTimeout(function(){
         socket.emit('message', {data: 'message1'});
     },1000);
-
+    socket.on('arduinoData',function(data){
+        console.log("arduinoData", data);// server console
+        socket.emit('ServerGotArduinoData');
+    });
+    /*
     socket.on('myevent', function(data){
         setTimeout(function(){
             var data = arduinoModel.getSerialData();
@@ -62,6 +66,7 @@ io.on('connection', function (socket) {
         },1000);
 
     });
+    */
 
 serialPort.on('open',function() {
  console.log('serialport opened');

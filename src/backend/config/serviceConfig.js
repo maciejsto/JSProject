@@ -33,9 +33,9 @@ var services = {
 
 
     arduinomodel: function addService(sm){
-        return function(serialPort){
+        return function(){
             //var serialPort = sm.get('serial')(sm.get('config').Serial.port);
-            var arduinoModel = require(ROOT_PATH + "service/arduino")(serialPort);
+            var arduinoModel = require(ROOT_PATH + "service/arduino");
             return arduinoModel;
         };
     },
