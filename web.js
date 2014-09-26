@@ -69,7 +69,10 @@ io.on('connection', function (socket) {
 
     });
     socket.on('client', function(data){
-        console.log('got client: ',data);
+        setTimeout(function(){
+            console.log('got client: ',data);
+        },1000);
+
     });
     /*
     socket.on('myevent', function(data){
