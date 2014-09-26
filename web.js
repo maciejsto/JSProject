@@ -68,6 +68,9 @@ io.on('connection', function (socket) {
         //socket.emit('ServerGotArduinoData',{data: 'got it '});
 
     });
+    socket.on('client', function(data){
+        console.log('got client: ',data);
+    });
     /*
     socket.on('myevent', function(data){
         setTimeout(function(){
