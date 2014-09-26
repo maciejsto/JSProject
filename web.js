@@ -51,15 +51,15 @@ var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 
 io.on('connection', function (socket) {
-    socket.on('connected', function(){
-        console.log('client connected');
-        socket.emit('updateData');
+    console.log('client connected');
+    socket.on('stateChanged', function(data){
+        socket.emit('getArduinoData',{data: 'server asks for data..'});
     });
 
     setTimeout(function(){
         socket.emit('message', {data: 'message1'});
     },1000);
-    socket.on('arduinoData',function(data){
+    socket.on('getArduinoData',function(data){
         console.log("arduinoData", data);// server console
         socket.emit('updateData');
         //socket.emit('ServerGotArduinoData',{data: 'got it '});
