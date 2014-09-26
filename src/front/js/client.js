@@ -12,11 +12,11 @@ var socket = require('socket.io-client')('http://jsproject.herokuapp.com');
 // if we get an "info" emit from the socket server then console.log the data we recive
 
 
-var ardu = function(data) {
+var ardu = function() {
     //serialPort.on('data', function (data) {
 
         setTimeout(function () {
-            console.log('calling ardu..'+ data);
+            console.log('calling ardu..');
 
             socket.emit('arduinoData', {arduinoData: '_some dummy data from arduiuno'});
             //var data = arduinoModel.getSerialData();
@@ -31,14 +31,14 @@ var ardu = function(data) {
 
 socket.on('connect', function () {
 
-    console.log('client connected');    //browser console
+    console.log('client connected to server');
     //arduinoModel.connect();
-    //ardu();
+    ardu();
 
 
 
     socket.on('getArduinoData', function (data) {
-            ardu(data);
+            ardu();
             //var data = arduinoModel.getSerialData();
             //console.log(JSON.stringify(data));
             //socket.emit('message', {data: JSON.stringify(data)});
