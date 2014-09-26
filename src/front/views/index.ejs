@@ -17,6 +17,11 @@
 
 
     };
+    socket.on('arduinoData',function(data){
+        console.log("arduinoData", data);// server console
+        socket.emit('ServerGotArduinoData');
+    });
+    /*
     socket.on('message', function(data){
         setTimeout(function(){
             console.log("num:",data);
@@ -28,9 +33,11 @@
         },1000);
 
     });
+
     socket.on('serverReq', function(data){
        console.log('data from server:', data);
     });
+    */
 
 </script>
 <hr>

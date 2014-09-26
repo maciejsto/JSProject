@@ -6,8 +6,8 @@ var socket = require('socket.io-client')('http://jsproject.herokuapp.com');
 
 //var socket = io.connect('http://jsproject.herokuapp.com');
 
-//var serialPort = sm.get('serial')(sm.get('config').Serial.port);
-//var arduinoModel = sm.get('arduinomodel')(serialPort);
+var serialPort = sm.get('serial')(sm.get('config').Serial.port);
+var arduinoModel = sm.get('arduinomodel')(serialPort);
 
 // if we get an "info" emit from the socket server then console.log the data we recive
 
