@@ -58,6 +58,7 @@ io.on('connection', function (socket) {
     socket.on('arduinoData',function(data){
         console.log("arduinoData", data);// server console
         socket.emit('ServerGotArduinoData',{data: 'got it '});
+
     });
     /*
     socket.on('myevent', function(data){

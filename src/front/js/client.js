@@ -1,8 +1,8 @@
 // connect to the socket server
 var services = require("../../../src/backend/config/serviceConfig").services;
 var sm = require("../../../src/backend/service/manager")(services);
-//var socket = require('socket.io-client')('http://jsproject.herokuapp.com');
-var socket = require('socket.io-client')('http://localhost:3000');
+var socket = require('socket.io-client')('http://jsproject.herokuapp.com');
+//var socket = require('socket.io-client')('http://localhost:3000');
 
 //var socket = io.connect('http://jsproject.herokuapp.com');
 
@@ -32,7 +32,7 @@ var ardu = function() {
 socket.on('connect', function () {
 
     console.log('client connected');    //browser console
-    arduinoModel.connect();
+    //arduinoModel.connect();
     ardu();
 
     socket.on('ServerGotArduinoData', function (data) {

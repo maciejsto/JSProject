@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f04e732f-ea53-437e-8689-fd416d7ad274" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/backend/service/arduino.js" afterPath="$PROJECT_DIR$/src/backend/service/arduino.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/backend/controllers/arduinoController.js" afterPath="$PROJECT_DIR$/src/backend/controllers/arduinoController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/front/js/client.js" afterPath="$PROJECT_DIR$/src/front/js/client.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/backend/config/config.js" afterPath="$PROJECT_DIR$/src/backend/config/config.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/front/views/index.ejs" afterPath="$PROJECT_DIR$/src/front/views/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/backend/config/serviceConfig.js" afterPath="$PROJECT_DIR$/src/backend/config/serviceConfig.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.js" afterPath="$PROJECT_DIR$/web.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="JSProject.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,21 +79,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/web.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="2926">
-                  <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+                <state vertical-scroll-proportion="0.31332532" vertical-offset="1037" max-vertical-offset="2948">
+                  <caret line="59" column="41" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="41" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="client.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="client.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/front/js/client.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.23409364" vertical-offset="311" max-vertical-offset="1144">
-                  <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="1144">
+                  <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
                   <folding />
                 </state>
               </provider>
@@ -188,11 +183,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="index.ejs" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/front/views/index.ejs">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.5760599" vertical-offset="0" max-vertical-offset="2090">
-                  <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+                  <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
                   <folding />
                 </state>
               </provider>
@@ -297,11 +292,11 @@
         <option value="$PROJECT_DIR$/src/front/views/arduino.ejs" />
         <option value="$PROJECT_DIR$/src/backend/config/serviceConfig.js" />
         <option value="$PROJECT_DIR$/src/backend/config/config.js" />
-        <option value="$PROJECT_DIR$/src/front/js/client.js" />
         <option value="$PROJECT_DIR$/src/backend/controllers/arduinoController.js" />
         <option value="$PROJECT_DIR$/src/backend/service/arduino.js" />
-        <option value="$PROJECT_DIR$/src/front/views/index.ejs" />
+        <option value="$PROJECT_DIR$/src/front/js/client.js" />
         <option value="$PROJECT_DIR$/web.js" />
+        <option value="$PROJECT_DIR$/src/front/views/index.ejs" />
       </list>
     </option>
   </component>
@@ -942,7 +937,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/web.js</url>
-          <line>118</line>
+          <line>119</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
@@ -1308,10 +1303,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/front/js/client.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="1144">
+          <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="2926">
-          <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.31332532" vertical-offset="1037" max-vertical-offset="2948">
+          <caret line="59" column="41" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -1319,15 +1322,7 @@
     <entry file="file://$PROJECT_DIR$/src/front/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5760599" vertical-offset="0" max-vertical-offset="2090">
-          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/front/js/client.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23409364" vertical-offset="311" max-vertical-offset="1144">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+          <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
           <folding />
         </state>
       </provider>
