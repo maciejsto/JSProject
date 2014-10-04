@@ -2,55 +2,7 @@
 <html>
 <% include header %>
 
-<script>
 
-    var socket = io.connect('/');
-    var tmp;
-    socket.on('connect',function() {
-        console.log('from index_page: Client has connected to the server!');
-        socket.emit('stateChanged',{state: 'state'});
-
-
-    });
-    socket.on('updateData',function(data){
-        //socket.emit();
-    });
-
-    socket.on('updateState',function(data){
-        console.log("server request:", data);// server console
-        //socket.emit('ServerGotArduinoData');
-        socket.emit('updateStateD',{state: 'state'});
-    });
-
-    socket.on('arduData', function(data){
-        console.log('arduino_data:', data);
-        socket.emit('stateChanged',{state: 'state'});
-    });
-
-    var myrand = function(){
-        setTimeout(function(){
-            return Math.floor((Math.random() * 100) + 1);
-        },500);
-
-
-    };
-
-
-    /*
-    socket.on('arduinoData', function(data){
-            console.log(data);
-            var socketdiv = $("#socket");
-            socketdiv.html(tmp);
-
-    });
-    */
-    /*
-    socket.on('serverReq', function(data){
-       console.log('data from server:', data);
-    });
-    */
-
-</script>
 <hr>
 <body>
     <% include navbar %>
@@ -70,7 +22,8 @@
 
             </div>
 
-                <a class="btn btn-primary btn-lg" role="button">Learn more
+            <button id = 'click'>CLICK ME!</button>
+                <a class="btn btn-primary btn-lg" id ="bbb" role="button">Learn more
                     &raquo;</a>
         </div>
     </div>
@@ -83,10 +36,71 @@
         <% include footer %>
     </div>
     <!-- /container -->
+
+
+
+
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#home').addClass("active");
+                //$(document).ready(function() {
+                //    $('#home').addClass("active");
+                //});
+
+
+        var socket = io.connect('/');
+        $( "#click" ).click(function(state) {
+            console.log('clicked');
+            socket.emit('stateChanged', {state: 'clicked'});
         });
+
+
+        /*
+        socket.on('connect',function() {
+            console.log('from index_page: Client has connected to the server!');
+
+            socket.emit('client',{client:'client_data'});
+
+            socket.on('arduData', function(data){
+                console.log('arduino_data in web.js:', data);
+                socket.emit('index',data);
+                socket.emit('updateState',{state: 'state'});
+
+            });
+
+            var myrand = function(){
+                setTimeout(function(){
+                    return Math.floor((Math.random() * 100) + 1);
+                },500);
+
+
+            };
+
+        });
+        */
+        /*
+         socket.on('updateState',function(data){
+         console.log("server request:", data);// server console
+         //socket.emit('ServerGotArduinoData');
+         socket.emit('updateStateD',{state: 'state'});
+         });
+         */
+
+
+
+
+        /*
+         socket.on('arduinoData', function(data){
+         console.log(data);
+         var socketdiv = $("#socket");
+         socketdiv.html(tmp);
+
+         });
+         */
+        /*
+         socket.on('serverReq', function(data){
+         console.log('data from server:', data);
+         });
+         */
+
     </script>
     <!-- Bootstrap core JavaScript
     ================================================== -->

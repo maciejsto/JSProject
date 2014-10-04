@@ -133,6 +133,8 @@ var services = {
         var when = sm.get('when');
         
         return function dbConnect(callback){
+
+
             var dbUri = sm.get('config').mongoDb.uri;
             //mongo.Db.connect(dbUri,function(err, db){
         	mongo.Db.connect(dbUri, function(err, db){

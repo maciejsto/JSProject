@@ -14,6 +14,47 @@ var io = sm.get('io')(server);
 var port = sm.get('config').port;
 var controllers = [];   //global variables holding list of controllers files
 var MongoClient = sm.get('mongoClient');
+var when = sm.get('when');
+
+var f = function(state){
+        return state;
+};
+
+
+var promise = when.promise(function(resolve, reject, notify){
+
+    //do something async
+    var result = f('false');
+    try {
+        if (result === 'true') {
+            resolve(result);
+        }else{
+            reject(result);
+        }
+    }catch(e){
+        //catch other error
+        reject(e);
+    }
+
+});
+var fulfiled = function(value){
+    console.log('fulfilled: ',value);
+};
+var rejected = function(err){
+    console.log('called on rejected: ',err);
+};
+var followingpromise = promise
+    .then(function(data){
+        console.log('fulfiled: ',data);
+    })
+    /*
+    .catch(function(err){
+        console.log('rejected: ',err);
+    });
+    */
+    .catch(function(err){
+        rejected(err);
+    });
 
 
 
@@ -51,29 +92,22 @@ var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 
 
 io.on('connection', function (socket) {
-    console.log('client connected');
+    socket.setMaxListeners(0);
+    console.log('client connected in web.js');
 
 
-    socket.on('stateChanged', function(data){
-        console.log('got emit from index.ejs');
-        socket.emit('updateState',{data: 'server asks for data..'});
-    });
+        socket.on('stateChanged', function(data){
+            console.log('state changed '+ data.state);
+            socket.broadcast.emit('updateState',{data:"new_state"});
+            //socket.emit('updateState', {data:'new_state'});
+        });
 
-    setTimeout(function(){
-        socket.emit('message', {data: 'message1'});
-    },1000);
-    socket.on('getArduinoData',function(data){
-        console.log("arduinoData", data);// server console
-        socket.emit('updateData');
-        //socket.emit('ServerGotArduinoData',{data: 'got it '});
+        socket.on('client', function(data){
+            console.log('form client:', data);
+            socket.emit('server', {data: 'data from server'});
+        });
 
-    });
-    socket.on('client', function(data){
-        setTimeout(function(){
-            console.log('got client: ',data);
-        },1000);
 
-    });
     /*
     socket.on('myevent', function(data){
         setTimeout(function(){
@@ -122,6 +156,10 @@ app.set('view engine', 'ejs');
 //ROUTES//
 app.route('/')
     .get(routes.index);
+
+app.route('/index')
+    .get(routes.index);
+
 
 app.route('/about')
     .get(routes.about.dummyFunction);
