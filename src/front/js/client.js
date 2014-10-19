@@ -8,8 +8,8 @@ var sm = require("../../../src/backend/service/manager")(services);
 
 var heroku_string = "http://jsproject.herokuapp.com/";
 var local_string  = "http://localhost:3000";
-//var socket = require('socket.io-client')(heroku_string);
-var socket = require('socket.io-client')(local_string);
+var socket = require('socket.io-client')(heroku_string);
+//var socket = require('socket.io-client')(local_string);
 var gpio = require('rpi-gpio');
 
 console.log(gpio);
