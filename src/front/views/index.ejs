@@ -25,7 +25,23 @@
             <button id = 'click'>CLICK ME!</button>
                 <a class="btn btn-primary btn-lg" id ="bbb" role="button">Learn more
                     &raquo;</a>
+
+            <h2>Bootstrap Switch Button</h2>
+            <p class="page-header">Simple Toggle Buttons for Bootstrap 3</p>
+            <h4>Large</h4>
+
+            <div class="btn-group btn-toggle">
+                <button id = 'on' class="btn btn-lg btn-default">ON</button>
+                <button id = 'off' class="btn btn-lg btn-primary active">OFF</button>
+            </div>
+            <hr>
+            <div class="container">
+
+
+
+            </div>
         </div>
+
     </div>
 
     <div class="container">
@@ -44,9 +60,45 @@
                 //$(document).ready(function() {
                 //    $('#home').addClass("active");
                 //});
+                var socket = io.connect('/');
+
+                $('.btn-toggle').click(function(state) {
+                    var btn = $(this).find('#on');
+                    $(this).find('.btn').toggleClass('active');
+
+                    var state = btn.hasClass('active');
+                    console.log(state)
+                    socket.emit('stateChanged', {state: state});
 
 
-        var socket = io.connect('/');
+                    if ($(this).find('.btn-primary').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-primary');
+                    }
+                    if ($(this).find('.btn-danger').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-danger');
+                    }
+                    if ($(this).find('.btn-success').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-success');
+                    }
+                    if ($(this).find('.btn-info').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-info');
+                    }
+
+                    $(this).find('.btn').toggleClass('btn-default');
+
+
+                });
+
+
+
+                $('form').submit(function(){
+                    console.log($(this["options"]).val());
+                    alert($(this["options"]).val());
+                    return false;
+                });
+
+
+
         $( "#click" ).click(function(state) {
             console.log('clicked');
             socket.emit('stateChanged', {state: 'clicked'});
