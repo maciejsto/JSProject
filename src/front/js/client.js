@@ -17,21 +17,8 @@ var gpio = require("pi-gpio");
 
 
 
-gpio.setup(12, gpio.DIR_OUT, function(){
-    //gpio.write(12, false, function(err){});
-});
 
-process.on('SIGINT', function(){
-    gpio.write(12, true, function(){
-        gpio.destroy(function(){
-            process.exit();
-        });
-    });
-});
 
-gpio.setup(7, gpio.DIR_OUT, function(){
-    //gpio.write(12, false);
-});
 
 
 
@@ -72,6 +59,7 @@ socket.on('connect', function () {
 
         //console.log(gpio.write(12, false));
         //gpio.write(12, data.data.state);
+        console.log(gpio);
         gpio.open(16, "output", function(err) {        // Open pin 16 for output
             gpio.write(16, data.data.state, function() {            // Set pin 16 high (1)
                 gpio.close(16);                        // Close pin 16
