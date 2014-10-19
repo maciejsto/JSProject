@@ -98,7 +98,8 @@ io.on('connection', function (socket) {
 
         socket.on('stateChanged', function(data){
             console.log('state changed '+ data.state);
-            socket.broadcast.emit('updateState',{data:"new_state"});
+
+            socket.broadcast.emit('updateState',{data: data});
             //socket.emit('updateState', {data:'new_state'});
         });
 

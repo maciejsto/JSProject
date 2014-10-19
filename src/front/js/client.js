@@ -7,12 +7,16 @@ var sm = require("../../../src/backend/service/manager")(services);
 // if we get an "info" emit from the socket server then console.log the data we recive
 
 var heroku_string = "http://jsproject.herokuapp.com/";
-//var local_string  = "http://localhost:3000";
-var socket = require('socket.io-client')(heroku_string);
-//var socket = require('socket.io-client')('http://localhost:3000/');
+var local_string  = "http://localhost:3000";
+//var socket = require('socket.io-client')(heroku_string);
+var socket = require('socket.io-client')(local_string);
 var gpio = require('rpi-gpio');
 
 console.log(gpio);
+
+gpio.setup(12, gpio.DIR_OUT, function(){
+    //gpio.write(12, false, function(err){});
+});
 
 process.on('SIGINT', function(){
     gpio.write(12, true, function(){
@@ -22,10 +26,11 @@ process.on('SIGINT', function(){
     });
 });
 
-gpio.setup(12, gpio.DIR_OUT, function(){
+gpio.setup(7, gpio.DIR_OUT, function(){});
 
-    //gpio.write(12,true);    //turns led on
-});
+
+
+
 
 
 
@@ -55,23 +60,13 @@ socket.on('connect', function () {
     //arduinoModel.connect();
     //ardu();
 
+
+
     socket.on('updateState', function (data) {
-        console.log('state updated , got it from server !!');
-        var counter = 0;
+        console.log('state updated , got it from server !!', data.data.state);
 
-        if (counter == 1){
-            //gpio.write(12,true);
-
-            console.log('led turned on');
-            counter = 0;
-        }else if (counter == 0) {
-            //gpio.write(12,false);
-
-            console.log('led turned off');
-            counter++;
-            console.log('counter', counter);
-        }
-
+        //console.log(gpio.write(12, false));
+        //gpio.write(12, data.data.state);
         //ardu();
         //var data = arduinoModel.getSerialData();
         //console.log(JSON.stringify(data));
