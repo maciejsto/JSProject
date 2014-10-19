@@ -79,7 +79,11 @@ socket.on('connect', function () {
         //console.log(gpio.write(12, false));
 
         var state = data.data.state;
-        gpio.write(12, state);
+        gpio.write(12, state, function(err){
+            if (err) throw err;
+            console.log('writen to pin 12');
+        });
+
         //ardu();
         //var data = arduinoModel.getSerialData();
         //console.log(JSON.stringify(data));
