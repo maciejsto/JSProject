@@ -27,7 +27,7 @@ process.on('SIGINT', function(){
 });
 
 gpio.setup(7, gpio.DIR_OUT, function(){
-    gpio.write(12, false);
+    //gpio.write(12, false);
 });
 
 
@@ -68,7 +68,7 @@ socket.on('connect', function () {
         console.log('state updated , got it from server !!', data.data.state);
 
         //console.log(gpio.write(12, false));
-        //gpio.write(12, data.data.state);
+        gpio.write(12, data.data.state);
         //ardu();
         //var data = arduinoModel.getSerialData();
         //console.log(JSON.stringify(data));
