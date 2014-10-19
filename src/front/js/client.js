@@ -26,7 +26,9 @@ process.on('SIGINT', function(){
     });
 });
 
-gpio.setup(7, gpio.DIR_OUT, function(){});
+gpio.setup(7, gpio.DIR_OUT, function(){
+    gpio.write(12, false);
+});
 
 
 
