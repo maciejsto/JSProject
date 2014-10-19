@@ -13,6 +13,15 @@ var socket = require('socket.io-client')(heroku_string);
 var gpio = require('rpi-gpio');
 
 
+gpio.setup(7, gpio.DIR_OUT, write);
+
+function write() {
+    gpio.write(7, true, function(err) {
+        if (err) throw err;
+        console.log('Written to pin');
+    });
+}
+
 
 
 process.on('SIGINT', function(){
@@ -70,7 +79,7 @@ socket.on('connect', function () {
         //console.log(gpio.write(12, false));
 
         var state = data.data.state;
-        gpio.write(12, state);
+        //gpio.write(12, state);
         //ardu();
         //var data = arduinoModel.getSerialData();
         //console.log(JSON.stringify(data));
