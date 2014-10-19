@@ -12,7 +12,10 @@ var socket = require('socket.io-client')(heroku_string);
 //var socket = require('socket.io-client')(local_string);
 var gpio = require('rpi-gpio');
 
-console.log(gpio);
+var gpio = require("pi-gpio");
+
+
+
 
 gpio.setup(12, gpio.DIR_OUT, function(){
     //gpio.write(12, false, function(err){});
@@ -68,7 +71,12 @@ socket.on('connect', function () {
         console.log('state updated , got it from server !!', data.data.state);
 
         //console.log(gpio.write(12, false));
-        gpio.write(12, data.data.state);
+        //gpio.write(12, data.data.state);
+        gpio.open(16, "output", function(err) {        // Open pin 16 for output
+            gpio.write(16, 1, function() {            // Set pin 16 high (1)
+                gpio.close(16);                        // Close pin 16
+            });
+        });
         //ardu();
         //var data = arduinoModel.getSerialData();
         //console.log(JSON.stringify(data));
