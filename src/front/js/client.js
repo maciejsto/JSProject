@@ -2,7 +2,7 @@
 var services = require("../../../src/backend/config/serviceConfig").services;
 var sm = require("../../../src/backend/service/manager")(services);
 //var socket = io.connect('http://jsproject.herokuapp.com');
-//var serialPort = sm.get('serial')(sm.get('config').Serial.port);
+var serialPort = sm.get('serial')('/dev/ttyACM0');
 //var arduinoModel = sm.get('arduinomodel')(serialPort);
 // if we get an "info" emit from the socket server then console.log the data we recive
 
@@ -14,6 +14,7 @@ var gpio = require('rpi-gpio');
 
 
 gpio.setup(7, gpio.DIR_OUT, write);
+
 
 function write() {
     gpio.write(7, true, function(err) {
@@ -74,14 +75,25 @@ socket.on('connect', function () {
 
 
     socket.on('updateState', function (data) {
-        console.log('state updated , got it from server !!', data.data.state);
+        console.log('state updated , got it from s !!', data.data.state);
 
         //console.log(gpio.write(12, false));
 
         var state = data.data.state;
+
+
+
         gpio.write(12, state, function(err){
             if (err) throw err;
             console.log('writen to pin 12');
+        });
+
+        serialPort.on('open', function(){
+            console.log('serial port opened');
+            serialPort.write("ls\n", function(err, result){
+                console.log('err', err);
+                console.log('result', result);
+            });
         });
 
         //ardu();
