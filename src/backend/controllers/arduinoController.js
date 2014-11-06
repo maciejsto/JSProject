@@ -34,7 +34,6 @@ function ArduinoController() {
                         },
                     });
                 });
-
             /*
             app.route('/arduino')
                 .get(function (req, res, next) {
