@@ -31,7 +31,6 @@ function ArduinoController() {
                         title: 'Express',
                         serial_data: {
                             data: "sample data"
-
                         },
                     });
                 });
