@@ -37,7 +37,7 @@ function adm(){
 
         run: function(req, res, next) {
             if(authorize(req)) {
-                req.session.fastdelivery = true;
+                //req.session.fastdelivery = true;
                 req.session.save(function(err) {
                     var v = new View(res, 'admin');
                     v.render({

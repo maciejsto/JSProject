@@ -99,9 +99,37 @@ function ArduinoModel() {
     };
 };
 
+/*refactor code to get rid of "new" keyword in this section*/
 module.exports = new ArduinoModel();
 //module.exports = function() {
 
 
 
 //};
+
+//TODO refactor this service
+
+/*
+
+module.export = function arduinoService(Promise, _){
+    
+    
+    
+    return  function arduino(data){
+        
+        var array = data;
+        
+        return {
+            
+            connect: function(){},
+            //TODO other methods
+            //getData from temperature sensor
+            //getData from humidity sensor
+            
+            disconnect: function(){},
+            
+        }
+    }   
+};
+
+*/

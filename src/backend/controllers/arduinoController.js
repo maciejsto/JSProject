@@ -24,8 +24,19 @@ function ArduinoController() {
 
         run: function (app, arduinoModel, io) {
 
+                
+            app.route('/arduino')
+                .get(function(req,res,next){
+                    res.render('arduino', {
+                        title: 'Express',
+                        serial_data: {
+                            data: "sample data"
 
+                        },
+                    });
+                });
 
+            /*
             app.route('/arduino')
                 .get(function (req, res, next) {
 
@@ -85,7 +96,8 @@ function ArduinoController() {
                  console.log('client disconnected');
                  });
                  */
-            });
+            //});
+            
 
         /*
             app.all('/arduino/:model?/:id?', function (req, res, next) {
