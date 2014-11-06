@@ -1,10 +1,10 @@
-'use strict';
+//'use strict';
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
 var fs           = sm.get('fs');
 var usersModel   = sm.get('users');
-var serialPort   = sm.get('serial')(sm.get('config').Serial.port);  //COM3
+//var serialPort   = sm.get('serial')(sm.get('config').Serial.port);  //COM3
 var arduinoModel = sm.get('arduinomodel');
 var routes       = sm.get('routes');
 var server       = sm.get('httpServer');
@@ -51,8 +51,10 @@ arduinoController.run(app, arduinoModel, io);
 io.on('connection', function (socket) {
     socket.setMaxListeners(0);
     console.log('client connected in web.js');
-
-
+    clients.push(socket);
+    var i = clients.indexOf(socket);
+    console.log("socketID:",clients[i].id);
+    
         /*wait for button state change True/False*/
         socket.on('stateChanged', function(data){
             console.log('state changed '+ data.state);
@@ -61,11 +63,25 @@ io.on('connection', function (socket) {
             //socket.emit('updateState', {data:'new_state'});
         });
 
-        
+        /*do something on client event*/    
         socket.on('client', function(data){
             console.log('form client:', data);
             socket.emit('server', {data: 'data from server'});
         });
+        
+        /*do task on disconnect*/
+        socket.on('disconnect', function(socket){
+            
+            while(clients.length > 0){
+                clients[i] = null;
+                clients.pop();
+            }
+            console.log('client disconnecting from server', clients);
+            
+        });
+        
+        //TODO other tasks
+});
 
 
     /*
@@ -80,6 +96,7 @@ io.on('connection', function (socket) {
     */
 
 /*******************working with serialport**********************************/
+/*
 serialPort.on('open',function() {
  console.log('serialport opened');
  serialPort.on('data', function (data) {
@@ -94,6 +111,7 @@ serialPort.on('open',function() {
 
 
 });
+*/
 
 /*console loggin data on every request ex. page reload*/
 app.use(function(req,res,next){

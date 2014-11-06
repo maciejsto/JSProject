@@ -14,7 +14,7 @@ var services = {
         var bodyParser = sm.get('bodyParser');
         //var morgan = sm.get('morgan');
         var router = express.Router();
-        app.use(sm.get('bodyParser'));
+        //app.use(sm.get('bodyParser'));
         app.use(sm.get('methodOverride'));
         //app.use(morgan('dev'));
         //app.use(session({secret: 'keyboard cat'}))

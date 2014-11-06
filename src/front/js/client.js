@@ -1,20 +1,19 @@
 // connect to the socket server
 var services = require("../../../src/backend/config/serviceConfig").services;
 var sm = require("../../../src/backend/service/manager")(services);
-//var socket = io.connect('http://jsproject.herokuapp.com');
-var serialPort = sm.get('serial')('/dev/ttyACM0');
+/*this is connection handle between Raspberry and Arduino Uno over USB*/
+//var serialPort = sm.get('serial')('/dev/ttyACM0');
 //var arduinoModel = sm.get('arduinomodel')(serialPort);
-// if we get an "info" emit from the socket server then console.log the data we recive
 
 var heroku_string = "http://jsproject.herokuapp.com/";
-var local_string  = "http://localhost:3000";
-var socket = require('socket.io-client')(heroku_string);
+var local_string  = "http://localhost:8080";
+
+var socket = require('socket.io-client')(local_string);
 //var socket = require('socket.io-client')(local_string);
-var gpio = require('rpi-gpio');
+//var gpio = require('rpi-gpio');
 
-
+/*
 gpio.setup(7, gpio.DIR_OUT, write);
-
 
 function write() {
     gpio.write(7, true, function(err) {
@@ -37,15 +36,7 @@ gpio.setup(12, gpio.DIR_OUT, function(){
     gpio.write(12, true);
 });
 
-
-
-
-
-
-
-
-
-
+*/
 var ardu = function() {
     //serialPort.on('data', function (data) {
 
@@ -63,31 +54,33 @@ var ardu = function() {
     //});
 };
 
-socket.on('connect', function () {
+socket.on('connect', function onConnect() {
     console.log('socket connected to host: ',socket.io.opts.host);
-    socket.io.engine.id = 'client_id';
+    console.log(socket.io.engine.id);
+    socket.io.engine.id = 'myraspberrypiID';
     console.log('client connected to server');
-    console.log('socket id: ',socket.io.engine.id);
-    socket.emit('client', {data: 'sadsadsadsdsdsadsadsadsads'});
+    console.log('socket id: ',JSON.stringify(socket.io.engine.id));
+    //console.log('socket id: ',socket.id);
+    
+    /*emit data on connection to server*/
+    socket.emit('client', {id: socket.id, data: 'client sais: Hello mighty server'});
     //arduinoModel.connect();
     //ardu();
 
 
-
-    socket.on('updateState', function (data) {
-        console.log('state updated , got it from s !!', data.data.state);
-
-        //console.log(gpio.write(12, false));
-
+    socket.on('updateState', function onUpdateState(data) {
+        console.log('state updated , got it from server !!', data.data.state);
         var state = data.data.state;
 
-
+        //to be uncommented
+        /*injecting button state into Raspberry gpio pins (12)
 
         gpio.write(12, state, function(err){
             if (err) throw err;
             console.log('writen to pin 12');
         });
-
+        */
+        /*    
         serialPort.on('open', function(){
             console.log('serial port opened');
             serialPort.write("ls\n", function(err, result){
@@ -95,6 +88,7 @@ socket.on('connect', function () {
                 console.log('result', result);
             });
         });
+        */
 
         //ardu();
         //var data = arduinoModel.getSerialData();
@@ -111,10 +105,9 @@ socket.on('connect', function () {
         console.log(data);
     });
 
-
-
-
-
+    socket.on('disconnect', function() {
+        console.log('server stopped or crashed'); 
+    });
 
 });
 
