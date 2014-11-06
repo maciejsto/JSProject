@@ -4,6 +4,8 @@
 
 
 var config = {
+    
+    debug: true,
 
     local: {
         mode: 'local',
@@ -39,6 +41,7 @@ var config = {
             //logLevel: 'silent'
         }
     },//end of local
+    
     staging: {
         mode: 'staging',
         port:4000,
@@ -72,7 +75,8 @@ var config = {
             }
             //logLevel: 'silent'
         }
-    },
+    },//end of stagging
+    
     production:{
         mode: 'production,',
         port: 5000,
