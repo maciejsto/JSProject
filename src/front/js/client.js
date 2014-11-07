@@ -73,7 +73,7 @@ socket.on('connect', function onConnect() {
         var state = data.data.state;
 
         //to be uncommented
-        injecting button state into Raspberry gpio pins (12)
+        //injecting button state into Raspberry gpio pins (12)
 
         gpio.write(12, state, function(err){
             if (err) throw err;
