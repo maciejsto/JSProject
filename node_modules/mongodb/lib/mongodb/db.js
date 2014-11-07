@@ -14,6 +14,7 @@ var QueryCommand = require('./commands/query_command').QueryCommand
   , Cursor = require('./cursor').Cursor
   , EventEmitter = require('events').EventEmitter
   , InsertCommand = require('./commands/insert_command').InsertCommand
+  , f = require('util').format
   , inherits = require('util').inherits
   , crypto = require('crypto')
   , timers = require('timers')
@@ -376,12 +377,14 @@ Db.prototype.admin = function(callback) {
 };
 
 /**
- * Returns a cursor to all the collection information.
+ * DEPRECATED: Returns a cursor to all the collection information. Does not work with 2.8 or higher when using
+ * other storage engines
  *
  * @param {String} [collectionName] the collection name we wish to retrieve the information from.
  * @param {Function} callback this will be called after executing this method. The first parameter will contain the Error object if an error occurred, or null otherwise. While the second parameter will contain the options or null if an error occurred.
  * @return {null}
  * @api public
+ * @deprecated
  */
 Db.prototype.collectionsInfo = function(collectionName, callback) {
   if(callback == null && typeof collectionName == 'function') { callback = collectionName; collectionName = null; }
@@ -404,6 +407,7 @@ Db.prototype.collectionsInfo = function(collectionName, callback) {
  *
  * Options
  *  - **namesOnly** {String, default:false}, Return only the full collection namespace.
+ *  - **filter** {String|Object, default:null}, Filter collections by this filter (string or object)
  *
  * @param {String} [collectionName] the collection name we wish to filter by.
  * @param {Object} [options] additional options during update.
@@ -411,28 +415,35 @@ Db.prototype.collectionsInfo = function(collectionName, callback) {
  * @return {null}
  * @api public
  */
-Db.prototype.collectionNames = function(collectionName, options, callback) {
+Db.prototype.listCollections = function(name, options, callback) {
   var args = Array.prototype.slice.call(arguments, 0);
   callback = args.pop();
   name = args.length ? args.shift() : null;
   options = args.length ? args.shift() || {} : {};
-
-  // Define self
   var self = this;
+
   // Only passed in options
   if(name != null && typeof name == 'object') options = name, name = null;
+  // Do we have a filter
+  var filter = options.filter || {};
 
   // Fallback to pre 2.8 list collections
   var fallbackListCollections = function() {
-    // Let's make our own callback to reuse the existing collections info method
-    var cursor = self.collectionsInfo(name);
+    // Ensure we have a filter
+    filter = filter || {};
+    // Set the name variable for the filter
+    if(typeof name == 'string') filter.name = f("%s.%s", self.databaseName, name);
+    // Get the system namespace collection as a cursor
+    var cursor = self.collection(DbCommand.SYSTEM_NAMESPACE_COLLECTION).find(filter);
     // Get all documents
     cursor.toArray(function(err, documents) {
       if(err != null) return callback(err, null);
-      // List of result documents that have been filtered
+
+      // Filter out all the non valid names
       var filtered_documents = documents.filter(function(document) {
-        return !(document.name.indexOf(self.databaseName) == -1 || document.name.indexOf('$') != -1);
-      });
+        if(document.name.indexOf('$') != -1) return false;
+        return true;
+      });     
 
       // If we are returning only the names
       if(options.namesOnly) {
@@ -444,17 +455,20 @@ Db.prototype.collectionNames = function(collectionName, options, callback) {
     });      
   }
 
+  // Set up the listCollectionsCommand
+  var listCollectionsCommand = {listCollections:1};
+  // Add the optional filter if available
+  if(filter) listCollectionsCommand.filter = filter;
+  // Set the name variable for the filter
+  if(typeof name == 'string') filter.name = name;
+
   // Attempt to execute the collection list
-  self.command({listCollections:1}, function(err, result) {
+  self.command(listCollectionsCommand, function(err, result) {
     if(err) return fallbackListCollections();
     // List of result documents that have been filtered
     var filtered_documents = result.collections.filter(function(document) {
-      if(name && document.name != name) {
-        return false;
-      } else if(document.name.indexOf('$') != -1) {
-        return false;
-      }
-
+      if(name && document.name != name) return false;
+      if(document.name.indexOf('$') != -1) return false;
       return true;
     });
 
@@ -466,6 +480,23 @@ Db.prototype.collectionNames = function(collectionName, options, callback) {
     // Return filtered items
     callback(null, filtered_documents);
   });
+};
+
+/**
+ * Get the list of all collection names for the specified db
+ *
+ * Options
+ *  - **namesOnly** {String, default:false}, Return only the full collection namespace.
+ *
+ * @param {String} [collectionName] the collection name we wish to filter by.
+ * @param {Object} [options] additional options during update.
+ * @param {Function} callback this will be called after executing this method. The first parameter will contain the Error object if an error occurred, or null otherwise. While the second parameter will contain the collection names or null if an error occurred.
+ * @return {null}
+ * @api public
+ */
+Db.prototype.collectionNames = function(collectionName, options, callback) {
+  var args = Array.prototype.slice.call(arguments, 0);
+  this.listCollections.apply(this, args);
 };
 
 /**
@@ -490,39 +521,36 @@ Db.prototype.collectionNames = function(collectionName, options, callback) {
  * @api public
  */
 Db.prototype.collection = function(collectionName, options, callback) {
+  if(typeof options == 'function') callback = options, options = {};
+  options = options || {};
   var self = this;
-  if(typeof options === "function") { callback = options; options = {}; }
-  // Execute safe
 
-  if(options && (options.strict)) {
-    self.collectionNames(collectionName, function(err, collections) {
-      if(err != null) return callback(err, null);
-
-      if(collections.length == 0) {
-        return callback(new Error("Collection " + collectionName + " does not exist. Currently in safe mode."), null);
-      } else {
-        try {
-          var collection = new Collection(self, collectionName, self.pkFactory, options);
-        } catch(err) {
-          return callback(err, null);
-        }
-        return callback(null, collection);
-      }
-    });
-  } else {
+  if(options == null || !options.strict) {
     try {
       var collection = new Collection(self, collectionName, self.pkFactory, options);
+      if(callback) callback(null, collection);
+      return collection;
     } catch(err) {
-      if(callback == null) {
-        throw err;
-      } else {
-        return callback(err, null);
-      }
-    }
-
-    // If we have no callback return collection object
-    return callback == null ? collection : callback(null, collection);
+      if(callback) return callback(err);
+      throw err;
+    }      
   }
+
+  // Strict mode
+  if(typeof callback != 'function') {
+    throw utils.toError(f("A callback is required in strict mode. While getting collection %s.", collectionName));
+  }
+
+  self.listCollections(collectionName, function(err, collections) {
+    if(err != null) return callback(err, null);
+    if(collections.length == 0) return callback(utils.toError(f("Collection %s does not exist. Currently in strict mode.", collectionName)), null);
+
+    try {
+      return callback(null, new Collection(self, collectionName, self.pkFactory, options));
+    } catch(err) {
+      return callback(err, null);
+    }
+  });    
 };
 
 /**
@@ -679,7 +707,7 @@ Db.prototype.authenticate = function(username, password, options, callback) {
 
   // Set default mechanism
   if(!options.authMechanism) {
-    options.authMechanism = 'MONGODB-CR';
+    options.authMechanism = 'DEFAULT';
   } else if(options.authMechanism != 'GSSAPI'
     && options.authMechanism != 'MONGODB-CR'
     && options.authMechanism != 'MONGODB-X509'
@@ -712,6 +740,15 @@ Db.prototype.authenticate = function(username, password, options, callback) {
     mongodb_x509_authenticate(self, username, password, options, _callback);
   } else if(options.authMechanism == 'SCRAM-SHA-1') {
     mongodb_scram_authenticate(self, username, password, authdb, options, _callback);
+  } else if(options.authMechanism == 'DEFAULT') {
+    // Get a server
+    var servers = this.serverConfig.allServerInstances();
+    // if the max wire protocol version >= 3 do scram otherwise mongodb_cr
+    if(servers.length > 0 && servers[0].isMasterDoc && servers[0].isMasterDoc.maxWireVersion >= 3) {
+      mongodb_scram_authenticate(self, username, password, authdb, options, _callback);
+    } else {
+      mongodb_cr_authenticate(self, username, password, authdb, options, _callback);
+    }
   } else if(options.authMechanism == 'GSSAPI') {
     //
     // Kerberos library is not installed, throw and error
@@ -1003,25 +1040,13 @@ Db.prototype.createCollection = function(collectionName, options, callback) {
   // Ensure it's at least set to safe
   safe = safe == null ? {w: 1} : safe;
   // Check if we have the name
-  this.collectionNames(function(err, collections) {
+  this.listCollections(collectionName, function(err, collections) {
     if(err != null) return callback(err, null);
-
-    var found = false;
-    collections.forEach(function(collection) {
-      if(collection.name == self.databaseName + "." + collectionName
-        || collection.name == collectionName) found = true;
-    });
-
-    // If the collection exists either throw an exception (if db in safe mode) or return the existing collection
-    if(found && options && options.strict) {
-      return callback(new Error("Collection " + collectionName + " already exists. Currently in strict mode."), null);
-    } else if(found){
-      try {
-        var collection = new Collection(self, collectionName, self.pkFactory, options);
-      } catch(err) {
-        return callback(err, null);
-      }
-      return callback(null, collection);
+    if(collections.length > 0 && options.strict) {
+      return callback(utils.toError(f("Collection %s already exists. Currently in strict mode.", collectionName)), null);
+    } else if (collections.length > 0) {
+      try { return callback(null, new Collection(self, collectionName, self.pkFactory, options)); }
+      catch(err) { return callback(err); }
     }
 
     // logout command
@@ -1030,6 +1055,7 @@ Db.prototype.createCollection = function(collectionName, options, callback) {
     for(var name in options) {
       if(options[name] != null && typeof options[name] != 'function') cmd[name] = options[name];
     }
+
     // Execute the command
     self.command(cmd, options, function(err, result) {
       if(err && err.code && err.code != 48 && options && options.strict) return callback(err, null);
@@ -1455,10 +1481,10 @@ Db.prototype.ensureIndex = function(collectionName, fieldOrSpec, options, callba
   var index_name = command.documents[0].name;
 
   // Check if the index allready exists
-  this.indexInformation(collectionName, writeConcern, function(err, collectionInfo) {
+  this.indexInformation(collectionName, writeConcern, function(err, indexInformation) {
     if(err != null) return callback(err, null);
     // If the index does not exist, create it
-    if(!collectionInfo[index_name])  {
+    if(!indexInformation[index_name])  {
       self.createIndex(collectionName, fieldOrSpec, options, callback);
     } else {
       if(typeof callback === 'function') return callback(null, index_name);

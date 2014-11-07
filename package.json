@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/maciejsto/JSProject",
   "dependencies": {
+    "body-parser": "^1.9.2",
     "connect": "^2.27.2",
     "ejs": "^1.0.0",
     "express": "^4.8.5",
@@ -30,11 +31,13 @@
     "lodash-node": "^2.4.1",
     "logfmt": "^1.1.2",
     "method-override": "^2.0.2",
+    "mongodb": "^1.4.19",
     "mongoose": "^3.9.4",
     "mongoskin": "^1.4.4",
     "rpi-gpio": "^0.5.0",
     "socket.io": "*",
     "socket.io-client": "^1.2.0",
+    "underscore": "^1.7.0",
     "when": "^3.2.3"
   },
   "engines": {
