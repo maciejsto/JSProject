@@ -49,8 +49,8 @@ console.log(controllers);
 
 /*calling methods on controllers*/
 //userController.controller(app, usersModel, io);
-arduinoController.run(app, arduinoModel, db, io);
-arduinoController.setDebug(true);
+arduinoController.run(app, arduinoModel, io);
+//arduinoController.setDebug(true);
 console.log("controller name: ",arduinoController.getName());
 astronautsController().setDebug(true);
 astronautsController().run(app);
