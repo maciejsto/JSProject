@@ -1,4 +1,4 @@
-
+'use strict';
 
 
 var Astronaut = require('../../backend/service/astronauts');
@@ -22,8 +22,9 @@ module.exports = function astronautsController(){
 
         run: function(app){
 
-            if(that.debug)
-                console.log('debug: inside astronaut run function ');
+            if(that.debug) {
+                console.log('debug: inside astronaut run function ')
+            }
 
             //list all astrnonats in databse--------------------------------------------------------------------------------
             app.route('/users')

@@ -47,7 +47,7 @@ function adm(){
                 });
                 console.log('session....: ',req.session);
             } else {
-                var v = new View(res, 'admin-login');
+                var v = new View(res, 'admin');
                 v.render({
                     title: 'Please login'
                 });

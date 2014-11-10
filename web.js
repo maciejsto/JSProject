@@ -1,4 +1,5 @@
 'use strict';
+require('newrelic');
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
@@ -41,7 +42,8 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {
 });
 
 /******************************calling particular controllers*******************************************/
-var userController = require('./src/backend/controllers/' + controllers[3]);
+var BaseController = require('./src/backend/controllers/' + controllers[3]);
+var userController = require('./src/backend/controllers/' + controllers[4]);
 var arduinoController = require('./src/backend/controllers/' + controllers[1]);
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 var astronautsController = require('./src/backend/controllers/' + controllers[2]);
@@ -155,9 +157,12 @@ app.route('/about')
 app.all("/admin*", function(req,res,next){
     AdminController.run(req,res,next);
 });
+
+/*
 app.all('/users*', function(req,res,next){
-    userController.run(req,res,next,MongoClient);
+    //userController.run(req,res,next,MongoClient);
 });
+*/
 
 //console.log('name of Admin Controller: ',AdminController.name);
 
