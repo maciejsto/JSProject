@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
@@ -52,8 +52,8 @@ console.log(controllers);
 //arduinoController.run(app, arduinoModel, io);
 //arduinoController.setDebug(true);
 //console.log("controller name: ",arduinoController.getName());
-astronautsController().setDebug(true);
-astronautsController().run(app);
+//astronautsController().setDebug(true);
+//astronautsController().run(app);
 //console.log(astronautsController.getName());
 //astronautsController.setDebug(true);
 
@@ -132,7 +132,7 @@ app.use(function(req,res,next){
 
 //ENVIRONMET SETTINGS
 var env = process.env.NODE_ENV || 'development';
-if ('development' == env) {
+if ('development' === env) {
     // configure stuff here
     console.log('configure stuff here..');
 }
