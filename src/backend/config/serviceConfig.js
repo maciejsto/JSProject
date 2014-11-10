@@ -48,7 +48,7 @@ var services = {
         return require(ROOT_PATH + "../routes/about");
     },
 
-    bodyParser: require('body-parser')(),
+    bodyParser: require('body-parser'),
     //cheerio: require('cheerio'),
     //cookieParser: require('cookie-parser')(),
     connect: require('connect'),

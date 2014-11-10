@@ -12,6 +12,9 @@ var io           = sm.get('io')(server);
 var port         = sm.get('config').port;
 var MongoClient  = sm.get('mongoClient');
 var when         = sm.get('when');
+var db           = sm.get('mongoose').connect(sm.get('config').mongoDb.uri, function(){
+    console.log('mongoose db connection established, db: ',sm.get('config').mongoDb.uri);
+});
 
 var controllers  = [];                      //global variables holding list of controllers files
 var clients      = [];
@@ -41,10 +44,18 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {
 var userController = require('./src/backend/controllers/' + controllers[3]);
 var arduinoController = require('./src/backend/controllers/' + controllers[1]);
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
+var astronautsController = require('./src/backend/controllers/' + controllers[2]);
+console.log(controllers);
 
 /*calling methods on controllers*/
 //userController.controller(app, usersModel, io);
-arduinoController.run(app, arduinoModel, io);
+arduinoController.run(app, arduinoModel, db, io);
+arduinoController.setDebug(true);
+console.log("controller name: ",arduinoController.getName());
+astronautsController().setDebug(true);
+astronautsController().run(app);
+//console.log(astronautsController.getName());
+//astronautsController.setDebug(true);
 
 
 /*****using socket to receive request from browser , process it , send to client(raspberry) and receive response********/

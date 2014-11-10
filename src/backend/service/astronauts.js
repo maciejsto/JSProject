@@ -20,3 +20,12 @@ var AstronautSchema = new Schema({
 
 // export 'Astronaut' model
 module.exports = mongoose.model('Astronaut',AstronautSchema);
+
+/*
+var mongoose = require('mongoose');
+
+module.exports = mongoose.model('Todo', {
+    text : String,
+    done : Boolean
+}
+*/
