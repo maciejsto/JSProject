@@ -3,9 +3,10 @@ var Schema = mongoose.Schema;
 
 // define a new schema
 var AstronautSchema = new Schema({
-    slug : { type: String, lowercase: true, unique: true },
+    //slug : { type: String, lowercase: true, unique: false },
     name : String,
     birthdate : Date,
+    _id: String,
     missions : [String],
     photo : String,
     source : {
@@ -14,9 +15,8 @@ var AstronautSchema = new Schema({
     },
     skills : [String],
     walkedOnMoon : Boolean,
-
     lastupdated : { type: Date, default: Date.now }
-});
+},{_id: true});
 
 // export 'Astronaut' model
 module.exports = mongoose.model('Astronaut',AstronautSchema);
