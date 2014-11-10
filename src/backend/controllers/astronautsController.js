@@ -4,7 +4,7 @@
 var Astronaut = require('../../backend/service/astronauts');
 
 
-module.exports = function(){
+module.exports = function astronautsController(){
 
     var that = this;
     that.debug = false;
