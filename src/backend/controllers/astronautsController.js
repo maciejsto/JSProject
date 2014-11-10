@@ -51,9 +51,9 @@ module.exports = function(){
                         });
                     });
                 });
-            app.routes('users/:user_id')
+            app.route('users/:user_id')
                 .delete(function(req, res){
-
+                    //TOOD
                 });
             return this;
         }//end of run function
