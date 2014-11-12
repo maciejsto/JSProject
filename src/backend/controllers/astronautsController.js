@@ -6,42 +6,49 @@ var Astronaut = require('../../backend/service/astronauts');
 
 module.exports = function astronautsController(){
 
-    /*private */
-    var that = this;
+    /*private -------------------------------------------------------*/
+    var name = 'astronautController';
+    var that = this;    //that refers to ArduinoController object
     that.debug = false;
-    that.name = 'astronautsController';
 
-
-    /*public*/
+    /*public - -----------------------------------------------------*/
     return {
 
-        /*function setting debug mode*/
+        /*function setting debug mode - -------------------------------------------------------------------*/
         setDebug: function(flag){
             that.debug = flag;
         },
 
-        /*get name of controller*/ // TODO push to abstract layer?
+        /*get name of controller --------------------------------------*/ // TODO push to abstract layer?
         getName: function(){
-            return that.name;
+            return name;
         },
 
+
+        /*run function ------------------------------------------------------------------------------------*/
         run: function(app){
 
-
+                
             if(that.debug) {
                 console.log('debug: inside astronaut run function ')
+                console.log("controller name: ",this.getName());
+               console.log(app.db); 
             };
+            
             
 
             //list all astrnonats in databse--------------------------------------------------------------------------------
             app.route('/users')
                 //use mongoose to get all astronauts from database
+                /*action on get get method*/
                 .get(function(req, res){
 
 
                     Astronaut.find(function(err, astronauts){
-                        if(err)
-                            res.send(err)
+                        if(err){
+                            res.send(err);
+                            return;
+                        }
 
                         console.log('found astronauts');
                         //res.send(JSON.stringify(astronauts));   // return all astronauts in json format
@@ -51,6 +58,7 @@ module.exports = function astronautsController(){
 
             //create astronat and send back all astronauts from database-------------------------------------------------
             //app.route('/users')
+            /*action on post method*/
                 .post(function(req, res){
                     var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
                     var uniqid = randLetter + Date.now();
@@ -82,6 +90,7 @@ module.exports = function astronautsController(){
                         });
                     });
                 })
+                /*action on delete method*/
                 .delete(function(req, res) {
                     Astronaut.collection.remove(function (err) {
                         console.log('inside del');
@@ -114,11 +123,16 @@ module.exports = function astronautsController(){
                     Astronaut.remove({
                         _id : req.params._id
                     }, function(err, astronaut){
-                        if(err)
+                        if(err){
                             res.semd(err);
+                            return;
+                        }
                         Astronaut.find(function(err,astronauts){
-                            if(err)
-                                res.send(err)
+                            if(err){
+                                res.send(err);
+                                return;                                
+                            }
+                                
                             console.log('deleted astronaut');
                             res.send(JSON.stringify(astronauts));
                         });

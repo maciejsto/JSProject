@@ -38,6 +38,7 @@ function ArduinoController() {
 
             if(that.debug) {
                 console.log("inside arduino controllers run function! Die bitch");
+                console.log("controller name: ",this.getName());
             }
 
             /*************************setting routes ***********************************/
