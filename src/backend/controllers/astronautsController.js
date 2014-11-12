@@ -1,10 +1,10 @@
-
+'use strict';
 
 
 var Astronaut = require('../../backend/service/astronauts');
 
 
-module.exports = function(){
+module.exports = function astronautsController(){
 
     var that = this;
     that.debug = false;
@@ -22,8 +22,9 @@ module.exports = function(){
 
         run: function(app){
 
-            if(that.debug)
-                console.log('debug: inside astronaut run function ');
+            if(that.debug) {
+                console.log('debug: inside astronaut run function ')
+            }
 
             //list all astrnonats in databse--------------------------------------------------------------------------------
             app.route('/users')
@@ -36,7 +37,8 @@ module.exports = function(){
                             res.send(err)
 
                         console.log('found astronauts');
-                        res.send(JSON.stringify(astronauts));   // return all astronauts in json format
+                        //res.send(JSON.stringify(astronauts));   // return all astronauts in json format
+                        res.render('users',{astronauts: JSON.stringify(astronauts)});
                     });
                 })
 
@@ -68,12 +70,14 @@ module.exports = function(){
                             if(err)
                                 //res.send(err)
                             console.log('created new astronaut');
-                            res.send(JSON.stringify(astronauts));
+                            res.render('users',{astronauts: JSON.stringify(astronauts)});
+                            //res.send(JSON.stringify(astronauts));
                         });
                     });
                 })
                 .delete(function(req, res) {
                     Astronaut.collection.remove(function (err) {
+                        console.log('inside del');
                         if (err)
                             res.send(err)
                         console.log('deleting astronaut collection');
@@ -95,6 +99,7 @@ module.exports = function(){
             //delete astronaut from database-------------------------------------------------------------------------------
             app.route('users/:_id')
                 .delete(function(req, res){
+                    console.log('inside delete');
                     //todo
                     Astronaut.remove({
                         _id : req.params._id

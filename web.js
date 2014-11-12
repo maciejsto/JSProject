@@ -1,4 +1,5 @@
-//'use strict';
+'use strict';
+require('newrelic');
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
@@ -49,20 +50,34 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {
 });
 
 /******************************calling particular controllers*******************************************/
+<<<<<<< HEAD
 var userController = require('./src/backend/controllers/' + controllers[4]);
 var arduinoController = require('./src/backend/controllers/' + controllers[2]);
+=======
+var BaseController = require('./src/backend/controllers/' + controllers[3]);
+var userController = require('./src/backend/controllers/' + controllers[4]);
+var arduinoController = require('./src/backend/controllers/' + controllers[1]);
+>>>>>>> 0f09b80891769c83de34ee0721b097bf97e8cf79
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
 var astronautsController = require('./src/backend/controllers/' + controllers[3]);
 console.log(controllers);
 
 /*calling methods on controllers*/
 //userController.controller(app, usersModel, io);
+<<<<<<< HEAD
 arduinoController.setDebug(true);
 arduinoController.run(app, arduinoModel , io);
 
 console.log("controller name: ",arduinoController.getName());
 astronautsController().setDebug(true);
 astronautsController().run(app);
+=======
+//arduinoController.run(app, arduinoModel, io);
+//arduinoController.setDebug(true);
+//console.log("controller name: ",arduinoController.getName());
+//astronautsController().setDebug(true);
+//astronautsController().run(app);
+>>>>>>> 0f09b80891769c83de34ee0721b097bf97e8cf79
 //console.log(astronautsController.getName());
 //astronautsController.setDebug(true);
 
@@ -141,7 +156,7 @@ app.use(function(req,res,next){
 
 //ENVIRONMET SETTINGS
 var env = process.env.NODE_ENV || 'development';
-if ('development' == env) {
+if ('development' === env) {
     // configure stuff here
     console.log('configure stuff here..');
 }
@@ -164,9 +179,12 @@ app.route('/about')
 app.all("/admin*", function(req,res,next){
     AdminController.run(req,res,next);
 });
+
+/*
 app.all('/users*', function(req,res,next){
-    userController.run(req,res,next,MongoClient);
+    //userController.run(req,res,next,MongoClient);
 });
+*/
 
 //console.log('name of Admin Controller: ',AdminController.name);
 
