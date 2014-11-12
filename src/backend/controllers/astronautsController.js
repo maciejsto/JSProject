@@ -6,25 +6,32 @@ var Astronaut = require('../../backend/service/astronauts');
 
 module.exports = function astronautsController(){
 
+    /*private */
     var that = this;
     that.debug = false;
     that.name = 'astronautsController';
 
+
+    /*public*/
     return {
 
+        /*function setting debug mode*/
         setDebug: function(flag){
             that.debug = flag;
         },
 
+        /*get name of controller*/ // TODO push to abstract layer?
         getName: function(){
             return that.name;
         },
 
         run: function(app){
 
+
             if(that.debug) {
                 console.log('debug: inside astronaut run function ')
-            }
+            };
+            
 
             //list all astrnonats in databse--------------------------------------------------------------------------------
             app.route('/users')
@@ -91,11 +98,14 @@ module.exports = function astronautsController(){
                     });
 
                 });
-<<<<<<< HEAD
+                
+                
             app.route('users/:user_id')
                 .delete(function(req, res){
+                    //TODO
+                });
+                
                     //TOOD
-=======
             //delete astronaut from database-------------------------------------------------------------------------------
             app.route('users/:_id')
                 .delete(function(req, res){
@@ -120,12 +130,12 @@ module.exports = function astronautsController(){
                 .get(function(req,res){
                     //res.sendfile();
                     //todo
->>>>>>> 6bc27411231dc57b33cc0338775c929d2e5e8770
                 });
-
-
+                
             return this;
+            
         }//end of run function
-    };
+        
+    }//END OF RETURN
 
-};
+};//END OF MODULE

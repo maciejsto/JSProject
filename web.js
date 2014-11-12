@@ -1,4 +1,5 @@
 'use strict';
+
 require('newrelic');
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
