@@ -1,7 +1,7 @@
 /**
  * Created by Maciej on 9/3/2014.
  */
-
+'use strict';
 
 describe("MongoDB", function(){
    it("is there a server running", function(next){
