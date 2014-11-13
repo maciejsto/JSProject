@@ -24,6 +24,21 @@ var services = {
             res.header('Access-Control-Allow-Headers', 'Content-Type');
             next();
         };
+        
+        /*
+        app.use(express.cookieParser('asd;lfkajs;ldfkj'));
+        app.use(express.session({
+            secret: '<h1>WHEEYEEE</h1>',
+            key: 'sid',
+            cookie: {
+                secret: true,
+                expires: false
+            }
+        }));
+        
+        */
+        
+        
         app.use("/bower_components",express.static(ROOT_PATH + 'bower_components'));
         app.use(allowCrossDomain);
         app.use(express.static(ROOT_PATH + 'src/front'));
@@ -231,4 +246,25 @@ var services = {
 
     when: require('when')
 };
+
+function logErrors(err, req, res, next) {
+  console.error('logErrors', err.toString());
+  next(err);
+}
+
+function clientErrorHandler(err, req, res, next) {
+  console.error('clientErrors ', err.toString());
+  res.send(500, { error: err.toString()});
+  if (req.xhr) {
+    console.error(err);
+    res.send(500, { error: err.toString()});
+  } else {
+    next(err);
+  }
+}
+
+function errorHandler(err, req, res, next) {
+  console.error('lastErrors ', err.toString());
+  res.send(500, {error: err.toString()});
+}
 module.exports.services = services;

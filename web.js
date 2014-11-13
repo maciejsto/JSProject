@@ -1,5 +1,6 @@
 'use strict';
-require('newrelic');
+
+//require('newrelic');
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
@@ -13,44 +14,64 @@ var io           = sm.get('io')(server);
 var port         = sm.get('config').port;
 var MongoClient  = sm.get('mongoClient');
 var when         = sm.get('when');
-var db           = sm.get('mongoose').connect(sm.get('config').mongoDb.uri, function(){
-    console.log('mongoose db connection established, db: ',sm.get('config').mongoDb.uri);
+//var oauth        = sm.get('oauth');
+//util             = sm.get('util');
+
+/*using promise to connect to a mongo database*/
+var promise = when.promise(function(resolve, reject, notify){
+   //do something async
+    var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri, function(){
+        //console.log('mongoose db connection established, db: ',sm.get('config').mongoDb.uri);
+    });
+    
+    if (typeof db !== 'undefined') {
+        resolve(db);
+    }
+    else {
+        reject(Error("promise for mongoose database connection broke"));
+    }
+    
 });
 
-var controllers  = [];                      //global variables holding list of controllers files
+/*use data provided by promise to the app*/
+promise.then(function(db){
+    console.log('success promise');
+    //app.db = db;    //this works
+    // Make db accessible to the router
+    app.use(function(req,res,next){
+        req.db = db;
+        next();
+    });
+});
+
+
+/*global variable for storing controller names in array -----------------------------------------------*/
+var controllers  = [];                      
+/*global variable for storing clients (socket objects) connected to server ---------------------------------------------*/
 var clients      = [];
-
-/*
-app.use(function(req, res , next){
-    req.db = mongoDB;
-});
-*/
-
-/*
-var mongoClient = sm.get('mongo').MongoClient;
-mongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, db){
-    console.log('connected.. with mongoClinet to local db..');
-});
-*/
-
 /*******************************loading controllers names from directory into array*/ //TODO refactor to imediatelly invoke controller 
-fs.readdirSync('./src/backend/controllers').forEach(function (file) {
+fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
     if (file.substr(-3) === '.js') {
         console.log("controller:", file);
         controllers.push(file);
     }
+    
 });
 
 /******************************calling particular controllers*******************************************/
-var BaseController = require('./src/backend/controllers/' + controllers[3]);
 var userController = require('./src/backend/controllers/' + controllers[4]);
-var arduinoController = require('./src/backend/controllers/' + controllers[1]);
+var arduinoController = require('./src/backend/controllers/' + controllers[2]);
+var BaseController = require('./src/backend/controllers/' + controllers[1]);
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
-var astronautsController = require('./src/backend/controllers/' + controllers[2]);
+var astronautsController = require('./src/backend/controllers/' + controllers[3]);
 console.log(controllers);
-
+var AstronautsController = new astronautsController();
 /*calling methods on controllers*/
 //userController.controller(app, usersModel, io);
+arduinoController.setDebug(true);
+arduinoController.run(app, arduinoModel, io);
+AstronautsController.setDebug(true);
+AstronautsController.run(app);
 //arduinoController.run(app, arduinoModel, io);
 //arduinoController.setDebug(true);
 //console.log("controller name: ",arduinoController.getName());

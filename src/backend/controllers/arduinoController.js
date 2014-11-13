@@ -34,10 +34,11 @@ function ArduinoController() {
             that.debug = flag;
         },
 
-        run: function (app, arduinoModel, io) {
+        run: function (app, arduinoModel ,io) {
 
-            if(this.debug) {
+            if(that.debug) {
                 console.log("inside arduino controllers run function! Die bitch");
+                console.log("controller name: ",this.getName());
             }
 
             /*************************setting routes ***********************************/
