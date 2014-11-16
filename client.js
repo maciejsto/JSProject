@@ -7,17 +7,17 @@ var args = process.argv.slice(2);
 //var serialPort = sm.get('serial')('/dev/ttyACM0');
 //var arduinoModel = sm.get('arduinomodel')(serialPort);
 var heroku_string = "http://jsproject.herokuapp.com/";
-var local_string  = "http://localhost:8080";
+var local_string  = "http://localhost:5000";
 var socket = '';
 
 
-    socket = require('socket.io-client')(heroku_string);
+    //socket = require('socket.io-client')(heroku_string);
 
-    //socket = require('socket.io-client')(local_string);
+    socket = require('socket.io-client')(local_string);
 
 var gpio = require('rpi-gpio');
 
-/*
+
 gpio.setup(7, gpio.DIR_OUT, write);
 
 function write() {
@@ -41,7 +41,7 @@ gpio.setup(12, gpio.DIR_OUT, function(){
     gpio.write(12, true);
 });
 
-*/
+
 var ardu = function() {
     //serialPort.on('data', function (data) {
 
@@ -79,12 +79,12 @@ socket.on('connect', function onConnect() {
 
         //to be uncommented
         //injecting button state into Raspberry gpio pins (12)
-        /*
+
         gpio.write(12, state, function(err){
             if (err) throw err;
             console.log('writen to pin 12');
         });
-        */
+
         /*
         serialPort.on('open', function(){
             console.log('serial port opened');

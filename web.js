@@ -60,18 +60,18 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
 
 /******************************calling particular controllers*******************************************/
 var userController = require('./src/backend/controllers/' + controllers[4]);
-var arduinoController = require('./src/backend/controllers/' + controllers[2]);
-var BaseController = require('./src/backend/controllers/' + controllers[1]);
+var arduinoController = require('./src/backend/controllers/' + controllers[1]);
+var BaseController = require('./src/backend/controllers/' + controllers[3]);
 var AdminController = require('./src/backend/controllers/'+ controllers[0]);
-var astronautsController = require('./src/backend/controllers/' + controllers[3]);
+var astronautsController = require('./src/backend/controllers/' + controllers[2]);
 console.log(controllers);
-var AstronautsController = new astronautsController();
+//var AstronautsController = new astronautsController();
 /*calling methods on controllers*/
 //userController.controller(app, usersModel, io);
 arduinoController.setDebug(true);
 arduinoController.run(app, arduinoModel, io);
-AstronautsController.setDebug(true);
-AstronautsController.run(app);
+//astronautsController.setDebug(true);
+//astronautsController.run(app);
 //arduinoController.run(app, arduinoModel, io);
 //arduinoController.setDebug(true);
 //console.log("controller name: ",arduinoController.getName());
@@ -178,6 +178,11 @@ app.route('/about')
 app.all("/admin*", function(req,res,next){
     AdminController.run(req,res,next);
 });
+
+app.route('/portfolio')
+    .get(routes.portfolio);
+
+
 
 /*
 app.all('/users*', function(req,res,next){
