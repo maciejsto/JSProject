@@ -35,6 +35,7 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
 });
 
 /******************************calling particular controllers*******************************************/
+<<<<<<< HEAD
 var arduinoController    = (controllers['arduinoController']).value, //TODO var controler = controllerprovider.get('name')
     astronautsController = (controllers['astronautsController']).value;
     //adminController      = (controllers['adminController']).value,
@@ -44,6 +45,24 @@ var arduinoController    = (controllers['arduinoController']).value, //TODO var 
 arduinoController = new arduinoController();
 arduinoController.setDebug(true);
 arduinoController.run(app, arduinoModel,db, io);
+=======
+var userController = require('./src/backend/controllers/' + controllers[4]);
+var arduinoController = require('./src/backend/controllers/' + controllers[1]);
+var BaseController = require('./src/backend/controllers/' + controllers[3]);
+var AdminController = require('./src/backend/controllers/'+ controllers[0]);
+var astronautsController = require('./src/backend/controllers/' + controllers[2]);
+console.log(controllers);
+//var AstronautsController = new astronautsController();
+/*calling methods on controllers*/
+//userController.controller(app, usersModel, io);
+arduinoController.setDebug(true);
+arduinoController.run(app, arduinoModel, io);
+//astronautsController.setDebug(true);
+//astronautsController.run(app);
+//arduinoController.run(app, arduinoModel, io);
+//arduinoController.setDebug(true);
+//console.log("controller name: ",arduinoController.getName());
+>>>>>>> c2266bd685164cea655e009f5ffbab710824ac72
 //astronautsController().setDebug(true);
 //astronautsController().run(app);
 
@@ -109,6 +128,11 @@ app.route('/about')
 app.all("/admin*", function(req,res,next){
     //adminController().run(req,res,next);
 });
+
+app.route('/portfolio')
+    .get(routes.portfolio);
+
+
 
 /*
 app.all('/users*', function(req,res,next){
