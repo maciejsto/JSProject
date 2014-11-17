@@ -58,7 +58,7 @@ var obj = function(){
 };
 //ok
 //using object initializer
-var o = {
+var userController = {
 
     name: 'User',
     users: {},
@@ -74,12 +74,6 @@ var o = {
 
     run: function(req, res, next){
 
-        var v = new View(res, 'users');
-        var self = this;
-        v.render({
-            title: 'Users List',
-            content: 'user_list'
-        });
     }
 };
 
@@ -88,7 +82,7 @@ var o = {
 //{params...}
 
 
-module.exports = BaseController.extend(o);
+module.exports = userController;
 
 
 

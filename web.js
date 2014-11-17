@@ -16,72 +16,38 @@ var MongoClient  = sm.get('mongoClient');
 var when         = sm.get('when');
 //var oauth        = sm.get('oauth');
 //util             = sm.get('util');
-
-/*using promise to connect to a mongo database*/
-var promise = when.promise(function(resolve, reject, notify){
-   //do something async
-    var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri, function(){
-        //console.log('mongoose db connection established, db: ',sm.get('config').mongoDb.uri);
-    });
+var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
     
-    if (typeof db !== 'undefined') {
-        resolve(db);
-    }
-    else {
-        reject(Error("promise for mongoose database connection broke"));
-    }
-    
-});
-
-/*use data provided by promise to the app*/
-promise.then(function(db){
-    console.log('success promise');
-    //app.db = db;    //this works
-    // Make db accessible to the router
-    app.use(function(req,res,next){
-        req.db = db;
-        next();
-    });
-});
-
 
 /*global variable for storing controller names in array -----------------------------------------------*/
-var controllers  = [];                      
-/*global variable for storing clients (socket objects) connected to server ---------------------------------------------*/
-var clients      = [];
+var controllers  = [], 
+    clients      = [];
+    
 /*******************************loading controllers names from directory into array*/ //TODO refactor to imediatelly invoke controller 
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
     if (file.substr(-3) === '.js') {
         console.log("controller:", file);
-        controllers.push(file);
+        var name = file.substr(0,file.length - 3);
+        controllers[name] = {name: name, value: require('./src/backend/controllers/'+ file)};
+        //controllers[name].run();
     }
     
 });
 
 /******************************calling particular controllers*******************************************/
-var userController = require('./src/backend/controllers/' + controllers[4]);
-var arduinoController = require('./src/backend/controllers/' + controllers[2]);
-var BaseController = require('./src/backend/controllers/' + controllers[1]);
-var AdminController = require('./src/backend/controllers/'+ controllers[0]);
-var astronautsController = require('./src/backend/controllers/' + controllers[3]);
-console.log(controllers);
-var AstronautsController = new astronautsController();
-/*calling methods on controllers*/
-//userController.controller(app, usersModel, io);
+var arduinoController    = (controllers['arduinoController']).value, //TODO var controler = controllerprovider.get('name')
+    astronautsController = (controllers['astronautsController']).value;
+    //adminController      = (controllers['adminController']).value,
+    //userController       = (controllers['userController']).value;
+
+//userController.run(app, usersModel, io);
+arduinoController = new arduinoController();
 arduinoController.setDebug(true);
-arduinoController.run(app, arduinoModel, io);
-AstronautsController.setDebug(true);
-AstronautsController.run(app);
-//arduinoController.run(app, arduinoModel, io);
-//arduinoController.setDebug(true);
-//console.log("controller name: ",arduinoController.getName());
+arduinoController.run(app, arduinoModel,db, io);
 //astronautsController().setDebug(true);
 //astronautsController().run(app);
-//console.log(astronautsController.getName());
-//astronautsController.setDebug(true);
 
-
-/*****using socket to receive request from browser , process it , send to client(raspberry) and receive response********/
+/* ****using socket to receive request from browser , process it , send to client(raspberry) and receive response*******  */
 io.on('connection', function (socket) {
     socket.setMaxListeners(0);
     console.log('client connected in web.js');
@@ -118,16 +84,50 @@ io.on('connection', function (socket) {
 });
 
 
-    /*
-    socket.on('myevent', function(data){
-        setTimeout(function(){
-            var data = arduinoModel.getSerialData();
-            socket.emit('message', {data: 'echo message'});
-            //socket.emit('message', {data: JSON.stringify(data[0])});
-        },1000);
+//ENVIRONMET SETTINGS
+var env = process.env.NODE_ENV || 'development';
+if ('development' === env) {
+    // configure stuff here
+    console.log('configure stuff here..');
+}
+//APP SETTINGS//
+app.set('views', __dirname + '/src/front/views');
+app.set('view engine', 'ejs');
 
-    });
-    */
+//ROUTES-------------------------------------------TODO move to controlleers-------------------------------------------------//
+app.route('/')
+    .get(routes.index);
+
+app.route('/index')
+    .get(routes.index);
+
+app.route('/about')
+    .get(routes.about.dummyFunction);
+    //app.get('/arduino', routes.arduino);
+    //app.get('*', routes.error);
+
+app.all("/admin*", function(req,res,next){
+    //adminController().run(req,res,next);
+});
+
+/*
+app.all('/users*', function(req,res,next){
+    //userController.run(req,res,next,MongoClient);
+});
+*/
+
+
+//START SERVER ON DEDICATED PORT//
+server.listen(process.env.PORT || port, function(){
+    console.log("http server listening on port: ",server.address().port, server.address().address);
+});
+
+
+
+
+
+
+
 
 /*******************working with serialport**********************************/
 /*
@@ -146,56 +146,6 @@ serialPort.on('open',function() {
 
 });
 */
-
-/*console loggin data on every request ex. page reload*/
-app.use(function(req,res,next){
-    console.log('something happening here');
-    next();
-});
-
-//ENVIRONMET SETTINGS
-var env = process.env.NODE_ENV || 'development';
-if ('development' === env) {
-    // configure stuff here
-    console.log('configure stuff here..');
-}
-//APP SETTINGS//
-app.set('views', __dirname + '/src/front/views');
-app.set('view engine', 'ejs');
-
-//ROUTES//
-app.route('/')
-    .get(routes.index);
-
-app.route('/index')
-    .get(routes.index);
-
-app.route('/about')
-    .get(routes.about.dummyFunction);
-    //app.get('/arduino', routes.arduino);
-    //app.get('*', routes.error);
-
-app.all("/admin*", function(req,res,next){
-    AdminController.run(req,res,next);
-});
-
-/*
-app.all('/users*', function(req,res,next){
-    //userController.run(req,res,next,MongoClient);
-});
-*/
-
-//console.log('name of Admin Controller: ',AdminController.name);
-
-//START SERVER ON DEDICATED PORT//
-server.listen(process.env.PORT || port, function(){
-    console.log("http server listening on port: ",server.address().port, server.address().address);
-});
-
-
-
-
-
 
 /*********  working with Promises  ********************
 

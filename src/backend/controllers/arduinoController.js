@@ -33,13 +33,21 @@ function ArduinoController() {
         setDebug: function(flag){
             that.debug = flag;
         },
+        
+        
 
-        run: function (app, arduinoModel ,io) {
+        run: function (app, arduinoModel ,db, io) {
 
             if(that.debug) {
                 console.log("inside arduino controllers run function! Die bitch");
                 console.log("controller name: ",this.getName());
             }
+            /*console loggin data on every request ex. page reload-------------------for what ?-----------------------*/
+            
+            app.use(function(req,res,next){
+                console.log('something happening here');
+                next();
+            });
 
             /*************************setting routes ***********************************/
             app.route('/arduino')
@@ -161,5 +169,5 @@ function ArduinoController() {
     };
 };
 
-module.exports = new ArduinoController();
+module.exports = ArduinoController;
 

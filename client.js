@@ -8,13 +8,10 @@ var args = process.argv.slice(2);
 //var arduinoModel = sm.get('arduinomodel')(serialPort);
 var heroku_string = "http://jsproject.herokuapp.com/";
 var local_string  = "http://localhost:8080";
-var socket = '';
 
-
-    socket = require('socket.io-client')(heroku_string);
-
-    //socket = require('socket.io-client')(local_string);
-
+var socket = {};
+    //socket = require('socket.io-client')(heroku_string);
+    socket = require('socket.io-client')(local_string);
 var gpio = require('rpi-gpio');
 
 /*
