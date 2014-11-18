@@ -34,9 +34,10 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
     
 });
 
+console.log(controllers['mainCtrl']);
 
-var mainCtrl = ((controllers['mainCtrl']).value)();
-mainCtrl.run(app);
+//var mainCtrl = ((controllers['mainCtrl']).value)();
+//mainCtrl.run(app);
 /******************************calling particular controllers*******************************************/
 //var arduinoController    = (controllers['arduinoController']).value, //TODO var controler = controllerprovider.get('name')
     //astronautsController = (controllers['astronautsController']).value;
