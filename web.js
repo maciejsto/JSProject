@@ -38,16 +38,16 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
 var mainCtrl = ((controllers['mainCtrl']).value)();
 mainCtrl.run(app);
 /******************************calling particular controllers*******************************************/
-var arduinoController    = (controllers['arduinoController']).value, //TODO var controler = controllerprovider.get('name')
-    astronautsController = (controllers['astronautsController']).value;
+//var arduinoController    = (controllers['arduinoController']).value, //TODO var controler = controllerprovider.get('name')
+    //astronautsController = (controllers['astronautsController']).value;
     //adminController      = (controllers['adminController']).value,
     //userController       = (controllers['userController']).value;
 
 
 //userController.run(app, usersModel, io);
-arduinoController = new arduinoController();
-arduinoController.setDebug(true);
-arduinoController.run(app, arduinoModel,db, io);
+//arduinoController = new arduinoController();
+//arduinoController.setDebug(true);
+//arduinoController.run(app, arduinoModel,db, io);
 
 /* ****using socket to receive request from browser , process it , send to client(raspberry) and receive response*******  */
 io.on('connection', function (socket) {
