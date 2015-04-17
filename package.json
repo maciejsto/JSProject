@@ -23,6 +23,7 @@
   "homepage": "https://github.com/maciejsto/JSProject",
   "dependencies": {
     "body-parser": "^1.9.2",
+    "cluster": "^0.7.7",
     "connect": "^2.27.2",
     "ejs": "^1.0.0",
     "express": "^4.8.5",
@@ -32,7 +33,7 @@
     "logfmt": "^1.1.2",
     "method-override": "^2.0.2",
     "mongodb": "^1.4.19",
-    "mongoose": "^3.9.4",
+    "mongoose": "^3.8",
     "mongoskin": "^1.4.4",
     "newrelic": "^1.13.2",
     "rpi-gpio": "^0.5.0",

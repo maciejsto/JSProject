@@ -4,9 +4,11 @@
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
+var cluster      = sm.get('cluster');
 var fs           = sm.get('fs');
-var usersModel   = sm.get('users');
-//var serialPort   = sm.get('serial')(sm.get('config').Serial.port);  //COM3
+//var User         = sm.get('users');
+var User         =require("./src/backend/models/User");
+//var serialPort = sm.get('serial')(sm.get('config').Serial.port);  //COM3
 var arduinoModel = sm.get('arduinomodel');
 var routes       = sm.get('routes');
 var server       = sm.get('httpServer');
@@ -14,16 +16,21 @@ var io           = sm.get('io')(server);
 var port         = sm.get('config').port;
 var MongoClient  = sm.get('mongoClient');
 var when         = sm.get('when');
+var express      = sm.get('express');
 //var oauth        = sm.get('oauth');
 //util             = sm.get('util');
 var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
     
+    
+    //APP SETTINGS//
+app.set('views', __dirname + '/src/front/views');
+app.use(express.static(__dirname + '/src/front'));   
+app.set('view engine', 'ejs');
 
 /*global variable for storing controller names in array -----------------------------------------------*/
 var controllers  = [], 
     clients      = [];
     
-/*******************************loading controllers names from directory into array*/ //TODO refactor to imediatelly invoke controller 
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
     if (file.substr(-3) === '.js') {
         console.log("controller:", file);
@@ -32,7 +39,8 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
         //controllers[name].run();
     }
     
-});
+});    
+
 
 console.log(controllers['mainCtrl']);
 
@@ -93,16 +101,10 @@ if ('development' === env) {
     // configure stuff here
     console.log('configure stuff here..');
 }
-//APP SETTINGS//
-app.set('views', __dirname + '/src/front/views');
-app.set('view engine', 'ejs');
+
 
 //ROUTES-------------------------------------------TODO move to controlleers-------------------------------------------------//
-app.route('/')
-    .get(routes.index);
 
-app.route('/index')
-    .get(routes.index);
 
 app.route('/about')
     .get(routes.about.dummyFunction);
@@ -116,22 +118,45 @@ app.all("/admin", function(req,res,next){
 app.route('/portfolio')
     .get(routes.portfolio);
 
+//var angular = require('./src/routes/angular');
+//app.route('/angular')
+//    .get(routes.angular);
 
 
+    app.get('/angular',function(req,res){
+        User.find(function(err, users){
+           if (err)
+                res.send(err);
+                console.log(users);
+           res.json(users);
+        });
+    });
+    
+app.get('*', function(req, res) {
+        console.log('dadads')
+        res.sendFile('//public/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
+});
 /*
 app.all('/users*', function(req,res,next){
     //userController.run(req,res,next,MongoClient);
 });
 */
 
-
+    
 //START SERVER ON DEDICATED PORT//
-server.listen(process.env.PORT || port, function(){
+server.listen(process.env.PORT, process.env.IP,function(){
     console.log("http server listening on port: ",server.address().port, server.address().address);
 });
 
 
 
+
+
+
+
+
+
+    
 
 
 

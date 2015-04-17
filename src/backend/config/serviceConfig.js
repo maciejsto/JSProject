@@ -12,6 +12,9 @@ var services = {
         var app = express();
         //var session = sm.get('session');
         var bodyParser = sm.get('bodyParser');
+        app.use(sm.get('bodyParser').urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+        app.use(bodyParser.json());                                     // parse application/json
+        app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse app
         //var morgan = sm.get('morgan');
         var router = express.Router();
         //app.use(sm.get('bodyParser'));
@@ -37,6 +40,7 @@ var services = {
         }));
         
         */
+        
         app.use("/bower_components",express.static(ROOT_PATH + 'bower_components'));
         app.use(allowCrossDomain);
         app.use(express.static(ROOT_PATH + 'src/front'));
@@ -62,6 +66,9 @@ var services = {
     },
 
     bodyParser: require('body-parser'),
+    
+    cluster: require('cluster'),
+    
     //cheerio: require('cheerio'),
     //cookieParser: require('cookie-parser')(),
     connect: require('connect'),
@@ -163,6 +170,8 @@ var services = {
         	});
         };
     },
+    os: require('os'),
+    
     path: require('path'),
     //passport: require('passport'),
     //'passport.google': require('passport-google'),

@@ -4,6 +4,7 @@
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var args = process.argv.slice(2);
+
 //var serialPort = sm.get('serial')('/dev/ttyACM0');
 //var arduinoModel = sm.get('arduinomodel')(serialPort);
 var heroku_string = "http://jsproject.herokuapp.com/";
