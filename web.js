@@ -1,6 +1,5 @@
 'use strict';
 
-//require('newrelic');
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
 var app          = sm.get('app');
@@ -21,8 +20,8 @@ var express      = sm.get('express');
 //util             = sm.get('util');
 var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
     
-    
-    //APP SETTINGS//
+
+//----------------------------------------------------APP SETTINGS------------------------------------------//
 app.set('views', __dirname + '/src/front/views');
 app.use(express.static(__dirname + '/src/front'));   
 app.set('view engine', 'ejs');
@@ -40,9 +39,7 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
     }
     
 });    
-
-
-console.log(controllers['mainCtrl']);
+//console.log(controllers['mainCtrl']);
 
 //var mainCtrl = ((controllers['mainCtrl']).value)();
 //mainCtrl.run(app);
@@ -95,7 +92,7 @@ io.on('connection', function (socket) {
 });
 
 
-//ENVIRONMET SETTINGS
+//---------------------------------------------------ENVIRONMET SETTINGS--------------------------------------------------------//
 var env = process.env.NODE_ENV || 'development';
 if ('development' === env) {
     // configure stuff here
@@ -116,16 +113,28 @@ app.route('/about')
     //app.get('/arduino', routes.arduino);
     //app.get('*', routes.error);
 
-app.all("/admin", function(req,res,next){
+app.route('/admin')
+    .get(function(req,res){
     //adminController().run(req,res,next);
-});
+    });
+    
+app.route('/arduino')
+    .get(function(req,res){
+            
+    });
+    
+app.route('/home')
+    .get(function(req,res){
+        
+    });
+    
+app.route('/User')
+    .get(function(req,res){
+        
+    });
 
 app.route('/portfolio')
     .get(routes.portfolio);
-
-//var angular = require('./src/routes/angular');
-//app.route('/angular')
-//    .get(routes.angular);
 
 
     app.get('/angular',function(req,res){
@@ -144,7 +153,7 @@ app.all('/users*', function(req,res,next){
 */
 
     
-//START SERVER ON DEDICATED PORT//
+//--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
 server.listen(process.env.PORT, process.env.IP,function(){
     console.log("http server listening on port: ",server.address().port, server.address().address);
 });
