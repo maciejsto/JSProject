@@ -86,12 +86,12 @@ socket.on('connect', function onConnect() {
         //to be uncommented
         //injecting button state into Raspberry gpio pins (12)
 
-        /*
+        
         gpio.write(12, state, function(err){
             if (err) throw err;
             console.log('writen to pin 12');
         });
-        */
+        
 
         /*
         serialPort.on('open', function(){

@@ -137,9 +137,6 @@ app.route('/portfolio')
         });
     });
 
-app.get('*', function(req, res) {
-        res.sendfile('./public/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
-    });
 /*
 app.all('/users*', function(req,res,next){
     //userController.run(req,res,next,MongoClient);
