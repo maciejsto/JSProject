@@ -104,7 +104,12 @@ if ('development' === env) {
 
 
 //ROUTES-------------------------------------------TODO move to controlleers-------------------------------------------------//
+app.route('/')
+    .get(routes.index);
+    
 
+app.route('/index')
+    .get(routes.index);
 
 app.route('/about')
     .get(routes.about.dummyFunction);
@@ -131,11 +136,10 @@ app.route('/portfolio')
            res.json(users);
         });
     });
-    
+
 app.get('*', function(req, res) {
-        console.log('dadads')
-        res.sendFile('//public/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
-});
+        res.sendfile('./public/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
+    });
 /*
 app.all('/users*', function(req,res,next){
     //userController.run(req,res,next,MongoClient);
