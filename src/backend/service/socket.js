@@ -5,8 +5,8 @@
 var socket = require('socket.io');
 
 
-module.export.listen = function(server){
+//module.export.listen = function(server){
 
-    var io = socket.listen(server);
-    return io;
-}
+    //var io = socket.listen(server);
+    //return io;
+//}

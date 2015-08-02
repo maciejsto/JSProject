@@ -12,9 +12,15 @@ var services = {
         var app = express();
         //var session = sm.get('session');
         var bodyParser = sm.get('bodyParser');
-        app.use(sm.get('bodyParser').urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+        //app.use(sm.get('bodyParser').urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+        app.use(bodyParser.urlencoded({
+            extended: true
+        }));
         app.use(bodyParser.json());                                     // parse application/json
-        app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse app
+        //app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse app
+        
+        // Use the body-parser package in our application
+        
         //var morgan = sm.get('morgan');
         var router = express.Router();
         //app.use(sm.get('bodyParser'));
@@ -251,7 +257,8 @@ var services = {
     },
     
 
-    when: require('when')
+    when:       require('when'),
+    winston:    require('winston')
 };
 
 function logErrors(err, req, res, next) {

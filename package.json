@@ -36,6 +36,8 @@
     "mongoose": "^3.8",
     "mongoskin": "^1.4.4",
     "newrelic": "^1.13.2",
+    "passport": "^0.2.2",
+    "passport-http": "^0.2.2",
     "rpi-gpio": "^0.5.0",
     "socket.io": "*",
     "socket.io-client": "^1.2.0",

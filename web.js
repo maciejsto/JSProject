@@ -6,7 +6,8 @@ var app          = sm.get('app');
 var cluster      = sm.get('cluster');
 var fs           = sm.get('fs');
 //var User         = sm.get('users');
-var User         =require("./src/backend/models/User");
+var bodyParser = require('body-parser');
+var User         =require("./src/backend/models/user");
 //var serialPort = sm.get('serial')(sm.get('config').Serial.port);  //COM3
 var arduinoModel = sm.get('arduinomodel');
 var routes       = sm.get('routes');
@@ -16,6 +17,100 @@ var port         = sm.get('config').port;
 var MongoClient  = sm.get('mongoClient');
 var when         = sm.get('when');
 var express      = sm.get('express');
+var session      = require('express-session');
+var flash    = require('connect-flash');
+
+var winston      = sm.get('winston');
+
+var logger = new (winston.Logger)({
+  transports: [
+    new (winston.transports.File)({
+      name: 'info-file',
+      filename: 'filelog-info.log',
+      level: 'info'
+    }),
+    new (winston.transports.File)({
+      name: 'error-file',
+      filename: 'filelog-error.log',
+      level: 'error'
+    })
+  ]
+});
+winston.log('info', 'Hello distributed log files!');
+winston.info('Hello again distributed logs');
+
+winston.level = 'debug';
+winston.log('debug', 'Now my debug messages are written to console!');
+
+
+logger.log('silly', "127.0.0.1 - there's no place like home");
+  logger.log('debug', "127.0.0.1 - there's no place like home");
+  logger.log('verbose', "127.0.0.1 - there's no place like home");
+  logger.log('info', "127.0.0.1 - there's no place like home");
+  logger.log('warn', "127.0.0.1 - there's no place like home");
+  logger.log('error', "127.0.0.1 - there's no place like home");
+  logger.info("127.0.0.1 - there's no place like home");
+  logger.warn("127.0.0.1 - there's no place like home");
+  logger.error("127.0.0.1 - there's no place like home");
+
+//passport configuration
+var passport     = require('passport')
+, LocalStrategy = require('passport-local').Strategy;
+
+
+var Beer = require('./src/backend/models/beer');
+var b = new Beer();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+
+require("./src/backend/config/passport")(passport);
+passport.serializeUser(function(user, done) { 
+  // please read the Passport documentation on how to implement this. We're now
+  // just serializing the entire 'user' object. It would be more sane to serialize
+  // just the unique user-id, so you can retrieve the user object from the database
+  // in .deserializeUser().
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) { 
+  // Again, read the documentation.
+  done(null, user);
+});
+
+
+
+
+passport.use('local-login', new LocalStrategy(
+  function(username, password, callback) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return callback(err); }
+
+      // No user found with that username
+      if (!user) { return callback(null, false); }
+
+      // Make sure the password is correct
+      user.verifyPassword(password, function(err, isMatch) {
+        if (err) { return callback(err); }
+
+        // Password did not match
+        if (!isMatch) { return callback(null, false); }
+
+        // Success
+        return callback(null, user);
+      });
+    });
+  }
+));
+
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+
 //var oauth        = sm.get('oauth');
 //util             = sm.get('util');
 var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
@@ -39,7 +134,6 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
     }
     
 });    
-//console.log(controllers['mainCtrl']);
 
 //var mainCtrl = ((controllers['mainCtrl']).value)();
 //mainCtrl.run(app);
@@ -101,38 +195,36 @@ if ('development' === env) {
 
 
 //ROUTES-------------------------------------------TODO move to controlleers-------------------------------------------------//
-app.route('/')
-    .get(routes.index);
+   
     
-
-app.route('/index')
-    .get(routes.index);
+/*
+.post(passport.authenticate('local-login', { 
+        successRedirect: '/api/index',
+        failureRedirect: '/api/login' }));
 
 app.route('/about')
     .get(routes.about.dummyFunction);
     //app.get('/arduino', routes.arduino);
     //app.get('*', routes.error);
 
-app.route('/admin')
-    .get(function(req,res){
+//app.route('/admin')
+    //.get(function(req,res){
     //adminController().run(req,res,next);
-    });
+  //  });
     
 app.route('/arduino')
-    .get(function(req,res){
-            
-    });
+    .get(routes.arduino);
+    
+app.route('/admin')
+    .get(routes.admin);
     
 app.route('/home')
     .get(function(req,res){
         
     });
     
-app.route('/User')
-    .get(function(req,res){
-        
-    });
-
+    
+    
 app.route('/portfolio')
     .get(routes.portfolio);
 
@@ -146,11 +238,111 @@ app.route('/portfolio')
         });
     });
 
+
+
 /*
 app.all('/users*', function(req,res,next){
     //userController.run(req,res,next,MongoClient);
 });
 */
+
+// Create our Express router
+ // load our routes and pass in our app and fully configured passport
+
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+   req.session.messages = "You need to login to view this page";
+   res.redirect('/api/login');
+}
+
+var router = express.Router();
+
+
+router.route('/login')
+    .get(routes.login)
+    .post(passport.authenticate('local-login', { 
+        successRedirect: '/api/index',
+        failureRedirect: '/api/login' }));
+        
+
+// process the signup form
+router.route('/signup')
+    .post(passport.authenticate('local-signup', {
+        successRedirect : '/index', // redirect to the secure profile section
+        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
+
+    
+var authController = require('./src/backend/controllers/auth'),
+    beerController = require('./src/backend/controllers/beer'),
+    userController = require('./src/backend/controllers/users'),
+    todoController = require('./src/backend/controllers/todo');
+
+
+router.route('/index')
+     .get(ensureAuthenticated, routes.index);
+
+
+// Create endpoint handlers for /beers
+router.route('/beers')
+  .post(ensureAuthenticated, beerController.postBeers)
+  .get( ensureAuthenticated, beerController.getBeers);
+
+// Create endpoint handlers for /beers/:beer_id
+router.route('/beers/:beer_id')
+  .get(authController.isAuthenticated, beerController.getBeer)
+  .put(authController.isAuthenticated, beerController.putBeer)
+  .delete(authController.isAuthenticated, beerController.deleteBeer);
+
+// Create endpoint handlers for /users
+router.route('/users')
+  .post( userController.postUsers)
+  .get(userController.getUsers);
+  
+  
+router.route('/todos')
+    .post(ensureAuthenticated, todoController.postTodo)
+    .get(ensureAuthenticated, todoController.getTodos);
+
+
+/*
+    app.get('/profile', isLoggedIn, function(req, res) {
+        res.render('profile.ejs', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+*/
+router.route('/logout')
+    .get(function(req, res) {
+        req.logout();
+        res.redirect('/api/login');
+    });
+  
+  // route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        console.log('auth ok');
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/api/login');
+}
+
+router.route('/')
+    .get(routes.login);
+
+router.route('*')
+    .get(function(req, res){
+         res.json({ message: '404 page' });
+    });
+    
+    
+// Register all our routes with /api
+app.use('/api', router);
 
     
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//

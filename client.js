@@ -16,8 +16,8 @@ var local_string  = "http://localhost:8080";
     //socket = require('socket.io-client')(local_string);
 
 var socket = {};
-    socket = require('socket.io-client')(heroku_string);
-    //socket = require('socket.io-client')(local_string);
+    //socket = require('socket.io-client')(heroku_string);
+    socket = require('socket.io-client')(local_string);
 var gpio = require('rpi-gpio');
 
 /*
@@ -87,10 +87,10 @@ socket.on('connect', function onConnect() {
         //injecting button state into Raspberry gpio pins (12)
 
         
-        gpio.write(12, state, function(err){
-            if (err) throw err;
-            console.log('writen to pin 12');
-        });
+        //gpio.write(12, state, function(err){
+        //    if (err) throw err;
+        //    console.log('writen to pin 12');
+        //});
         
 
         /*
