@@ -5,6 +5,6 @@
 //error route
 exports.error = function(req, res){
     //res.send("Fucnking errorrrrrrrrrrrrrrrrrrrrr");   // ok
-    res.render('error', { title: 'Express' });          // also ok
+    res.render('error', { title: 'Express', message: 'hitting error page' });          // also ok
 
 };

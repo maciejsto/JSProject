@@ -10,9 +10,9 @@
 // //var services = require("../../src/backend/config/serviceConfig").services;
 // //var sm = require("../../src/backend/service/manager")(services);
 
-// exports.arduino = function(req, res,next){
-//     res.render('arduino', { title: 'Arduino Route'});
-// };
+ exports.arduino = function(req, res,next){
+     res.render('arduino', { title: 'Arduino Route'});
+ };
 
 
 

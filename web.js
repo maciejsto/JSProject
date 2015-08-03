@@ -2,85 +2,48 @@
 
 var services     = require("./src/backend/config/serviceConfig").services;
 var sm           = require("./src/backend/service/manager")(services);
-var app          = sm.get('app');
-var cluster      = sm.get('cluster');
-var fs           = sm.get('fs');
-//var User         = sm.get('users');
-var bodyParser = require('body-parser');
-var User         =require("./src/backend/models/user");
-//var serialPort = sm.get('serial')(sm.get('config').Serial.port);  //COM3
-var arduinoModel = sm.get('arduinomodel');
-var routes       = sm.get('routes');
-var server       = sm.get('httpServer');
-var io           = sm.get('io')(server);
-var port         = sm.get('config').port;
-var MongoClient  = sm.get('mongoClient');
-var when         = sm.get('when');
-var express      = sm.get('express');
-var session      = require('express-session');
-var flash    = require('connect-flash');
 
+var app          = sm.get('app'),
+    cluster      = sm.get('cluster'),
+    fs           = sm.get('fs'),
+    //var User         = sm.get('users');
+    bodyParser   = require('body-parser'),
+    User         = require("./src/backend/models/user"),
+    Beer         = require('./src/backend/models/beer'),
+    //var serialPort = sm.get('serial')(sm.get('config').Serial.port);  //COM3
+    arduinoModel = sm.get('arduinomodel'),
+    routes       = sm.get('routes'),
+    server       = sm.get('httpServer'),
+    io           = sm.get('io')(server),
+    port         = sm.get('config').port,
+    MongoClient  = sm.get('mongoClient'),
+    when         = sm.get('when'),
+    express      = sm.get('express'),
+    session      = require('express-session'),
+    flash        = require('connect-flash');
+
+
+//------------------------------------- GLOBAL VARIABLES--------------------------------------------------*/
+var controllers  = [], 
+    clients      = [];
+
+//------------------------------------------------ PASSPORT AUTH SETTINGS -----------------------------------//
 
 //passport configuration
 var passport     = require('passport')
 , LocalStrategy = require('passport-local').Strategy;
 
-
-var Beer = require('./src/backend/models/beer');
-var b = new Beer();
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-
 require("./src/backend/config/passport")(passport);
-passport.serializeUser(function(user, done) { 
-  // please read the Passport documentation on how to implement this. We're now
-  // just serializing the entire 'user' object. It would be more sane to serialize
-  // just the unique user-id, so you can retrieve the user object from the database
-  // in .deserializeUser().
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) { 
-  // Again, read the documentation.
-  done(null, user);
-});
-
-
-
-
-passport.use('local-login', new LocalStrategy(
-  function(username, password, callback) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return callback(err); }
-
-      // No user found with that username
-      if (!user) { return callback(null, false); }
-
-      // Make sure the password is correct
-      user.verifyPassword(password, function(err, isMatch) {
-        if (err) { return callback(err); }
-
-        // Password did not match
-        if (!isMatch) { return callback(null, false); }
-
-        // Success
-        return callback(null, user);
-      });
-    });
-  }
-));
-
 // required for passport
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 
-
-//var oauth        = sm.get('oauth');
-//util             = sm.get('util');
+//-------------------------------------------------DATABASE CONNECTION-----------------------------------//
 var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
     
 
@@ -89,9 +52,6 @@ app.set('views', __dirname + '/src/front/views');
 app.use(express.static(__dirname + '/src/front'));   
 app.set('view engine', 'ejs');
 
-/*global variable for storing controller names in array -----------------------------------------------*/
-var controllers  = [], 
-    clients      = [];
     
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
     if (file.substr(-3) === '.js') {
@@ -103,19 +63,7 @@ fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO g
     
 });    
 
-//var mainCtrl = ((controllers['mainCtrl']).value)();
-//mainCtrl.run(app);
-/******************************calling particular controllers*******************************************/
-//var arduinoController    = (controllers['arduinoController']).value, //TODO var controler = controllerprovider.get('name')
-    //astronautsController = (controllers['astronautsController']).value;
-    //adminController      = (controllers['adminController']).value,
-    //userController       = (controllers['userController']).value;
-
-
-//userController.run(app, usersModel, io);
-//arduinoController = new arduinoController();
-//arduinoController.setDebug(true);
-//arduinoController.run(app, arduinoModel,db, io);
+//----------------------------------------------- SOCKETS -----------------------------------------------//
 
 /* ****using socket to receive request from browser , process it , send to client(raspberry) and receive response*******  */
 io.on('connection', function (socket) {
@@ -161,62 +109,24 @@ if ('development' === env) {
     console.log('configure stuff here..');
 }
 
+//---------------------------------------------------CONTROLLERS-----------------------------------------------------------------//
 
+var authController    = require('./src/backend/controllers/auth'),
+    beerController    = require('./src/backend/controllers/beer'),
+    userController    = require('./src/backend/controllers/users'),
+    todoController    = require('./src/backend/controllers/todo'),
+    arduinoController = require('./src/backend/controllers/arduino');
+
+
+var ardu = arduinoController();
+console.log(ardu.getName());
 //ROUTES-------------------------------------------TODO move to controlleers-------------------------------------------------//
-   
-    
-/*
-.post(passport.authenticate('local-login', { 
-        successRedirect: '/api/index',
-        failureRedirect: '/api/login' }));
 
-app.route('/about')
-    .get(routes.about.dummyFunction);
-    //app.get('/arduino', routes.arduino);
-    //app.get('*', routes.error);
-
-//app.route('/admin')
-    //.get(function(req,res){
-    //adminController().run(req,res,next);
-  //  });
-    
-app.route('/arduino')
-    .get(routes.arduino);
-    
-app.route('/admin')
-    .get(routes.admin);
-    
-app.route('/home')
-    .get(function(req,res){
-        
-    });
-    
-    
-    
-app.route('/portfolio')
-    .get(routes.portfolio);
-
-
-    app.get('/angular',function(req,res){
-        User.find(function(err, users){
-           if (err)
-                res.send(err);
-                console.log(users);
-           res.json(users);
-        });
-    });
-
-
-
-/*
+/*    
 app.all('/users*', function(req,res,next){
     //userController.run(req,res,next,MongoClient);
 });
 */
-
-// Create our Express router
- // load our routes and pass in our app and fully configured passport
-
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
@@ -224,9 +134,42 @@ function ensureAuthenticated(req, res, next) {
    res.redirect('/api/login');
 }
 
+  // route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        return next();
+    // if they aren't redirect them to the home page
+    res.redirect('/api/login');
+}
+
 var router = express.Router();
 
 
+router.route('/about')
+    .get(ensureAuthenticated, routes.about.dummyFunction);
+    //.get(routes.about.dummyFunction) ...
+
+router.route('/admin')
+    .get(ensureAuthenticated, routes.admin);
+    ////adminController().run(req,res,next);
+    
+router.route('/arduino')
+    .get(ensureAuthenticated, routes.arduino);
+
+router.route('/portfolio')
+    .get(ensureAuthenticated, routes.portfolio);
+
+router.get('/angular',ensureAuthenticated, function(req,res){
+    User.find(function(err, users){
+       if (err)
+            res.send(err);
+            console.log(users);
+       res.json(users);
+    });
+});
+    
 router.route('/login')
     .get(routes.login)
     .post(passport.authenticate('local-login', { 
@@ -241,12 +184,6 @@ router.route('/signup')
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
-
-    
-var authController = require('./src/backend/controllers/auth'),
-    beerController = require('./src/backend/controllers/beer'),
-    userController = require('./src/backend/controllers/users'),
-    todoController = require('./src/backend/controllers/todo');
 
 
 router.route('/index')
@@ -266,53 +203,48 @@ router.route('/beers/:beer_id')
 
 // Create endpoint handlers for /users
 router.route('/users')
-  .post( userController.postUsers)
-  .get(userController.getUsers);
-  
-  
+  .post(ensureAuthenticated, userController.postUsers)
+  .get(ensureAuthenticated, userController.getUsers);
+
+//create endpoint handlers for /users/:user_id 
+router.route('/users/:user_id')
+    .get(authController.isAuthenticated, userController.getUser)
+    .put(authController.isAuthenticated, userController.putUser)
+    .delete(authController.isAuthenticated, userController.deleteUser);
+
+//create endpoint handlers for /todo  
 router.route('/todos')
     .post(ensureAuthenticated, todoController.postTodo)
     .get(ensureAuthenticated, todoController.getTodos);
 
-
-/*
-    app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
-            user : req.user // get the user out of session and pass to template
-        });
-    });
-*/
 router.route('/logout')
     .get(function(req, res) {
         req.logout();
         res.redirect('/api/login');
     });
-  
-  // route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        console.log('auth ok');
-        return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/api/login');
-}
 
 router.route('/')
     .get(routes.login);
 
-router.route('*')
-    .get(function(req, res){
-         res.json({ message: '404 page' });
-    });
-    
-    
 // Register all our routes with /api
 app.use('/api', router);
 
-    
+app.use(function(req, res, next){
+  // the status option, or res.statusCode = 404
+  // are equivalent, however with the option we
+  // get the "status" local available as well
+  res.render('404', { status: 404, url: req.url });
+});
+
+app.use(function(err, req, res, next){
+  // we may use properties of the error object
+  // here and next(err) appropriately, or if
+  // we possibly recovered from the error, simply next().
+  res.render('500', {
+      status: err.status || 500
+    , error: err
+  });
+});    
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
 server.listen(process.env.PORT, process.env.IP,function(){
     console.log("http server listening on port: ",server.address().port, server.address().address);
