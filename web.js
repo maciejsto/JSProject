@@ -20,38 +20,6 @@ var express      = sm.get('express');
 var session      = require('express-session');
 var flash    = require('connect-flash');
 
-var winston      = sm.get('winston');
-
-var logger = new (winston.Logger)({
-  transports: [
-    new (winston.transports.File)({
-      name: 'info-file',
-      filename: 'filelog-info.log',
-      level: 'info'
-    }),
-    new (winston.transports.File)({
-      name: 'error-file',
-      filename: 'filelog-error.log',
-      level: 'error'
-    })
-  ]
-});
-winston.log('info', 'Hello distributed log files!');
-winston.info('Hello again distributed logs');
-
-winston.level = 'debug';
-winston.log('debug', 'Now my debug messages are written to console!');
-
-
-logger.log('silly', "127.0.0.1 - there's no place like home");
-  logger.log('debug', "127.0.0.1 - there's no place like home");
-  logger.log('verbose', "127.0.0.1 - there's no place like home");
-  logger.log('info', "127.0.0.1 - there's no place like home");
-  logger.log('warn', "127.0.0.1 - there's no place like home");
-  logger.log('error', "127.0.0.1 - there's no place like home");
-  logger.info("127.0.0.1 - there's no place like home");
-  logger.warn("127.0.0.1 - there's no place like home");
-  logger.error("127.0.0.1 - there's no place like home");
 
 //passport configuration
 var passport     = require('passport')
