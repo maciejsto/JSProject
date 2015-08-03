@@ -29,6 +29,7 @@
     "ejs": "^1.0.0",
     "express": "^4.8.5",
     "express-restify-mongoose": "^0.6.8",
+    "express-session": "^1.11.3",
     "hbs": "*",
     "lodash-node": "^2.4.1",
     "logfmt": "^1.1.2",
