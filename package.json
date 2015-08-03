@@ -26,6 +26,7 @@
     "body-parser": "^1.9.2",
     "cluster": "^0.7.7",
     "connect": "^2.27.2",
+    "connect-flash": "^0.1.1",
     "ejs": "^1.0.0",
     "express": "^4.8.5",
     "express-restify-mongoose": "^0.6.8",
