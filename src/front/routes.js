@@ -1,4 +1,4 @@
-angular.module('routes',[])
+angular.module('JSproject',[])
     
     .config(function($routeProvider) {
         
@@ -8,15 +8,15 @@ angular.module('routes',[])
                 templateUrl : 'views/angular.ejs',
                 controller  : 'mainController'
             })
-            .otherwise('/');
+            .otherwise('/')
             // route for the home page
             
-            /*
-            .when('/', {
-                templateUrl : 'pages/home.html',
-                controller  : 'mainController'
+            
+            .when('/users', {
+                templateUrl : 'views/user.ejs',
+                controller  : 'userController'
             })
-
+/*
             // route for the about page
             .when('/about', {
                 templateUrl : 'pages/about.html',
@@ -27,6 +27,7 @@ angular.module('routes',[])
             .when('/contact', {
                 templateUrl : 'pages/contact.html',
                 controller  : 'contactController'
+
             });
-            */
+*/
     });

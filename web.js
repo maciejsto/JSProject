@@ -1,7 +1,7 @@
 'use strict';
 
-var services     = require("./src/backend/config/serviceConfig").services;
-var sm           = require("./src/backend/service/manager")(services);
+var services     = require("./src/backend/config/serviceConfig").services,
+    sm           = require("./src/backend/service/manager")(services);
 
 var app          = sm.get('app'),
     cluster      = sm.get('cluster'),
@@ -20,10 +20,11 @@ var app          = sm.get('app'),
     when         = sm.get('when'),
     express      = sm.get('express'),
     session      = require('express-session'),
-    flash        = require('connect-flash');
+    flash        = require('connect-flash'),
+    path         = require('path');
 
 
-//------------------------------------- GLOBAL VARIABLES--------------------------------------------------*/
+//------------------------------------------------ GLOBAL VARIABLES--------------------------------------------------*/
 var controllers  = [], 
     clients      = [];
 
@@ -245,6 +246,14 @@ app.use(function(err, req, res, next){
     , error: err
   });
 });    
+
+
+
+// application -------------------------------------------------------------
+app.get('*', function(req, res) {
+	res.sendfile('./public/index2.ejs'); // load the single view file (angular will handle the page changes on the front-end)
+});
+    
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
 server.listen(process.env.PORT, process.env.IP,function(){
     console.log("http server listening on port: ",server.address().port, server.address().address);

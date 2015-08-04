@@ -1,10 +1,5 @@
-angular.module('jsprojectApp', [
-    'ngRoute',
-    'main.controller',
-    'service',
-    'routes'
-    
+angular.module('JSproject', [
+    'userController',
+    'userService',
+    'socketService'
     ]);
-
- 
-

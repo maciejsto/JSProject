@@ -52,5 +52,8 @@
   },
   "engines": {
     "node": "0.10.x"
+  },
+  "devDependencies": {
+    "supertest": "^1.0.1"
   }
 }

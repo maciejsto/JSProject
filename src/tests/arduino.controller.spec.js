@@ -1,7 +1,9 @@
 
 /*sample test*/
 
-var arduino = require('../backend/controllers/arduinoController');
+
+var arduino = require('../backend/controllers/arduino');
+
 
 describe("Scope", function() {
     it("can be constructed and used as an object", function() {
@@ -26,8 +28,6 @@ describe("Scope", function() {
         
     });
 });
-
-
 /*
 describe("Controller: ArduinoController", function() {
     

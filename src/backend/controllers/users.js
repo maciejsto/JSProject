@@ -31,6 +31,7 @@ exports.getUsers = function(req, res) {
         console.log('error getting users');
         res.json(err);
     }else{
+      
       res.json(users);
     }
       

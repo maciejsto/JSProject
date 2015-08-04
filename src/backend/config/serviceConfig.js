@@ -258,7 +258,7 @@ var services = {
     
 
     when:       require('when'),
-    //winston:    require('winston')
+    winston:    require('winston')
 };
 
 function logErrors(err, req, res, next) {
