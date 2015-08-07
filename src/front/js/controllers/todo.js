@@ -1,6 +1,3 @@
-/**
- * Created by Maciej on 6/20/2014.
- */
 function TodoCtrl($scope) {
     $scope.todos = [
         {text:'learn angular', done:true},

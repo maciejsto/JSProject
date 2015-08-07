@@ -10,16 +10,16 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li id="home"><a href="/api/index">Home</a></li>
-				<li id="about"><a href="/api/about">About</a></li>
+				<li id="home"><a ui-sref="/api/home">Home</a></li>
+				<li id="about"><a ui-sref="/api/about">About</a></li>
                 <li id="arduino"><a href="/api/arduino">Arduino</a></li>
                 <li id="admin"><a href="/api/admin">Admin</a></li>
-                <li id="user"><a href="/api/users">Users</a></li>
+                <li id="user"><a ui-sref="/api/users">Users</a></li>
                 <li id="portfolio"><a href="/api/portfolio">Portfolio</a></li>
-                <li id="projects"><a href="/api/index">Projects</a></li>
+                <li id="projects"><a ui-sref="/api/home">Projects</a></li>
 			</ul>
 			<ul class ="nav navbar-nav navbar-right">
-				<li id = "logout"><a href = "/api/logout">Logout</a></li>
+				<li id = "logout"><a ui-sref = "/api/logout" target="_self">Logout</a></li>
 			</ul>
 		</div>
 	</div>

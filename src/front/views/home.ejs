@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html ng-app="appname">
+    
+
+
+<hr>
+<body ng-controller="mainController">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+               <!-- HEADER AND TODO COUNT -->
+      
+  <div class="jumbotron text-center">
+           
+        </div>
+            <h1>Hello, Heroku and Node :D</h1>
+            <div>
+                <p>This is a template for a simple marketing or informational
+                    website. It includes a large callout called a jumbotron and three
+                    supporting pieces of content. Use it as a starting point to create
+                    something more unique.</p>
+                <p>
+            </div>
+                <div>
+                  <input type="text" ng-model="yourName" placeholder="Enter a name here">
+                     <h1>Hello, {{ yourName }}!</h1>
+                </div>
+
+            <div id="socket">
+
+            </div>
+
+                    
+            <button id="click" class="btn btn-success btn-large"><i class="icon-star"></i> CLICK</button>        
+
+            <p class="page-header">Simple Toggle Buttons for Bootstrap 3</p>
+            <h4>Large</h4>
+
+
+            <div class="btn-group btn-toggle">
+                <button id = 'on' class="btn btn-lg btn-default">ON</button>
+                <button id = 'off' class="btn btn-lg btn-primary active">OFF</button>
+            </div>
+            
+            <hr>
+            <div ui-view></div>
+        </div>
+
+    </div>
+
+     
+
+    <div class="container">
+        <hr>
+
+
+    </div>
+    <!-- /container -->
+
+
+
+
+    <script type="text/javascript">
+                //$(document).ready(function() {
+                //    $('#home').addClass("active");
+                //});
+                var socket = io.connect('/');
+
+                $('.btn-toggle').click(function(state) {
+                    var btn = $(this).find('#on');
+                    $(this).find('.btn').toggleClass('active');
+
+                    var state = btn.hasClass('active');
+                    console.log(state)
+                    socket.emit('stateChanged', {state: state});
+
+
+                    if ($(this).find('.btn-primary').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-primary');
+                    }
+                    if ($(this).find('.btn-danger').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-danger');
+                    }
+                    if ($(this).find('.btn-success').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-success');
+                    }
+                    if ($(this).find('.btn-info').size()>0) {
+                        $(this).find('.btn').toggleClass('btn-info');
+                    }
+
+                    $(this).find('.btn').toggleClass('btn-default');
+
+
+                });
+
+
+
+                $('form').submit(function(){
+                    console.log($(this["options"]).val());
+                    alert($(this["options"]).val());
+                    return false;
+                });
+
+
+
+        $( "#click" ).click(function(state) {
+            console.log('clicked');
+            socket.emit('stateChanged', {state: 'clicked'});
+        });
+
+
+        /*
+        socket.on('connect',function() {
+            console.log('from index_page: Client has connected to the server!');
+
+            socket.emit('client',{client:'client_data'});
+
+            socket.on('arduData', function(data){
+                console.log('arduino_data in web.js:', data);
+                socket.emit('index',data);
+                socket.emit('updateState',{state: 'state'});
+
+            });
+
+            var myrand = function(){
+                setTimeout(function(){
+                    return Math.floor((Math.random() * 100) + 1);
+                },500);
+
+
+            };
+
+        });
+        */
+        /*
+         socket.on('updateState',function(data){
+         console.log("server request:", data);// server console
+         //socket.emit('ServerGotArduinoData');
+         socket.emit('updateStateD',{state: 'state'});
+         });
+         */
+
+
+
+
+        /*
+         socket.on('arduinoData', function(data){
+         console.log(data);
+         var socketdiv = $("#socket");
+         socketdiv.html(tmp);
+
+         });
+         */
+        /*
+         socket.on('serverReq', function(data){
+         console.log('data from server:', data);
+         });
+         */
+
+    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+        src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

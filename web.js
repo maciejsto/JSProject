@@ -47,12 +47,11 @@ app.use(bodyParser.json());
 //-------------------------------------------------DATABASE CONNECTION-----------------------------------//
 var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
     
-
 //----------------------------------------------------APP SETTINGS------------------------------------------//
 app.set('views', __dirname + '/src/front/views');
-app.use(express.static(__dirname + '/src/front'));   
+app.use('/api', express.static(__dirname + '/src/front'));   
+app.use('/views', express.static(__dirname + '/src/front/views'));
 app.set('view engine', 'ejs');
-
     
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
     if (file.substr(-3) === '.js') {
@@ -148,28 +147,29 @@ function isLoggedIn(req, res, next) {
 var router = express.Router();
 
 
-router.route('/about')
-    .get(ensureAuthenticated, routes.about.dummyFunction);
-    //.get(routes.about.dummyFunction) ...
+// router.route('/about')
+    // .get(ensureAuthenticated, routes.about.dummyFunction);
+//     //.get(routes.about.dummyFunction) ...
 
-router.route('/admin')
-    .get(ensureAuthenticated, routes.admin);
-    ////adminController().run(req,res,next);
+
+// router.route('/admin')
+//     .get(ensureAuthenticated, routes.admin);
+//     ////adminController().run(req,res,next);
     
-router.route('/arduino')
-    .get(ensureAuthenticated, routes.arduino);
+// router.route('/arduino')
+//     .get(ensureAuthenticated, routes.arduino);
 
-router.route('/portfolio')
-    .get(ensureAuthenticated, routes.portfolio);
+// router.route('/portfolio')
+//     .get(ensureAuthenticated, routes.portfolio);
 
-router.get('/angular',ensureAuthenticated, function(req,res){
-    User.find(function(err, users){
-       if (err)
-            res.send(err);
-            console.log(users);
-       res.json(users);
-    });
-});
+// router.get('/angular',ensureAuthenticated, function(req,res){
+//     User.find(function(err, users){
+//       if (err)
+//             res.send(err);
+//             console.log(users);
+//       res.json(users);
+//     });
+// });
     
 router.route('/login')
     .get(routes.login)
@@ -178,29 +178,31 @@ router.route('/login')
         failureRedirect: '/api/login' }));
         
 
-// process the signup form
-router.route('/signup')
-    .post(passport.authenticate('local-signup', {
-        successRedirect : '/index', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+// // process the signup form
+// router.route('/signup')
+//     .post(passport.authenticate('local-signup', {
+//         successRedirect : '/index', // redirect to the secure profile section
+//         failureRedirect : '/signup', // redirect back to the signup page if there is an error
+//         failureFlash : true // allow flash messages
+//     }));
 
 
-router.route('/index')
-     .get(ensureAuthenticated, routes.index);
+// router.route('/index')
+    // .get(ensureAuthenticated, routes.index);
+//     .get(function(req,res){
+//         res.json("index page");
+//     })
 
+// // Create endpoint handlers for /beers
+// router.route('/beers')
+//   .post(ensureAuthenticated, beerController.postBeers)
+//   .get( ensureAuthenticated, beerController.getBeers);
 
-// Create endpoint handlers for /beers
-router.route('/beers')
-  .post(ensureAuthenticated, beerController.postBeers)
-  .get( ensureAuthenticated, beerController.getBeers);
-
-// Create endpoint handlers for /beers/:beer_id
-router.route('/beers/:beer_id')
-  .get(authController.isAuthenticated, beerController.getBeer)
-  .put(authController.isAuthenticated, beerController.putBeer)
-  .delete(authController.isAuthenticated, beerController.deleteBeer);
+// // Create endpoint handlers for /beers/:beer_id
+// router.route('/beers/:beer_id')
+//   .get(authController.isAuthenticated, beerController.getBeer)
+//   .put(authController.isAuthenticated, beerController.putBeer)
+//   .delete(authController.isAuthenticated, beerController.deleteBeer);
 
 // Create endpoint handlers for /users
 router.route('/users')
@@ -213,10 +215,10 @@ router.route('/users/:user_id')
     .put(authController.isAuthenticated, userController.putUser)
     .delete(authController.isAuthenticated, userController.deleteUser);
 
-//create endpoint handlers for /todo  
-router.route('/todos')
-    .post(ensureAuthenticated, todoController.postTodo)
-    .get(ensureAuthenticated, todoController.getTodos);
+// //create endpoint handlers for /todo  
+// router.route('/todos')
+//     .post(ensureAuthenticated, todoController.postTodo)
+//     .get(ensureAuthenticated, todoController.getTodos);
 
 router.route('/logout')
     .get(function(req, res) {
@@ -227,31 +229,36 @@ router.route('/logout')
 router.route('/')
     .get(routes.login);
 
-// Register all our routes with /api
+// // Register all our routes with /api
+
+
+// app.use(function(req, res, next){
+//   // the status option, or res.statusCode = 404
+//   // are equivalent, however with the option we
+//   // get the "status" local available as well
+//   res.render('404', {
+//       status: err.status || 404
+//     , error: err
+//   });
+// });
+
+// app.use(function(err, req, res, next){
+//   // we may use properties of the error object
+//   // here and next(err) appropriately, or if
+//   // we possibly recovered from the error, simply next().
+//   res.render('500', {
+//       status: err.status || 500
+//     , error: err
+//   });
+// });    
 app.use('/api', router);
 
-app.use(function(req, res, next){
-  // the status option, or res.statusCode = 404
-  // are equivalent, however with the option we
-  // get the "status" local available as well
-  res.render('404', { status: 404, url: req.url });
-});
-
-app.use(function(err, req, res, next){
-  // we may use properties of the error object
-  // here and next(err) appropriately, or if
-  // we possibly recovered from the error, simply next().
-  res.render('500', {
-      status: err.status || 500
-    , error: err
-  });
-});    
-
-
-
 // application -------------------------------------------------------------
-app.get('*', function(req, res) {
-	res.sendfile('./public/index2.ejs'); // load the single view file (angular will handle the page changes on the front-end)
+router.route('*')
+    .get(ensureAuthenticated, function(req, res) {
+	//res.sendFile(__dirname +'/'+ 'app/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    res.render(__dirname +'/'+ 'src/front/views/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
+    
 });
     
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
