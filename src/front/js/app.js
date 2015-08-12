@@ -81,9 +81,6 @@ angular.module('appname',[
          // use the HTML5 History API
      $locationProvider.html5Mode(false);
      
-     //
-     //
-      
         
     })
     
