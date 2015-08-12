@@ -1,7 +1,7 @@
 angular.module('userController', [])
 
 	// inject the Todo service factory into our controller
-	.controller('mainController', ['$scope','$http','Users', function($scope, $http, Users) {
+	.controller('mainController', ['$scope','$http','Users', 'Socket', function($scope, $http, Users, Socket) {
 		$scope.formData = {};
 		$scope.loading = true;
 

@@ -3,11 +3,56 @@
   <hr>
 
  <div class="container">
-      <div ng-repeat="user in users"> 
-      <ul>
-        <li>{{user}}</li>  
-      </ul>
-      </div>
+   
+  <div class="alert alert-info">
+    <p>Sort Type: {{ sortType }}</p>
+    <p>Sort Reverse: {{ sortReverse }}</p>
+    <p>Search Query: {{ searchFish }}</p>
+  </div>
+  
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+        <input type="text" class="form-control" placeholder="Search da Fish" ng-model="searchFish">
+
+      </div>      
+    </div>
+  </form>
+  
+<table st-table="rowCollection" class="table table-striped">
+      	<thead>
+      	<tr>
+      		<td>
+      		  <a href="#" ng-click="sortType = 'username'">
+      		 id
+      		 <span ng-show="sortType == 'name'" class="fa fa-caret-down"></span>
+      		 </td>
+      		<th>
+      		  <a href="#" ng-click="sortType = 'password'">
+          <span ng-show="sortType == 'fish'" class="fa fa-caret-down"></span>
+          username  
+          </a>
+      		
+      		</th>
+      		<th>password</th>
+      	</tr>
+      	</thead>
+      	<tbody>
+      	 <tr ng-repeat="user in users | orderBy:sortType:sortReverse | filter:searchFish">
+      		<td>{{user._id}}</td>
+      		<td>{{user.username}}</td>
+      		<td>{{user.password}}</td>
+      		<td>
+      		 <button type="button" ng-click="" class="btn btn-sm btn-danger">
+     					<i class="glyphicon glyphicon-remove-circle">
+     					</i>
+     				</button>
+      		</td>
+      	</tr>
+      	</tbody>
+</table>
 
  </div>
     

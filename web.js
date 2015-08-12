@@ -49,8 +49,8 @@ var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
     
 //----------------------------------------------------APP SETTINGS------------------------------------------//
 app.set('views', __dirname + '/src/front/views');
-app.use('/api', express.static(__dirname + '/src/front'));   
-app.use('/views', express.static(__dirname + '/src/front/views'));
+app.use('/api',express.static(__dirname + '/src/front'));   
+// app.use('/views', express.static(__dirname + '/src/front/views'));
 app.set('view engine', 'ejs');
     
 fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
@@ -86,6 +86,15 @@ io.on('connection', function (socket) {
             console.log('form client:', data);
             socket.emit('server', {data: 'data from server'});
         });
+        
+        socket.on('arduino:send', function(data) {
+            console.log(data);
+            socket.broadcast.emit('client:send', {msg: 'data for client from arduino controller'})
+        })
+        socket.on('arduino:send2', function(data) {
+            socket.broadcast.emit('client:send2', {msg: 'another data for client from arduino controller'})
+            console.log(data);
+        })
         
         /*do task on disconnect*/
         socket.on('disconnect', function(socket){
@@ -147,29 +156,36 @@ function isLoggedIn(req, res, next) {
 var router = express.Router();
 
 
-// router.route('/about')
-    // .get(ensureAuthenticated, routes.about.dummyFunction);
+// middleware to use for all requests
+router.use(function(req, res, next) {
+    // do logging
+    console.log('Something is happening.');
+    next(); // make sure we go to the next routes and don't stop here
+});
+
+router.route('/about')
+    .get(ensureAuthenticated, routes.about.dummyFunction);
 //     //.get(routes.about.dummyFunction) ...
 
 
-// router.route('/admin')
-//     .get(ensureAuthenticated, routes.admin);
-//     ////adminController().run(req,res,next);
+router.route('/admin')
+     .get(ensureAuthenticated, routes.admin);
+     ////adminController().run(req,res,next);
     
-// router.route('/arduino')
-//     .get(ensureAuthenticated, routes.arduino);
+ router.route('/arduino')
+     .get(ensureAuthenticated, routes.arduino);
 
-// router.route('/portfolio')
-//     .get(ensureAuthenticated, routes.portfolio);
+ router.route('/portfolio')
+     .get(ensureAuthenticated, routes.portfolio);
 
-// router.get('/angular',ensureAuthenticated, function(req,res){
-//     User.find(function(err, users){
-//       if (err)
-//             res.send(err);
-//             console.log(users);
-//       res.json(users);
-//     });
-// });
+ router.get('/angular',ensureAuthenticated, function(req,res){
+     User.find(function(err, users){
+       if (err)
+             res.send(err);
+             console.log(users);
+       res.json(users);
+     });
+ });
     
 router.route('/login')
     .get(routes.login)
@@ -180,11 +196,11 @@ router.route('/login')
 
 // // process the signup form
 // router.route('/signup')
-//     .post(passport.authenticate('local-signup', {
-//         successRedirect : '/index', // redirect to the secure profile section
-//         failureRedirect : '/signup', // redirect back to the signup page if there is an error
-//         failureFlash : true // allow flash messages
-//     }));
+    //  .post(passport.authenticate('local-signup', {
+        //  successRedirect : '/arduino', // redirect to the secure profile section
+        //  failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        //  failureFlash : true // allow flash messages
+    //  }));
 
 
 // router.route('/index')
@@ -194,15 +210,15 @@ router.route('/login')
 //     })
 
 // // Create endpoint handlers for /beers
-// router.route('/beers')
-//   .post(ensureAuthenticated, beerController.postBeers)
-//   .get( ensureAuthenticated, beerController.getBeers);
+router.route('/beers')
+  .post(ensureAuthenticated, beerController.postBeers)
+  .get( ensureAuthenticated, beerController.getBeers);
 
 // // Create endpoint handlers for /beers/:beer_id
-// router.route('/beers/:beer_id')
-//   .get(authController.isAuthenticated, beerController.getBeer)
-//   .put(authController.isAuthenticated, beerController.putBeer)
-//   .delete(authController.isAuthenticated, beerController.deleteBeer);
+router.route('/beers/:beer_id')
+  .get(authController.isAuthenticated, beerController.getBeer)
+  .put(authController.isAuthenticated, beerController.putBeer)
+  .delete(authController.isAuthenticated, beerController.deleteBeer);
 
 // Create endpoint handlers for /users
 router.route('/users')
@@ -232,26 +248,7 @@ router.route('/')
 // // Register all our routes with /api
 
 
-// app.use(function(req, res, next){
-//   // the status option, or res.statusCode = 404
-//   // are equivalent, however with the option we
-//   // get the "status" local available as well
-//   res.render('404', {
-//       status: err.status || 404
-//     , error: err
-//   });
-// });
 
-// app.use(function(err, req, res, next){
-//   // we may use properties of the error object
-//   // here and next(err) appropriately, or if
-//   // we possibly recovered from the error, simply next().
-//   res.render('500', {
-//       status: err.status || 500
-//     , error: err
-//   });
-// });    
-app.use('/api', router);
 
 // application -------------------------------------------------------------
 router.route('*')
@@ -260,7 +257,38 @@ router.route('*')
     res.render(__dirname +'/'+ 'src/front/views/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
     
 });
-    
+
+app.use('/api', router);
+
+
+    app.use(function(req, res, next){
+  res.status(404);
+  
+  // respond with html page
+  if (req.accepts('html')) {
+    // res.render('login', { url: req.url });
+     res.redirect('/api/login');
+    return;
+  }
+
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
+}); 
+
+app.use(function(err, req, res, next){
+  // we may use properties of the error object
+  // here and next(err) appropriately, or if
+  // we possibly recovered from the error, simply next().
+  res.status(err.status || 500);
+  res.render('500', { error: err });
+});
+
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
 server.listen(process.env.PORT, process.env.IP,function(){
     console.log("http server listening on port: ",server.address().port, server.address().address);

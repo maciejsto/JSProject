@@ -7,7 +7,7 @@ var args = process.argv.slice(2);
 
 //var serialPort = sm.get('serial')('/dev/ttyACM0');
 //var arduinoModel = sm.get('arduinomodel')(serialPort);
-var heroku_string = "http://jsproject.herokuapp.com/";
+// var heroku_string = "http://jsproject.herokuapp.com/";
 var local_string  = "http://localhost:8080";
 
 
@@ -115,6 +115,14 @@ socket.on('connect', function onConnect() {
     });
 
     socket.on('server',function(data){
+        console.log(data);
+    });
+    
+    socket.on('client:send', function(data){
+        console.log(data);
+    });
+
+    socket.on('client:send2', function(data){
         console.log(data);
     });
 

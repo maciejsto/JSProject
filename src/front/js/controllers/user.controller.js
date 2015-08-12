@@ -1,20 +1,30 @@
 angular.module('userController', [])
 
 	// inject the Todo service factory into our controller
-	.controller('userController', ['$scope','$http','Users', function($scope, $http, Users) {
+	.controller('userController', ['$scope','$http','Users', 'Socket', function($scope, $http, Users, Socket) {
 		
 		console.log('loaded user controller')
 		$scope.formData = {};
 		$scope.loading = true;
+		
+		$scope.sortType     = 'name'; // set the default sort type
+  		$scope.sortReverse  = false;  // set the default sort order
+  		$scope.searchFish   = '';     // set the default search/filter term
+  
 
+		var store = {
+			users: []
+		}
 		// GET =====================================================================
 		// when landing on the page, get all todos and show them
 		// use the service to get all the todos
-		Users.get()
-			.success(function(data) {
-				$scope.users = data;
-				$scope.loading = false;
-			});
+		// Users.get()
+			// .success(function(data) {
+				// console.log(data)
+				// $scope.users = data;
+				// $scope.loading = false;
+			// });
+		$scope.users = Users.get();	
 
 		// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API

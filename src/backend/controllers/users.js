@@ -13,13 +13,9 @@ exports.postUsers = function(req, res) {
   });
 
   user.save(function(err) {
-    if (err){
-        console.log('error saving user');
-        res.json(err);
-    }else{
+    if (err)
+        res.send(err);
       res.json({ message: 'New beer drinker added to the locker room!' });
-    }
-      
     });
 };
 
@@ -27,14 +23,9 @@ exports.postUsers = function(req, res) {
 exports.getUsers = function(req, res) {
   console.log(req.params);
   User.find(function(err, users) {
-    if (err){
-        console.log('error getting users');
-        res.json(err);
-    }else{
-      
+    if (err)
+        res.send(err);
       res.json(users);
-    }
-      
     });
 };
 
@@ -42,7 +33,6 @@ exports.getUser = function(req, res) {
   User.findById(req.params.user_id, function(err, user){
     if(err)
       res.send(err);
-      
     res.json(user);
   });
 };

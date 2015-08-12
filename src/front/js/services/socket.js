@@ -1,6 +1,8 @@
 angular.module('socketService', [])
-    .factory('socket', function($rootScope){
+
+    .factory('Socket', function($rootScope){
         var socket = io.connect();
+          console.log('socket created')
           return {
             on: function (eventName, callback) {
               socket.on(eventName, function () {  
