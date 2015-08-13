@@ -23,7 +23,7 @@ angular.module('appname',[
     // Now set up the states
       $stateProvider
         .state('/api/users', {
-          url: "/users",
+          url: "/api/users",
           controller: 'userController',
           templateUrl: "views/users.ejs"
         })
@@ -79,7 +79,7 @@ angular.module('appname',[
    return $location.path();
 })
          // use the HTML5 History API
-     $locationProvider.html5Mode(false);
+     $locationProvider.html5Mode(true);
      
         
     })
