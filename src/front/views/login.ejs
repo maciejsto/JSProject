@@ -1,20 +1,17 @@
-<!-- views/login.ejs -->
-<!doctype html>
-<html>
-<head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body        { padding-top:80px; }
-    </style>
-</head>
+<!DOCTYPE html>
+<html lang="en" ng-app="appname">
 <body>
     
-    <header>
-</header>
-<div class="container">
+<header>   
+    <% include header %>
+</header> 
 
+
+<div class="container" ng-controller="loginController">
+    
+    <hr>
+    
+    
 <div class="col-sm-6 col-sm-offset-3">
 
     <h1><span class="fa fa-sign-in"></span> Login to JSproject</h1>
@@ -35,7 +32,9 @@
     </form>
 
     <hr>
+    <p>Or Register with:</p>
 
+        <a href="/api/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
     <p>Need an account? <a href="/api/signup">Signup</a></p>
     <p>Or go <a href="/">home</a>.</p>
 
@@ -43,8 +42,6 @@
 
 </div>
 
-<footer>
-</footer>
-
 </body>
 </html>
+

@@ -1,7 +1,0 @@
-{
-  "name": "Node.js JSproject",
-  "description": "A barebones Node.js app using Express 4 MongoDB",
-  "repository": "https://github.com/maciejsto/JSProject.git",
-  "logo": "",
-  "keywords": ["node", "express", "static"]
-}

@@ -9,7 +9,37 @@
     <p>Sort Reverse: {{ sortReverse }}</p>
     <p>Search Query: {{ searchFish }}</p>
   </div>
-  <a href="#" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add User</a>
+  
+  
+ <!-- FORM -->
+    <!-- pass in the variable if our form is valid or invalid -->
+    <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate> <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
+
+
+        <!-- USERNAME -->
+    <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+        <label>Username</label>
+        <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="8">
+        <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
+        <p ng-show="userForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+    </div>
+    
+    
+    <!-- PASS -->
+    <div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" ng-model="user.password" required>
+    </div>
+    
+
+        <!-- SUBMIT BUTTON -->
+<button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit</button>
+
+        
+    </form>
+    
+    
+    
   <form>
     <div class="form-group">
       <div class="input-group">
@@ -25,18 +55,26 @@
       	<thead>
       	<tr>
       		<td>
-      		  <a href="#" ng-click="sortType = 'username'">
-      		 id
-      		 <span ng-show="sortType == 'name'" class="fa fa-caret-down"></span>
-      		 </td>
-      		<th>
-      		  <a href="#" ng-click="sortType = 'password'">
-          <span ng-show="sortType == 'fish'" class="fa fa-caret-down"></span>
-          username  
-          </a>
-      		
-      		</th>
-      		<th>password</th>
+      		     <a href="" ng-click="sortType = '_id'; sortReverse = !sortReverse">
+      		        id
+      		        <span ng-show="sortType == '_id' && !sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == '_id' && sortReverse" class="fa fa-caret-up"></span>
+      		    </a>
+      		</td>
+      		<td>
+      		    <a href="" ng-click="sortType = 'username'; sortReverse = !sortReverse">
+                    username
+                    <span ng-show="sortType == 'username' && !sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'username' && sortReverse" class="fa fa-caret-up"></span>
+                </a>        
+      		</td>
+      		<td>
+      		    <a href="" ng-click="sortType = 'password'; sortReverse = !sortReverse">
+      		        password
+      		        <span ng-show="sortType == 'password' && !sortReverse" class="fa fa-caret-down"></span>
+                    <span ng-show="sortType == 'password' && sortReverse" class="fa fa-caret-up"></span>
+      		    </a>
+      		</td>
       	</tr>
       	</thead>
       	<tbody>
@@ -45,9 +83,11 @@
       		<td>{{user.username}}</td>
       		<td>{{user.password}}</td>
       		<td>
-      		 <button type="button" ng-click="" class="btn btn-sm btn-danger">
+      		 <button type="button" ng-click="deleteUser(user._id)" class="btn btn-sm btn-danger">
+      		        
      					<i class="glyphicon glyphicon-remove-circle">
      					</i>
+     					Delete
      				</button>
       		</td>
       	</tr>

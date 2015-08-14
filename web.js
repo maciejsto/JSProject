@@ -174,6 +174,7 @@ router.route('/admin')
     
  router.route('/arduino')
      .get(ensureAuthenticated, routes.arduino);
+     
 
  router.route('/portfolio')
      .get(ensureAuthenticated, routes.portfolio);
@@ -186,13 +187,20 @@ router.route('/admin')
        res.json(users);
      });
  });
+
+
+router.route('/login')
+    .get(routes.login);
+    
+router.route('/signup')
+    .get(routes.signup);    
     
 router.route('/login')
     .get(routes.login)
     .post(passport.authenticate('local-login', { 
-        successRedirect: '/api/index',
+        successRedirect: '/api/home',
         failureRedirect: '/api/login' }));
-        
+    
 
 // // process the signup form
 // router.route('/signup')
@@ -203,8 +211,8 @@ router.route('/login')
     //  }));
 
 
-// router.route('/index')
-    // .get(ensureAuthenticated, routes.index);
+router.route('/index')
+    .get(ensureAuthenticated, routes.index);
 //     .get(function(req,res){
 //         res.json("index page");
 //     })
@@ -245,14 +253,26 @@ router.route('/logout')
 router.route('/')
     .get(routes.login);
 
-// // Register all our routes with /api
+// =====================================
+// TWITTER ROUTES ======================
+// =====================================
+// route for twitter authentication and login
+router.route('/auth/twitter')
+    .get(passport.authenticate('twitter'));
 
+// handle the callback after twitter has authenticated the user
+router.route('/auth/twitter/callback')
+    .get(passport.authenticate('twitter', {
+            successRedirect : '/api/home',
+            failureRedirect : '/api/login'
+    }));
+    
 
 
 
 // application -------------------------------------------------------------
 router.route('*')
-    .get(ensureAuthenticated, function(req, res) {
+    .get( function(req, res) {
 	//res.sendFile(__dirname +'/'+ 'app/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     res.render(__dirname +'/'+ 'src/front/views/index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
     

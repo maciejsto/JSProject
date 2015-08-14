@@ -12,13 +12,46 @@ var UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  
+  local            : {
+        
+        email     : {
+          type:     String,
+          unique:   true,
+          required: false
+        },
+
+        password     : {
+          type:     String,
+          required: false,
+        }
+
+    },
+  //   facebook         : {
+  //       id           : String,
+  //       token        : String,
+  //       email        : String,
+  //       name         : String
+  //   },
+  //   twitter          : {
+  //       id           : String,
+  //       token        : String,
+  //       displayName  : String,
+  //       username     : String
+  //   },
+  //   google           : {
+  //       id           : String,
+  //       token        : String,
+  //       email        : String,
+  //       name         : String
+  //   }
+  
 });
 
 //Execute before each user.save() call
 UserSchema.pre('save', function(callback) {
   var user = this;
-
   // Break out if the password hasn't changed
   if (!user.isModified('password')) return callback();
 

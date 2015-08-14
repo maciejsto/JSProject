@@ -18,8 +18,16 @@ angular.module('userService', [])
 			create : function(userData) {
 				return $http.post('/api/users', userData);
 			},
+			
+			
 			delete : function(id) {
 				return $http.delete('/api/users/' + id);
+			},
+			
+			
+			update: function(id) {
+				return $http.put('api/users' + id);
 			}
+			
 		}
 	}]);

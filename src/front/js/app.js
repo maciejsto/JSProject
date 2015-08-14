@@ -3,6 +3,7 @@
 angular.module('appname',[
     'ui.router', 
     'underscore',
+    'loginController',
     'homeController',
     'aboutController',
     'arduinoController',
@@ -10,7 +11,10 @@ angular.module('appname',[
     'userController',
     'portfolioController',
     'projectsController',
+    'signupController',
+    'indexController',
     'todoController',
+
     'userService',
     'socketService',
     
@@ -28,6 +32,11 @@ angular.module('appname',[
           templateUrl: "views/users.ejs"
         })
         
+        .state('/api/index', {
+          url: "/api/index",
+          controller: 'indexController',
+          templateUrl: "views/home.ejs"
+        })
         .state('/api/home', {
           url: "/api/home",
           controller: 'homeController',
@@ -59,24 +68,35 @@ angular.module('appname',[
         })
         
          .state('/api/logout', {
-          url: "/api/logout",
-        //   templateUrl: "views/login.ejs",
-        controller: 'logoutController'
+          url: "/api/login",
+          templateUrl: "views/login.ejs",
+          controller: 'logoutController'
         })
         
          .state('/api/login', {
           url: "/api/login",
+          controller: 'loginController',
           templateUrl: "views/login.ejs"
         })
-        .state('404', {
+         .state('/api/signup', {
+          url: "/api/signup",
+          templateUrl: "views/signup.ejs"
+        })
+        .state('/api/404', {
         url: '^*path',// no url defined
         template: 'views/404.ejs',
         })
+         .state('/api', {
+          url: "/api/login",
+          controller: 'loginController',
+          templateUrl: "views/login.ejs"
+        })
         
         $urlRouterProvider.otherwise(function($injector, $location){
-   var state = $injector.get('$state');
-   state.go('404');
-   return $location.path();
+
+       var state = $injector.get('$state');
+        state.go('404');
+        return $location.path();
 })
          // use the HTML5 History API
      $locationProvider.html5Mode(true);
@@ -88,41 +108,8 @@ angular.module('appname',[
         return socketFactory();
     })
     
-    .controller('mainController', function($scope, $http) {
-        $scope.formData = {};
-         $scope.pageClass = 'page-users';
-         console.log('inside main controller');
-
-        // when landing on the page, get all todos and show them
-        // $http.get('/api/users')
-                // .success(function(data) {
-                        // $scope.users = data;
-                        // console.log(data)
-                // })
-                // .error(function(data) {
-                        // console.log('Error: ' + data);
-                // })
-                
-        // $http.get('/api/logout')
-        //   .success(function() {
-        //                 console.log('logged out ')
-        //         })
-        //         .error(function(data) {
-        //                 console.log('Error: ' + data);
-        //         })
-            
-    })
-
-    .controller('logoutController', function($scope , $location){
-        
-        // $scope.logout = function(){
-            // console.log('logging out');
-            // $location.path('/api/login');
-        // }
-    })
-    
    .run(function($rootScope) {
-      $rootScope.name = "Ari Lerner";
+    //   $rootScope.name = "Ari Lerner";    //display in home view
     })
     
     

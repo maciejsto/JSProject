@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html ng-app="appname">
-    
-<% include header %>
 
+<header>   
+<% include header %>
+</header> 
 
 <hr>
-<body ng-controller="mainController">
+<body>
     <% include navbar %>
 
-    {{name}}
-     <div ui-view></div>
+   
 
     <div class="container">
-        <% include content %>
+
         
         
         <hr>
 
+     {{name}}
+     <div ui-view></div>
 
-        <% include footer %>
+
+    <% include content %>
     </div>
     <!-- /container -->
 
 
-
+        
 
     <script type="text/javascript">
                 //$(document).ready(function() {
@@ -131,5 +134,6 @@
     <!-- Latest compiled and minified JavaScript -->
     <script
         src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <% include footer %>
 </body>
 </html>
