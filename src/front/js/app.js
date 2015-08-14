@@ -14,17 +14,15 @@ angular.module('appname',[
     'signupController',
     'indexController',
     'todoController',
-
     'userService',
     'socketService',
-    
-    
-    
+
     ])
+    
     .config(function($stateProvider, $urlRouterProvider,$locationProvider) {
 
-// For any unmatched url, send to 404
-    // Now set up the states
+      // For any unmatched url, send to 404
+      // Now set up the states
       $stateProvider
         .state('/api/users', {
           url: "/api/users",
@@ -94,23 +92,18 @@ angular.module('appname',[
         
         $urlRouterProvider.otherwise(function($injector, $location){
 
-       var state = $injector.get('$state');
-        state.go('404');
-        return $location.path();
-})
+            var state = $injector.get('$state');
+            state.go('404');
+            return $location.path();
+        })
          // use the HTML5 History API
-     $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(true);
      
         
-    })
-    
-    .factory('mySocket', function (socketFactory) {
-        return socketFactory();
-    })
-    
-   .run(function($rootScope) {
-    //   $rootScope.name = "Ari Lerner";    //display in home view
-    })
+        })
+        .run(function($rootScope) {
+            //   $rootScope.name = "Ari Lerner";    //display in home view
+        })
     
     
     
