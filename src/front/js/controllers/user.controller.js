@@ -25,8 +25,8 @@ angular.module('userController', [])
     		// check to make sure the form is completely valid
 		    if (isValid) {
 		    	this.createUser();
-		    	// $scope.users = Users.get();	
-				this.getAllUsers();		    	
+		    	$scope.users = Users.get();	
+				// this.getAllUsers();		    	
 		    }
 	
 	    };
