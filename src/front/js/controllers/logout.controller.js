@@ -1,11 +1,25 @@
 angular.module('logoutController', [])
 
-    .controller('logoutController', ['$scope, $http', 'Socket', function($scope, $http, Socket){
-        console.log('loaded logout controller');
+
+    .controller('logoutController', logoutController);
+    
+    logoutController.$inject = ['$scope', '$http', '$log', 'Socket', '_'];
+    
+    
+    function logoutController($scope, $http, $log, Socket, _){
+        $log.info('loaded logout controller');
         
-        var controller = {
+        var vm = this;
+        
+        vm.controller = {
             name : 'logoutController'
         }
         
-        $scope.controller = controller;
-    }]);
+        activate();
+        
+        function activate(){
+        
+            $scope.controller = vm.controller;
+        }
+            
+    }

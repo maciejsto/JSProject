@@ -1,6 +1,6 @@
 // Load required packages
 var mongoose = require('mongoose'),
-    bcrypt = require('bcrypt-nodejs');
+    bcrypt   = require('bcrypt-nodejs');
 
 // Define our user schema
 var UserSchema = new mongoose.Schema({
@@ -13,21 +13,6 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  
-  local            : {
-        
-        email     : {
-          type:     String,
-          unique:   true,
-          required: false
-        },
-
-        password     : {
-          type:     String,
-          required: false,
-        }
-
-    },
   //   facebook         : {
   //       id           : String,
   //       token        : String,
@@ -67,13 +52,6 @@ UserSchema.pre('save', function(callback) {
   });
 });
 
-
-// UserSchema.methods.verifyPassword = function(password, cb) {
-//   bcrypt.compare(password, this.password, function(err, isMatch) {
-//     if (err) return cb(err);
-//     cb(null, isMatch);
-//   });
-// };
 
 // methods ======================
 // generating a hash

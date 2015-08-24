@@ -8,8 +8,17 @@ console.log(ROOT_PATH);
 var services = {
     _: require('lodash-node'),
     app: function addService(sm) {
-        var express = sm.get('express');
+        
+        var express  = sm.get('express'),
+            passport = require('passport'),
+            session  = require('express-session'),
+            flash    = require('connect-flash');
+        
+        //-------------------------------------APP------------------------------------------------//
+        
         var app = express();
+        
+        
         //var session = sm.get('session');
         var bodyParser = sm.get('bodyParser');
         //app.use(sm.get('bodyParser').urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
@@ -18,6 +27,21 @@ var services = {
         }));
         app.use(bodyParser.json());                                     // parse application/json
         //app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse app
+        
+        app.use(session({
+            secret: process.env.SESSION_SECRET || '<mysecret>',
+            proxy: true,
+            resave: true,
+            saveUninitialized: true
+        }));
+        
+        app.use(passport.initialize());
+        app.use(passport.session()); // persistent login sessions
+        app.use(flash()); // use connect-flash for flash messages stored in session
+        app.use(bodyParser.urlencoded({extended: true}));
+        app.use(bodyParser.json());
+        
+        
         
         // Use the body-parser package in our application
         
@@ -88,6 +112,7 @@ var services = {
     	
     	return logger; 
     },
+    
 //    'controller.referenceSearch': function addService(sm) {
 //        return require(ROOT_PATH + 'controllers/referenceSearch')(
 //            sm.get('log'),

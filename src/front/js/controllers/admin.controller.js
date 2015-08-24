@@ -1,11 +1,21 @@
 angular.module('adminController', [])
-
-    .controller('adminController', ['$scope', '$http', 'Socket', function($scope, $http, Socket){
-        console.log('loaded admin controller');
+    
+    .controller('adminController', adminController);
+    
+    adminController.$inject = ['$scope', '$http', '$log', 'Socket', '_'];
+    
+    
+    function adminController($scope, $http, $log, Socket, _) {
         
-        var controller = {
-            name : 'adminController'
+        $log.info('loaded admin controller');
+        var vm = this;
+        vm.controller = {
+            name: 'adminController'
         }
         
-        $scope.controller = controller;
-    }]);
+        activate();
+    
+        function activate(){
+            $scope.controller = vm.controller;
+        }
+    }

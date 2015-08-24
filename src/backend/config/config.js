@@ -16,7 +16,7 @@ var config = {
             flag: false
         },
         mongoDb: {
-            uri: 'mongodb://127.0.0.1:27017/test',
+            uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
             options: {
                 server: {
                     poolSize: 2,

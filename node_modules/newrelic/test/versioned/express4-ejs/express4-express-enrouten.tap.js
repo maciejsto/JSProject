@@ -6,8 +6,9 @@
 var test = require('tap').test
 var request = require('request')
 var helper = require('../../lib/agent_helper.js')
+var skip = require('./skip')
 
-test("Express 4 + express-enrouten compatibility test", function (t) {
+test("Express 4 + express-enrouten compatibility test", {skip: skip()}, function (t) {
   t.plan(2)
 
   var agent = helper.instrumentMockedAgent()

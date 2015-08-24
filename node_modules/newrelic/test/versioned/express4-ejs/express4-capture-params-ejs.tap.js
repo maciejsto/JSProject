@@ -3,27 +3,29 @@
 // shut up, Express
 process.env.NODE_ENV = 'test'
 
-var path    = require('path')
-  , test    = require('tap').test
-  , request = require('request')
-  , helper  = require('../../lib/agent_helper')
-  , API     = require('../../../api.js')
-  
+var path = require('path')
+var test = require('tap').test
+var request = require('request')
+var helper = require('../../lib/agent_helper')
+var API = require('../../../api.js')
+var skip = require('./skip')
+
 
 // CONSTANTS
 var TEST_PORT = 9876
-  , TEST_HOST = 'localhost'
-  , TEST_URL  = 'http://' + TEST_HOST + ':' + TEST_PORT
-  
+var TEST_HOST = 'localhost'
+var TEST_URL = 'http://' + TEST_HOST + ':' + TEST_PORT
+var TEST_OPTIONS = {
+  skip: skip()
+}
 
-
-test("test capture_params for express", function (t) {
+test("test capture_params for express", TEST_OPTIONS, function (t) {
   t.test("no variables", function (t) {
     t.plan(5)
     var agent = helper.instrumentMockedAgent({express4: true})
-      , app = require('express')()
-      , server = require('http').createServer(app)
-      
+    var app = require('express')()
+    var server = require('http').createServer(app)
+
 
     this.tearDown(function () {
       server.close()
@@ -62,9 +64,9 @@ test("test capture_params for express", function (t) {
   t.test("route variables", function (t) {
     t.plan(5)
     var agent = helper.instrumentMockedAgent({express4: true})
-      , app = require('express')()
-      , server = require('http').createServer(app)
-      
+    var app = require('express')()
+    var server = require('http').createServer(app)
+
 
     this.tearDown(function () {
       server.close()
@@ -104,9 +106,9 @@ test("test capture_params for express", function (t) {
   t.test("query variables", {timeout : 1000}, function (t) {
     t.plan(5)
     var agent = helper.instrumentMockedAgent({express4: true})
-      , app = require('express')()
-      , server = require('http').createServer(app)
-      
+    var app = require('express')()
+    var server = require('http').createServer(app)
+
 
     this.tearDown(function () {
       server.close()
@@ -146,9 +148,9 @@ test("test capture_params for express", function (t) {
   t.test("route and query variables", function (t) {
     t.plan(5)
     var agent = helper.instrumentMockedAgent({express4: true})
-      , app = require('express')()
-      , server = require('http').createServer(app)
-      
+    var app = require('express')()
+    var server = require('http').createServer(app)
+
 
     this.tearDown(function () {
       server.close()
@@ -187,9 +189,9 @@ test("test capture_params for express", function (t) {
 
   t.test("query params mask route parameters", function (t) {
     var agent = helper.instrumentMockedAgent()
-      , app = require('express')()
-      , server = require('http').createServer(app)
-      
+    var app = require('express')()
+    var server = require('http').createServer(app)
+
 
     this.tearDown(function () {
       server.close()

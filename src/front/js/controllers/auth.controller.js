@@ -1,11 +1,20 @@
 angular.module('authController', [])
 
-    .controller('authController', ['$scope', '$http', 'Socket', function($scope, $http, Socket){
-        console.log('loaded auth controller');
+    .controller('authController', authController);
+    
+    authController.$inject = ['$scope', '$http', '$log', 'Socket', '_'];
+
+    
+    function authController($scope, $http,$log, Socket, _) {
+        $log.info('loaded auth controller');
         
-        var controller = {
+        var vm = this;
+        vm.controller = {
             name : 'authController'
         }
+        activate();
         
-        $scope.controller = controller;
-    }]);
+        function activate(){
+            $scope.controller = vm.controller;
+        }
+    }

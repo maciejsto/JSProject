@@ -10,7 +10,7 @@ var TwitterStrategy  = require('passport-twitter').Strategy;
 var User            = require('../models/user');
 
 // load the auth variables
-// var configAuth = require('../config/auth');
+var configAuth = require('../config/auth');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -36,23 +36,35 @@ module.exports = function(passport) {
     
 
     //===== LOCAL LOGIN ========================================================
-    passport.use('local-login', new LocalStrategy(
-  function(username, password, callback) {
+    passport.use('local-login', new LocalStrategy({
+        usernameField : 'username',
+        passwordField : 'password',
+        passReqToCallback : true // allows us to pass back the entire request to the callback        
+    },
+        
+  function(req, username, password, done) {
+      
     User.findOne({ username: username }, function (err, user) {
-      if (err) { return callback(err); }
+      if (err) { return done(err); }
 
       // No user found with that username
-      if (!user) { return callback(null, false); }
+      if (!user) { 
+          console.log('no user')
+          return done(null, false, req.flash('loginMessage', 'No user found.')); }
 
       // Make sure the password is correct
       user.verifyPassword(password, function(err, isMatch) {
-        if (err) { return callback(err); }
+        if (err) { 
+            console.log('bad pass')
+            return done(err); }
 
         // Password did not match
-        if (!isMatch) { return callback(null, false); }
+        if (!isMatch) { 
+            console.log('bad pass match')
+            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); }
 
         // Success
-        return callback(null, user);
+        return done(null, user);
       });
     });
   }
@@ -118,13 +130,13 @@ module.exports = function(passport) {
     // =========================================================================
     passport.use(new TwitterStrategy({
 
-        // consumerKey     : configAuth.twitterAuth.consumerKey,
-        // consumerSecret  : configAuth.twitterAuth.consumerSecret,
-        // callbackURL     : configAuth.twitterAuth.callbackURL
+        consumerKey     : configAuth.twitterAuth.consumerKey,
+        consumerSecret  : configAuth.twitterAuth.consumerSecret,
+        callbackURL     : configAuth.twitterAuth.callbackURL
 
-           consumerKey     : process.env.TWITTER_CONSUMER_KEY,
-           consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
-           callbackURL     : process.env.TWITTER_CONSUMER_CALLBACK_URL
+        //   consumerKey     : process.env.TWITTER_CONSUMER_KEY,
+        //   consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
+        //   callbackURL     : process.env.TWITTER_CONSUMER_CALLBACK_URL
     },
     function(token, tokenSecret, profile, done) {
 

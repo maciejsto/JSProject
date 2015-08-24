@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html ng-app="appname">
-    
-
-
-<hr>
-<body>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <div class="container" ng-controllers="homeController">
+        <div class="container" ng-controller="homeController">
                <!-- HEADER AND TODO COUNT -->
                 <hr>
                 {{controller.name}}
@@ -46,7 +39,6 @@
             </div>
             
             <hr>
-            <div ui-view></div>
         </div>
 
     </div>
@@ -169,5 +161,3 @@
     <!-- Latest compiled and minified JavaScript -->
     <script
         src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-</body>
-</html>

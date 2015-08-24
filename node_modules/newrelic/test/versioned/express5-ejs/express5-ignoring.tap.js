@@ -1,20 +1,20 @@
 'use strict'
 
-var path    = require('path')
-var test    = require('tap').test
+var path = require('path')
+var test = require('tap').test
 var request = require('request')
-var helper  = require('../../lib/agent_helper.js')
-var API     = require('../../../api.js')
+var helper = require('../../lib/agent_helper.js')
+var API = require('../../../api.js')
 
 
 test("ignoring an Express 5 route", function (t) {
   t.plan(7)
 
-  var agent   = helper.instrumentMockedAgent({express5:true})
-  var api     = new API(agent)
+  var agent = helper.instrumentMockedAgent({express5: true})
+  var api = new API(agent)
   var express = require('express')
-  var app     = express()
-  var server  = require('http').createServer(app)
+  var app = express()
+  var server = require('http').createServer(app)
 
 
   this.tearDown(function cb_tearDown() {
@@ -31,7 +31,9 @@ test("ignoring an Express 5 route", function (t) {
     t.notOk(agent.traces.trace, "should have no transaction trace")
 
     var metrics = agent.metrics.unscoped
-    t.equal(Object.keys(metrics).length, 0, "no metrics added to agent collection")
+    t.equal(Object.keys(metrics).length, 1,
+      "only supportability metrics added to agent collection"
+    )
 
     var errors = agent.errors.errors
     t.equal(errors.length, 0, "no errors noticed")
@@ -40,17 +42,16 @@ test("ignoring an Express 5 route", function (t) {
   app.get('/polling/:id', function (req, res) {
     api.setIgnoreTransaction(true)
 
-    res.send(400, {status : 'pollpollpoll'})
+    res.send(400, {status: 'pollpollpoll'})
     res.end()
   })
 
   server.listen(8089, function () {
     request.get('http://localhost:8089/polling/31337',
-                {json : true},
+                {json: true},
                 function (error, res, body) {
-
       t.equal(res.statusCode, 400, "got expected error")
-      t.deepEqual(body, {status : 'pollpollpoll'}, "got expected response")
+      t.deepEqual(body, {status: 'pollpollpoll'}, "got expected response")
     })
   })
 })

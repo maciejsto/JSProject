@@ -1,21 +1,28 @@
 angular.module('loginController', [])
 
-	.controller('loginController', ['$scope','$http', function($scope, $http) {
+	.controller('loginController', loginController);
+	
+	
+	loginController.$inject = ['$scope', '$http', '$log', 'Socket', '_'];
+	
+	function loginController($scope, $http, $log, Socket, _){
 		
+	    $log.info("loadede login controller")
 	    
-// 		Socket.emit('arduino:send', {msg: 'message from arduino controller'});
-	    
-	   // Socket.emit('arduino:send2', {msg: ' another message from arduino controller'});
-	    
-	    console.log("loadede login controller")
-	    var controller = {
+	    var vm = this;
+	    vm.controller = {
 	        name: 'loginController'
 	    }
-	    $scope.name = "login ctrl ";
-	    $scope.controller = controller;
 	    
+	    activate();
 	    
-	    $scope.click = function(){
-	    	console.log('clicking button in login view');
+	    // Socket.emit('login:send', {msg: 'message from arduino controller'});
+	    
+	    function activate(){
+		    $scope.name = "login ctrl ";
+		    $scope.controller = vm.controller;
+		    $scope.click = function(){
+		    	$log.info('clicking button in login view');
+		    }
 	    }
-	}]);
+	}

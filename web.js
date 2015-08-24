@@ -1,115 +1,68 @@
 'use strict';
 
 var services     = require("./src/backend/config/serviceConfig").services,
-    sm           = require("./src/backend/service/manager")(services);
-
+    sm           = require("./src/backend/service/manager")(services),
+    flash        = require('connect-flash');
 var app          = sm.get('app'),
+    
     cluster      = sm.get('cluster'),
     fs           = sm.get('fs'),
     //var User         = sm.get('users');
     bodyParser   = require('body-parser'),
+    mongoose     = sm.get('mongoose'),
     User         = require("./src/backend/models/user"),
     Beer         = require('./src/backend/models/beer'),
     //var serialPort = sm.get('serial')(sm.get('config').Serial.port);  //COM3
     arduinoModel = sm.get('arduinomodel'),
     routes       = sm.get('routes'),
     server       = sm.get('httpServer'),
-    io           = sm.get('io')(server),
+    io           = sm.get('io'),
     port         = sm.get('config').port,
     MongoClient  = sm.get('mongoClient'),
     when         = sm.get('when'),
     express      = sm.get('express'),
     session      = require('express-session'),
-    flash        = require('connect-flash'),
     path         = require('path');
 
-
+app.use(flash());
 //------------------------------------------------ GLOBAL VARIABLES--------------------------------------------------*/
-var controllers  = [], 
-    clients      = [];
+// var controllers  = [], 
+    // clients      = [];
 
 //------------------------------------------------ PASSPORT AUTH SETTINGS -----------------------------------//
 
-//passport configuration
-var passport     = require('passport')
-, LocalStrategy = require('passport-local').Strategy;
-
-require("./src/backend/config/passport")(passport);
-// required for passport
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+var passport     = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+    require("./src/backend/config/passport")(passport);
 
 
 //-------------------------------------------------DATABASE CONNECTION-----------------------------------//
-var db = sm.get('mongoose').connect(sm.get('config').mongoDb.uri);
+mongoose.connect(sm.get('config').mongoDb.uri);
+var db = mongoose.connection;
+
+db.on('error', function () {
+  throw new Error('unable to connect to database at ' + sm.get('config').mongoDb.uri);
+});    
     
 //----------------------------------------------------APP SETTINGS------------------------------------------//
 app.set('views', __dirname + '/src/front/views');
 app.use('/api',express.static(__dirname + '/src/front'));   
 // app.use('/views', express.static(__dirname + '/src/front/views'));
 app.set('view engine', 'ejs');
-    
-fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
-    if (file.substr(-3) === '.js') {
-        console.log("controller:", file);
-        var name = file.substr(0,file.length - 3);
-        controllers[name] = {name: name, value: require('./src/backend/controllers/'+ file)};
+
+// TODO to be removed    
+// fs.readdirSync('./src/backend/controllers').forEach(function (file) {   //TODO get rid of sync
+    // if (file.substr(-3) === '.js') {
+        // console.log("controller:", file);
+        // var name = file.substr(0,file.length - 3);
+        // controllers[name] = {name: name, value: require('./src/backend/controllers/'+ file)};
         //controllers[name].run();
-    }
+    // }
     
-});    
+// });    
 
-//----------------------------------------------- SOCKETS -----------------------------------------------//
-
-/* ****using socket to receive request from browser , process it , send to client(raspberry) and receive response*******  */
-io.on('connection', function (socket) {
-    socket.setMaxListeners(0);
-    console.log('client connected in web.js');
-    clients.push(socket);
-    var i = clients.indexOf(socket);
-    console.log("socketID:",clients[i].id);
-    
-        /*wait for button state change True/False*/
-        socket.on('stateChanged', function(data){
-            console.log('state changed '+ data.state);
-
-            socket.broadcast.emit('updateState',{data: data});
-            //socket.emit('updateState', {data:'new_state'});
-        });
-
-        /*do something on client event*/    
-        socket.on('client', function(data){
-            console.log('form client:', data);
-            socket.emit('server', {data: 'data from server'});
-        });
-        
-        socket.on('arduino:send', function(data) {
-            console.log(data);
-            socket.broadcast.emit('client:send', {msg: 'data for client from arduino controller'})
-        })
-        socket.on('arduino:send2', function(data) {
-            socket.broadcast.emit('client:send2', {msg: 'another data for client from arduino controller'})
-            console.log(data);
-        })
-        
-        /*do task on disconnect*/
-        socket.on('disconnect', function(socket){
-            
-            while(clients.length > 0){
-                clients[i] = null;
-                clients.pop();
-            }
-            console.log('client disconnecting from server', clients);
-            
-        });
-        
-        //TODO other tasks
-});
-
+// //----------------------------------------------- SOCKETS -----------------------------------------------//
+require('./src/backend/sockets.js')(io(server));
 
 //---------------------------------------------------ENVIRONMET SETTINGS--------------------------------------------------------//
 var env = process.env.NODE_ENV || 'development';
@@ -117,7 +70,6 @@ if ('development' === env) {
     // configure stuff here
     console.log('configure stuff here..');
 }
-
 //---------------------------------------------------CONTROLLERS-----------------------------------------------------------------//
 
 var authController    = require('./src/backend/controllers/auth'),
@@ -125,10 +77,10 @@ var authController    = require('./src/backend/controllers/auth'),
     userController    = require('./src/backend/controllers/users'),
     todoController    = require('./src/backend/controllers/todo'),
     arduinoController = require('./src/backend/controllers/arduino');
+    
 
-
-var ardu = arduinoController();
-console.log(ardu.getName());
+// var ardu = arduinoController();
+// console.log(ardu.getName());
 //ROUTES-------------------------------------------TODO move to controlleers-------------------------------------------------//
 
 /*    
@@ -172,6 +124,12 @@ router.route('/admin')
      .get(ensureAuthenticated, routes.admin);
      ////adminController().run(req,res,next);
     
+router.route('/home')
+    .get(ensureAuthenticated, routes.home);
+    // .get(ensureAuthenticated, function(req, res, next){
+    //   res.render('home', {title: 'home route'}); 
+    // });
+    
  router.route('/arduino')
      .get(ensureAuthenticated, routes.arduino);
      
@@ -179,6 +137,11 @@ router.route('/admin')
  router.route('/portfolio')
      .get(ensureAuthenticated, routes.portfolio);
 
+// router.route('/projects')
+    // .get(ensureAuthenticated, function(req, res, next){
+    //   res.render('projects', {title: 'projects route'}); 
+    // });
+    
  router.get('/angular',ensureAuthenticated, function(req,res){
      User.find(function(err, users){
        if (err)
@@ -189,17 +152,25 @@ router.route('/admin')
  });
 
 
-router.route('/login')
-    .get(routes.login);
+// router.route('/login')
+    // .get(routes.login);
     
-router.route('/signup')
-    .get(routes.signup);    
+// router.route('/signup')
+    // .get(routes.signup);   
+    
+ router.get('/login', function(req, res) {
+
+        // render the page and pass in any flash data if it exists
+        res.render('login.ejs', { message: req.flash('loginMessage') }); 
+    });    
     
 router.route('/login')
-    .get(routes.login)
+    // .get(routes.login)
     .post(passport.authenticate('local-login', { 
-        successRedirect: '/api/home',
-        failureRedirect: '/api/login' }));
+        successRedirect: '/api/index',
+        failureRedirect: '/api/login',
+        failureFlash : true // allow flash messages
+        }));
     
 
 // // process the signup form
@@ -230,8 +201,8 @@ router.route('/beers/:beer_id')
 
 // Create endpoint handlers for /users
 router.route('/users')
-  .post(ensureAuthenticated, userController.postUsers)
-  .get(ensureAuthenticated, userController.getUsers);
+  .post( ensureAuthenticated, userController.postUsers)
+  .get( ensureAuthenticated, userController.getUsers);
 
 //create endpoint handlers for /users/:user_id 
 router.route('/users/:user_id')
@@ -281,33 +252,33 @@ router.route('*')
 app.use('/api', router);
 
 
-    app.use(function(req, res, next){
-  res.status(404);
+//     app.use(function(req, res, next){
+//   res.status(404);
   
-  // respond with html page
-  if (req.accepts('html')) {
-    // res.render('login', { url: req.url });
-     res.redirect('/api/login');
-    return;
-  }
+//   // respond with html page
+//   if (req.accepts('html')) {
+//     // res.render('login', { url: req.url });
+//      res.redirect('/api/login');
+//     return;
+//   }
 
-  // respond with json
-  if (req.accepts('json')) {
-    res.send({ error: 'Not found' });
-    return;
-  }
+//   // respond with json
+//   if (req.accepts('json')) {
+//     res.send({ error: 'Not found' });
+//     return;
+//   }
 
-  // default to plain-text. send()
-  res.type('txt').send('Not found');
-}); 
+//   // default to plain-text. send()
+//   res.type('txt').send('Not found');
+// }); 
 
-app.use(function(err, req, res, next){
-  // we may use properties of the error object
-  // here and next(err) appropriately, or if
-  // we possibly recovered from the error, simply next().
-  res.status(err.status || 500);
-  res.render('500', { error: err });
-});
+// app.use(function(err, req, res, next){
+//   // we may use properties of the error object
+//   // here and next(err) appropriately, or if
+//   // we possibly recovered from the error, simply next().
+//   res.status(err.status || 500);
+//   res.render('500', { error: err });
+// });
 
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
 server.listen(process.env.PORT, process.env.IP,function(){

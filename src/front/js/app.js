@@ -1,6 +1,7 @@
 "use strict";
 
 angular.module('appname',[
+    
     'ui.router', 
     'underscore',
     'loginController',
@@ -26,54 +27,54 @@ angular.module('appname',[
       $stateProvider
         .state('/api/users', {
           url: "/api/users",
-          controller: 'userController',
+        //   controller: 'userController',
           templateUrl: "views/users.ejs"
         })
         
         .state('/api/index', {
           url: "/api/index",
-          controller: 'indexController',
+        //   controller: 'indexController',
           templateUrl: "views/home.ejs"
         })
         .state('/api/home', {
           url: "/api/home",
-          controller: 'homeController',
+        //   controller: 'homeController',
           templateUrl: "views/home.ejs"
         })
         
         .state('/api/about', {
-          url: "/api/about",
-          controller: 'aboutController',
+          url: "/api/about/",
+        //   controller: 'aboutController',
           templateUrl: "views/about.ejs"
         })
         
         .state('/api/arduino', {
           url: "/api/arduino",
-          controller: 'arduinoController',
+        //   controller: 'arduinoController',
           templateUrl: "views/arduino.ejs"
         })
         
          .state('/api/admin', {
           url: "/api/admin",
-          controller: 'adminController',
+        //   controller: 'adminController',
           templateUrl: "views/admin.ejs"
         })
         
          .state('/api/portfolio', {
           url: "/api/portfolio",
-          controller: 'portfolioController',
+        //   controller: 'portfolioController',
           templateUrl: "views/portfolio.ejs"
         })
         
          .state('/api/logout', {
           url: "/api/login",
           templateUrl: "views/login.ejs",
-          controller: 'logoutController'
+        //   controller: 'logoutController'
         })
         
          .state('/api/login', {
           url: "/api/login",
-          controller: 'loginController',
+        //   controller: 'loginController',
           templateUrl: "views/login.ejs"
         })
          .state('/api/signup', {
@@ -86,7 +87,7 @@ angular.module('appname',[
         })
          .state('/api', {
           url: "/api/login",
-          controller: 'loginController',
+        //   controller: 'loginController',
           templateUrl: "views/login.ejs"
         })
         
@@ -97,7 +98,7 @@ angular.module('appname',[
             return $location.path();
         })
          // use the HTML5 History API
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(false);
      
         
         })

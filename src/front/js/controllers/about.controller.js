@@ -1,11 +1,20 @@
 angular.module('aboutController', [])
 
-    .controller('aboutController', ['$scope', '$http', 'Socket', function($scope, $http, Socket){
-        console.log('loaded about controller');
-        
-        var controller = {
-            name : 'aboutController'
+    .controller('aboutController', aboutController);
+    
+    aboutController.$inject = ['$scope', '$http', '$log', 'Socket', '_'];
+    
+    function aboutController($scope, $http, $log, Socket, _) {
+        $log.info('loaded about controller');
+        var vm = this;
+        vm.controller = {
+            name: 'aboutController'
         }
         
-        $scope.controller = controller;
-    }]);
+        activate();
+        
+        function activate(){
+            $scope.controller = vm.controller;
+        }
+    }
+    

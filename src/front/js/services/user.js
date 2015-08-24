@@ -9,7 +9,7 @@ angular.module('userService', [])
 		}
 		
 		return {
-			get : function() {
+			getAllUsers : function() {
 				return $http.get('/api/users').then(function (resp) {
 						angular.copy(resp.data, store.users);
 						return store.users;
