@@ -12,11 +12,8 @@ var UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  role: {
-    type: String
-  },
-  
+  }
+  /*
     facebook         : {
         id           : String,
         token        : String,
@@ -35,7 +32,7 @@ var UserSchema = new mongoose.Schema({
         email        : String,
         name         : String
     }
-  
+  */
 });
 
 //Execute before each user.save() call
