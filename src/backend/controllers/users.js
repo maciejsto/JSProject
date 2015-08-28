@@ -1,6 +1,7 @@
 // Load required packages
 //var User = require('../models/user');
 var User = require('mongoose').model('User');
+// todo add model to store db logs for errors 
 
 
 
@@ -14,7 +15,7 @@ exports.postUsers = function(req, res) {
 
   user.save(function(err, user) {
     if (err){
-        console.log('error saveing user')
+        console.log('error saveing user', err)
         res.send(err);
   }else{
       res.json({ message: 'New beer drinker added to the locker room!' });

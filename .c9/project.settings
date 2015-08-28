@@ -28,7 +28,14 @@
         "@path": "/.c9/runners",
         "configs": {
             "@inited": "true",
-            "json()": {}
+            "json()": {
+                "web.js production": {
+                    "command": "",
+                    "debug": true,
+                    "env": {},
+                    "name": "web.js production"
+                }
+            }
         }
     },
     "share": {

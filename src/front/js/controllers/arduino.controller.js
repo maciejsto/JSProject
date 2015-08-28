@@ -1,12 +1,12 @@
 angular.module('arduinoController', [])
 	.controller('arduinoController', arduinoController);
 	
-	arduinoController.$inject = ['$scope', '$http', '$log', 'Socket', '_'];
+	arduinoController.$inject = ['$scope','$window', '$http', '$log', 'Socket', '_'];
 
 	
-	function arduinoController($scope, $http, $log, Socket, _){
+	function arduinoController($scope, $window, $http, $log, Socket, _){
 		
-		$log.warn("loadede arduino controller")
+		$log.warn("loadede arduino controller");
 		
 		var vm = this;
 		vm.controller = {
@@ -19,13 +19,24 @@ angular.module('arduinoController', [])
 		Socket.emit('arduino:send', {msg: 'message from arduino controller'});
 	    Socket.emit('arduino:send2', {msg: ' another message from arduino controller'});
 	    Socket.on('server:msg', function(resp){
-	    	$scope.temp = resp.data;	
+	    	var _temp = round_num(resp.data);
+	    	
+	    	
+			var c = _temp.toString().split(".")
+	    	
+	    	$scope.temp0 = c[0];
+	    	$scope.temp1 = c[1];
 	    });
 	    
 	    activate();
 	    
 	    function activate(){
 		    $scope.controller = vm.controller;
+	    }
+	    
+	    function round_num(num) {
+	    	var number = parseFloat(num);
+	    	return Math.round( number * 10 ) / 10;
 	    }
 		
 	}

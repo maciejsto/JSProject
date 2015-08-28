@@ -21,7 +21,7 @@ io.on('connection', function (socket) {
         
          socket.emit('server:msg', {data: random(20,30)});
         
-    }, 1000);
+    }, 2000);
     
     console.log("socketID:",clients[i].id);
     

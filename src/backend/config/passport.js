@@ -44,8 +44,17 @@ module.exports = function(passport) {
         
   function(req, username, password, done) {
       
+     
+      
     User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
+        
+       if(null == user){
+           console.log('asdsadsa')
+       }
+        
+      if (err) { 
+          console.log('err fining ')
+          return done(err,req.flash('loginMessage', 'No user found.')); }
 
       // No user found with that username
       if (!user) { 
@@ -56,7 +65,7 @@ module.exports = function(passport) {
       user.verifyPassword(password, function(err, isMatch) {
         if (err) { 
             console.log('bad pass')
-            return done(err); }
+            return done(err, req.flash('loginMessage', 'bad password.')); }
 
         // Password did not match
         if (!isMatch) { 

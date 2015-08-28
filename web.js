@@ -1,10 +1,9 @@
 'use strict';
 
 var services     = require("./src/backend/config/serviceConfig").services,
-    sm           = require("./src/backend/service/manager")(services),
-    flash        = require('connect-flash');
+    sm           = require("./src/backend/service/manager")(services);
+
 var app          = sm.get('app'),
-    
     cluster      = sm.get('cluster'),
     fs           = sm.get('fs'),
     //var User         = sm.get('users');
@@ -22,9 +21,10 @@ var app          = sm.get('app'),
     when         = sm.get('when'),
     express      = sm.get('express'),
     session      = require('express-session'),
+    flash        = require('connect-flash'),
     path         = require('path');
 
-app.use(flash());
+
 //------------------------------------------------ GLOBAL VARIABLES--------------------------------------------------*/
 // var controllers  = [], 
     // clients      = [];
@@ -152,25 +152,17 @@ router.route('/home')
  });
 
 
-// router.route('/login')
-    // .get(routes.login);
+router.route('/login')
+    .get(routes.login);
     
-// router.route('/signup')
-    // .get(routes.signup);   
-    
- router.get('/login', function(req, res) {
-
-        // render the page and pass in any flash data if it exists
-        res.render('login.ejs', { message: req.flash('loginMessage') }); 
-    });    
+router.route('/signup')
+    .get(routes.signup);    
     
 router.route('/login')
-    // .get(routes.login)
+    .get(routes.login)
     .post(passport.authenticate('local-login', { 
         successRedirect: '/api/index',
-        failureRedirect: '/api/login',
-        failureFlash : true // allow flash messages
-        }));
+        failureRedirect: '/api/login' }));
     
 
 // // process the signup form
@@ -202,7 +194,7 @@ router.route('/beers/:beer_id')
 // Create endpoint handlers for /users
 router.route('/users')
   .post( ensureAuthenticated, userController.postUsers)
-  .get( ensureAuthenticated, userController.getUsers);
+  .get( ensureAuthenticated,userController.getUsers);
 
 //create endpoint handlers for /users/:user_id 
 router.route('/users/:user_id')
@@ -217,12 +209,15 @@ router.route('/users/:user_id')
 
 router.route('/logout')
     .get(function(req, res) {
+        console.log('logging out');
         req.logout();
         res.redirect('/api/login');
     });
 
-router.route('/')
-    .get(routes.login);
+router.route('/*')
+    .get(function(req, res){
+         res.redirect('/api/index');
+    });
 
 // =====================================
 // TWITTER ROUTES ======================
@@ -252,33 +247,33 @@ router.route('*')
 app.use('/api', router);
 
 
-//     app.use(function(req, res, next){
-//   res.status(404);
+    app.use(function(req, res, next){
+  res.status(404);
   
-//   // respond with html page
-//   if (req.accepts('html')) {
-//     // res.render('login', { url: req.url });
-//      res.redirect('/api/login');
-//     return;
-//   }
+  // respond with html page
+  if (req.accepts('html')) {
+    // res.render('login', { url: req.url });
+     res.redirect('/api/login');
+    return;
+  }
 
-//   // respond with json
-//   if (req.accepts('json')) {
-//     res.send({ error: 'Not found' });
-//     return;
-//   }
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
 
-//   // default to plain-text. send()
-//   res.type('txt').send('Not found');
-// }); 
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
+}); 
 
-// app.use(function(err, req, res, next){
-//   // we may use properties of the error object
-//   // here and next(err) appropriately, or if
-//   // we possibly recovered from the error, simply next().
-//   res.status(err.status || 500);
-//   res.render('500', { error: err });
-// });
+app.use(function(err, req, res, next){
+  // we may use properties of the error object
+  // here and next(err) appropriately, or if
+  // we possibly recovered from the error, simply next().
+  res.status(err.status || 500);
+  res.render('500', { error: err });
+});
 
 //--------------------------------START SERVER ON DEDICATED PORT---------------------------------------------//
 server.listen(process.env.PORT, process.env.IP,function(){

@@ -1,25 +1,26 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-collapse">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
+			
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" ui-sref="/api/index">Arduino & Raspberry Home Automation</a>
+			<a class="navbar-brand" ui-sref="index">Arduino & Raspberry Home Automation</a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li id="home"><a ui-sref="/api/home">Home</a></li>
-				<li id="about"><a ui-sref="/api/about">About</a></li>
-                <li id="arduino"><a ui-sref="/api/arduino">Arduino</a></li>
-                <li id="admin"><a ui-sref="/api/admin">Admin</a></li>
-                <li id="user"><a ui-sref="/api/users">Users</a></li>
-                <li id="portfolio"><a ui-sref="/api/portfolio">Portfolio</a></li>
-                <li id="projects"><a ui-sref="/api/home">Projects</a></li>
+				<li id="home"><a ui-sref="home">Home</a></li>
+                <li id="arduino"><a ui-sref="arduino">Arduino</a></li>
+                <li id="admin"><a ui-sref="admin">Admin</a></li>
+                <li id="user"><a ui-sref="users">Users</a></li>
+                <li id="portfolio"><a ui-sref="portfolio">Portfolio</a></li>
+                <li id="projects"><a ui-sref="home">Projects</a></li>
+                <!--<li id="about"><a ui-sref="/api/about">About</a></li>-->
 			</ul>
 			<ul class ="nav navbar-nav navbar-right">
-				<li id = "logout"><a ui-sref = "/api/logout" target="_self">Logout</a></li>
+				<li id = "logout"><a href= "/api/logout" target="_self">Logout</a></li>
 			</ul>
 		</div>
 	</div>

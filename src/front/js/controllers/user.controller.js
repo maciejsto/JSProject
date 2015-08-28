@@ -107,7 +107,7 @@ angular.module('userController', [])
 				.success(function(data) {
 					$scope.loading = false;
 					$scope.users = data; // assign our new list of todos
-					$scope.users = Users.get();
+					$scope.users = Users.getAllUsers();
 				})
 				.error(function(data) {
                 	$log.error('Error: ' + data);

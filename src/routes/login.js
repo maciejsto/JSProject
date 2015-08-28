@@ -1,6 +1,6 @@
 
 exports.login = function(req, res, next){
 
-    res.render('login', { title: 'Users Route' ,
-        data: 'users_data'});
+    // render the page and pass in any flash data if it exists
+        res.render('login.ejs', { message: req.flash('loginMessage') });
 };

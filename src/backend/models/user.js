@@ -7,30 +7,34 @@ var UserSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    required: true
+    // required: true
   },
   password: {
     type: String,
     required: true
   },
-  //   facebook         : {
-  //       id           : String,
-  //       token        : String,
-  //       email        : String,
-  //       name         : String
-  //   },
-  //   twitter          : {
-  //       id           : String,
-  //       token        : String,
-  //       displayName  : String,
-  //       username     : String
-  //   },
-  //   google           : {
-  //       id           : String,
-  //       token        : String,
-  //       email        : String,
-  //       name         : String
-  //   }
+  role: {
+    type: String
+  },
+  
+    facebook         : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    },
+    twitter          : {
+        id           : String,
+        token        : String,
+        displayName  : String,
+        username     : String
+    },
+    google           : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    }
   
 });
 

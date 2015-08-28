@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="appname">
 <body>
-
 <script>
     /*
     var socket = io.connect('http://jsproject.herokuapp.com');
@@ -31,15 +30,76 @@
 
 </script>
 
+
+
 <div class="container" ng-controller = "arduinoController">
+   
+    <hr> 
     
+    <div class="row">
         
-    <div class="page-header">
-        {{controller.name}}
-         <p>socket reponse from server</p>
-         <p>Temp </p>{{temp}}
+        <div class="container col-md-4">
+           <h2>Temperature</h2>
+           <hr> 
+            <div class="de">
+                <div class="den">
+                  <div class="dene">
+                    <div class="denem">
+                      <div class="deneme">
+                        {{temp0}}<span>.{{temp1}}</span><strong>&deg;</strong><span>C</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="container col-md-4">
+           <h2>Humidity</h2>
+           <hr> 
+            <div class="de">
+                <div class="den">
+                  <div class="dene">
+                    <div class="denem">
+                      <div class="deneme">
+                        {{temp0}}<span>.{{temp1}}</span><strong>&deg;</strong><span>C</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="container col-md-4">
+           <h2>Light Intensity</h2>
+           <hr> 
+            <div class="de">
+                <div class="den">
+                  <div class="dene">
+                    <div class="denem">
+                      <div class="deneme">
+                        {{temp0}}<span>.{{temp1}}</span><strong>&deg;</strong><span>C</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
-    <div class="panel panel-default">
+
+
+</div>
+
+
+
+<hr>
+
+    <div class="page-header">
+        <h2>{{controller.name}}</h2>
+         <h2>socket reponse from server</h2>
+         <!--<p>Temp </p>{{temp}}-->
+    </div>
+
+ <div class="panel panel-default">
         <div class="panel-heading">
             <h1>
                 Arduino <small>One of the collest electronic prototyping platforms:D</small>
@@ -52,23 +112,19 @@
                 website and display data from Arduino board:D.</p>
         </div>
     </div>
+    
     <div class="user_data">
         <div id="serialData">
             <p></p>
         </div>
 
+<div ui-view></div>
 
-
-
-    </div>
-    <hr>
-
-
-</div>
 <!-- /container -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('#about').addClass("active");
     });
 </script>
+</body>
 </html>

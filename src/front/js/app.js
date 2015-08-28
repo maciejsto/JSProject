@@ -4,6 +4,7 @@ angular.module('appname',[
     
     'ui.router', 
     'underscore',
+    'authenticationSvc',
     'loginController',
     'homeController',
     'aboutController',
@@ -17,78 +18,90 @@ angular.module('appname',[
     'todoController',
     'userService',
     'socketService',
+    'Session'
 
     ])
     
-    .config(function($stateProvider, $urlRouterProvider,$locationProvider) {
+    .config(function($stateProvider, $urlRouterProvider,$locationProvider, USER_ROLES) {
 
+    // use the HTML5 History API
+        $locationProvider.html5Mode(false);
+        $locationProvider.hashPrefix('!');
+     
+
+      $urlRouterProvider.otherwise('/api/login');
+      
       // For any unmatched url, send to 404
       // Now set up the states
       $stateProvider
-        .state('/api/users', {
-          url: "/api/users",
+        .state('users', {
+          url: "/users",
         //   controller: 'userController',
-          templateUrl: "views/users.ejs"
+          templateUrl: "api/views/users.ejs"
         })
         
-        .state('/api/index', {
-          url: "/api/index",
+        .state('index', {
+          url: "/index",
         //   controller: 'indexController',
-          templateUrl: "views/home.ejs"
+          templateUrl: "api/views/home.ejs",
+          data: {
+             authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+          }
         })
-        .state('/api/home', {
-          url: "/api/home",
-        //   controller: 'homeController',
-          templateUrl: "views/home.ejs"
-        })
-        
-        .state('/api/about', {
-          url: "/api/about/",
-        //   controller: 'aboutController',
-          templateUrl: "views/about.ejs"
+        .state('home', {
+          url: "/home",
+          // controller: 'homeController',
+          templateUrl: "api/views/home.ejs",
+         
         })
         
-        .state('/api/arduino', {
-          url: "/api/arduino",
+        .state('about', {
+          url: "/about",
+          // controller: 'aboutController',
+          templateUrl: "api/views/about.ejs"
+        })
+        
+        .state('arduino', {
+          url: "/arduino",
         //   controller: 'arduinoController',
-          templateUrl: "views/arduino.ejs"
+          templateUrl: "api/views/arduino.ejs"
         })
         
-         .state('/api/admin', {
-          url: "/api/admin",
+         .state('admin', {
+          url: "/admin",
         //   controller: 'adminController',
-          templateUrl: "views/admin.ejs"
+          templateUrl: "api/views/admin.ejs"
         })
         
-         .state('/api/portfolio', {
-          url: "/api/portfolio",
+         .state('portfolio', {
+          url: "/portfolio",
         //   controller: 'portfolioController',
-          templateUrl: "views/portfolio.ejs"
+          templateUrl: "api/views/portfolio.ejs"
         })
         
-         .state('/api/logout', {
-          url: "/api/login",
-          templateUrl: "views/login.ejs",
-        //   controller: 'logoutController'
+        .state('logout', {
+          url: "/login",
+          templateUrl: "api/views/logout.ejs",
+          // controller: 'logoutController'
         })
         
-         .state('/api/login', {
-          url: "/api/login",
+         .state('login', {
+          url: "/login",
         //   controller: 'loginController',
-          templateUrl: "views/login.ejs"
+          templateUrl: "api/views/login.ejs"
         })
-         .state('/api/signup', {
-          url: "/api/signup",
-          templateUrl: "views/signup.ejs"
+         .state('signup', {
+          url: "/signup",
+          templateUrl: "api/views/signup.ejs"
         })
-        .state('/api/404', {
-        url: '^*path',// no url defined
-        template: 'views/404.ejs',
+        .state('404', {
+        // url: '^*path',// no url defined
+        // template: 'api/views/404.ejs',
         })
-         .state('/api', {
-          url: "/api/login",
+         .state('/', {
+          url: "/login",
         //   controller: 'loginController',
-          templateUrl: "views/login.ejs"
+          templateUrl: "api/views/login.ejs"
         })
         
         $urlRouterProvider.otherwise(function($injector, $location){
@@ -97,16 +110,42 @@ angular.module('appname',[
             state.go('404');
             return $location.path();
         })
-         // use the HTML5 History API
-        $locationProvider.html5Mode(false);
      
         
         })
-        .run(function($rootScope) {
-            //   $rootScope.name = "Ari Lerner";    //display in home view
+        .constant('AUTH_EVENTS', {
+          loginSuccess: 'auth-login-success',
+          loginFailed: 'auth-login-failed',
+          logoutSuccess: 'auth-logout-success',
+          sessionTimeout: 'auth-session-timeout',
+          notAuthenticated: 'auth-not-authenticated',
+          notAuthorized: 'auth-not-authorized'
         })
+        .constant('USER_ROLES', {
+          all: '*',
+          admin: 'admin',
+          editor: 'editor',
+          guest: 'guest'
+        })
+        .run(["$rootScope", "$location", function($rootScope, $location, authenticationSvc, AUTH_EVENTS) {
+          // $rootScope.$on('$stateChangeStart', function (event, next) {
+              
+          //     console.log(authenticationSvc);
+          //     var authorizedRoles = next.data.authorizedRoles;
+              
+          //     if (!authenticationSvc.isAuthorized(authorizedRoles)) {
+          //       event.preventDefault();
+          //       if (authenticationSvc.isAuthenticated()) {
+          //         // user is not allowed
+          //         $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+          //       } else {
+          //         // user is not logged in
+          //         $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+          //       }
+          //     }
+          // });
+        }]);
     
     
-    
-    
+
     
