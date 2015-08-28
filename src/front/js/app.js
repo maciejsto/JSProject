@@ -22,7 +22,7 @@ angular.module('appname',[
 
     ])
     
-    .config(function($stateProvider, $urlRouterProvider,$locationProvider, USER_ROLES) {
+    .config(function($stateProvider, $urlRouterProvider,$locationProvider, $httpProvider, USER_ROLES) {
 
     // use the HTML5 History API
         $locationProvider.html5Mode(false);
@@ -96,7 +96,7 @@ angular.module('appname',[
         })
         .state('404', {
         // url: '^*path',// no url defined
-        // template: 'api/views/404.ejs',
+        template: 'api/views/404.ejs',
         })
          .state('/', {
           url: "/login",
