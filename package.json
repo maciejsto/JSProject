@@ -57,6 +57,7 @@
     "socket.io": "*",
     "socket.io-client": "^1.2.0",
     "underscore": "^1.7.0",
+    "unpipe": "^1.0.0",
     "when": "^3.2.3",
     "winston": "^1.0.1"
   },
