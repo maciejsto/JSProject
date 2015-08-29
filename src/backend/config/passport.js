@@ -62,7 +62,7 @@ module.exports = function(passport) {
           return done(null, false, req.flash('loginMessage', 'No user found.')); }
 
       // Make sure the password is correct
-      user.verifyPassword(password, function(err, isMatch) {
+      user.verifyPassword(password, function(err, isMatch){ 
         if (err) { 
             console.log('bad pass')
             return done(err, req.flash('loginMessage', 'bad password.')); }
@@ -139,13 +139,13 @@ module.exports = function(passport) {
     // =========================================================================
     passport.use(new TwitterStrategy({
 
-        consumerKey     : configAuth.twitterAuth.consumerKey,
-        consumerSecret  : configAuth.twitterAuth.consumerSecret,
-        callbackURL     : configAuth.twitterAuth.callbackURL
+        // consumerKey     : configAuth.twitterAuth.consumerKey,
+        // consumerSecret  : configAuth.twitterAuth.consumerSecret,
+        // callbackURL     : configAuth.twitterAuth.callbackURL
 
-        //   consumerKey     : process.env.TWITTER_CONSUMER_KEY,
-        //   consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
-        //   callbackURL     : process.env.TWITTER_CONSUMER_CALLBACK_URL
+          consumerKey     : process.env.TWITTER_CONSUMER_KEY,
+          consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
+          callbackURL     : process.env.TWITTER_CONSUMER_CALLBACK_URL
     },
     function(token, tokenSecret, profile, done) {
 
