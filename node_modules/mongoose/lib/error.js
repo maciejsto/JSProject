@@ -8,10 +8,10 @@
 
 function MongooseError (msg) {
   Error.call(this);
-  Error.captureStackTrace && Error.captureStackTrace(this, arguments.callee);
+  this.stack = new Error().stack;
   this.message = msg;
   this.name = 'MongooseError';
-};
+}
 
 /*!
  * Inherits from Error.
@@ -43,10 +43,9 @@ MongooseError.Messages = MongooseError.messages;
  */
 
 MongooseError.CastError = require('./error/cast');
-MongooseError.ValidationError = require('./error/validation')
-MongooseError.ValidatorError = require('./error/validator')
-MongooseError.VersionError =require('./error/version')
-MongooseError.OverwriteModelError = require('./error/overwriteModel')
-MongooseError.MissingSchemaError = require('./error/missingSchema')
-MongooseError.DivergentArrayError = require('./error/divergentArray')
-
+MongooseError.ValidationError = require('./error/validation');
+MongooseError.ValidatorError = require('./error/validator');
+MongooseError.VersionError =require('./error/version');
+MongooseError.OverwriteModelError = require('./error/overwriteModel');
+MongooseError.MissingSchemaError = require('./error/missingSchema');
+MongooseError.DivergentArrayError = require('./error/divergentArray');

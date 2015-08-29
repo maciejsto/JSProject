@@ -16,7 +16,7 @@ var config = {
             flag: false
         },
         mongoDb: {
-            uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
+            uri: 'mongodb://heroku_5416087n:dqqe189b7dmjhip855v12pl3qm@ds035503.mongolab.com:35503/heroku_5416087n',
             options: {
                 server: {
                     poolSize: 2,
@@ -51,7 +51,8 @@ var config = {
             flag: false
         },
         mongoDb: {
-            uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
+            // uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
+            uri: 'mongodb://heroku_5416087n:dqqe189b7dmjhip855v12pl3qm@ds035503.mongolab.com:35503/heroku_5416087n',
             options: {
                 server: {
                     poolSize: 2,
@@ -86,7 +87,7 @@ var config = {
             flag: false
         },
         mongoDb: {
-            uri: 'mongodb://heroku_app26086154:pmkqvnf3j0tk1j7umugikfdie@ds041218.mongolab.com:41218/heroku_app26086154',
+            uri: 'mongodb://heroku_5416087n:dqqe189b7dmjhip855v12pl3qm@ds035503.mongolab.com:35503/heroku_5416087n',
             options: {
                 server: {
                     poolSize: 2,
