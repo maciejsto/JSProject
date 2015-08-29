@@ -139,13 +139,13 @@ module.exports = function(passport) {
     // =========================================================================
     passport.use(new TwitterStrategy({
 
-        // consumerKey     : configAuth.twitterAuth.consumerKey,
-        // consumerSecret  : configAuth.twitterAuth.consumerSecret,
-        // callbackURL     : configAuth.twitterAuth.callbackURL
+        consumerKey     : configAuth.twitterAuth.consumerKey,
+        consumerSecret  : configAuth.twitterAuth.consumerSecret,
+        callbackURL     : configAuth.twitterAuth.callbackURL
 
-          consumerKey     : process.env.TWITTER_CONSUMER_KEY,
-          consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
-          callbackURL     : process.env.TWITTER_CONSUMER_CALLBACK_URL
+        //   consumerKey     : process.env.TWITTER_CONSUMER_KEY,
+        //   consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
+        //   callbackURL     : process.env.TWITTER_CONSUMER_CALLBACK_URL
     },
     function(token, tokenSecret, profile, done) {
 
