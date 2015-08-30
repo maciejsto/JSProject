@@ -1,37 +1,50 @@
-var http = require('http');
+'use strict'
 
-exports.allow = function (usingExpress, prereq) {
-    return function (req, res, next) {
-        var handler = function (passed) {
-            if (!passed) {
-				if(usingExpress) {
-                    return res.status(403).send(http.STATUS_CODES[403]);
-				} else {
-	                return res.send(403, {msg: http.STATUS_CODES[403]});
-				}
-            }
-            next();
-        };
+var http = require('http')
 
-        if (prereq.length > 1) {
-            prereq(req, handler);
-        } else {
-            handler(prereq(req));
-        }
-    };
-};
+exports.allow = function (prereq, onError) {
+  return function (req, res, next) {
+    var handler = function (err, passed) {
+      if (err) {
+        return onError(err, req, res, next)
+      }
 
-exports.access = function (accessFn) {
-    return function (req, res, next) {
-        var handler = function (access) {
-            req.access = access;
-            next();
-        };
+      if (!passed) {
+        err = new Error(http.STATUS_CODES[403])
+        err.status = 403
+        return onError(err, req, res, next)
+      }
 
-        if (accessFn.length > 1) {
-            accessFn(req, handler);
-        } else {
-            handler(accessFn(req));
-        }
-    };
-};
+      next()
+    }
+
+    if (prereq.length > 1) {
+      prereq(req, handler)
+    } else {
+      handler(null, prereq(req))
+    }
+  }
+}
+
+exports.access = function (accessFn, onError) {
+  return function (req, res, next) {
+    var handler = function (err, access) {
+      if (err) {
+        return onError(err, req, res, next)
+      }
+
+      if (['public', 'private', 'protected'].indexOf(access) < 0) {
+        throw new Error('Unsupported access, must be "public", "private" or "protected"')
+      }
+
+      req.access = access
+      next()
+    }
+
+    if (accessFn.length > 1) {
+      accessFn(req, handler)
+    } else {
+      handler(null, accessFn(req))
+    }
+  }
+}
