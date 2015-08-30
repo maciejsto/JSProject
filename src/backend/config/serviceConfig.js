@@ -101,7 +101,7 @@ var services = {
     
     //cheerio: require('cheerio'),
     //cookieParser: require('cookie-parser')(),
-    connect: require('connect'),
+    //connect: require('connect'),
 //    config: require(ROOT_PATH + 'src/backend/config/config')(),
     config: require(ROOT_PATH + 'config/config')(),
     
