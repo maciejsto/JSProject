@@ -96,7 +96,6 @@ angular.module('userController', [])
 					
 			}
 		};
-
 		// DELETE ==================================================================
 		// delete a todo after checking it
 		$scope.deleteUser = function(id) {
