@@ -86,6 +86,7 @@ var config = {
             bauderate:9600,
             flag: false
         },
+        
         mongoDb: {
             uri: 'mongodb://heroku_5416087n:dqqe189b7dmjhip855v12pl3qm@ds035503.mongolab.com:35503/heroku_5416087n',
             options: {
