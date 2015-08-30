@@ -46,7 +46,7 @@
     "logfmt": "^1.1.2",
     "method-override": "^2.0.2",
     "mongodb": "^1.4.19",
-    "mongoose": "^4.0.0",
+    "mongoose": "^4.1",
     "mongoskin": "^1.4.4",
     "newrelic": "^1.13.2",
     "passport": "^0.2.2",
