@@ -1,3 +1,5 @@
 .idea/
 npm-debug.log
 src/backend/auth
+/bower_components
+/node_modules
