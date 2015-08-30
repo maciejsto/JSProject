@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var STATES = require('./connectionstate')
+var STATES = require('./connectionstate');
 
 /**
  * Abstract Collection constructor
@@ -30,6 +30,7 @@ function Collection (name, conn, opts) {
 
   this.opts = opts;
   this.name = name;
+  this.collectionName = name;
   this.conn = conn;
   this.queue = [];
   this.buffer = this.opts.bufferCommands;
@@ -37,7 +38,7 @@ function Collection (name, conn, opts) {
   if (STATES.connected == this.conn.readyState) {
     this.onOpen();
   }
-};
+}
 
 /**
  * The collection name
@@ -47,6 +48,15 @@ function Collection (name, conn, opts) {
  */
 
 Collection.prototype.name;
+
+/**
+ * The collection name
+ *
+ * @api public
+ * @property collectionName
+ */
+
+Collection.prototype.collectionName;
 
 /**
  * The Connection instance
