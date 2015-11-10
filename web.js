@@ -247,7 +247,7 @@ router.route('*')
 app.use('/api', router);
 
 
-    app.use(function(req, res, next){
+app.use(function(req, res, next){
   res.status(404);
   
   // respond with html page
