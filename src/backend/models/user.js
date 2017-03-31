@@ -12,7 +12,13 @@ var UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  
+  role: {
+    type: String,
+    required: true
   }
+  
   /*
     facebook         : {
         id           : String,

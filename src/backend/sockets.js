@@ -17,6 +17,8 @@ io.on('connection', function (socket) {
     
     var i = clients.indexOf(socket);
     
+    
+    //send fake tempearature to the client (particularly to arduino controller) every 2s
     var interval = setInterval(function () {
         
          socket.emit('server:msg', {data: random(20,30)});

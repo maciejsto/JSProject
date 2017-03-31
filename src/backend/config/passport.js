@@ -49,6 +49,7 @@ module.exports = function(passport) {
     User.findOne({ username: username }, function (err, user) {
         
        if(null == user){
+           //return done(null, user);
            console.log('asdsadsa')
        }
         
@@ -59,10 +60,13 @@ module.exports = function(passport) {
       // No user found with that username
       if (!user) { 
           console.log('no user')
-          return done(null, false, req.flash('loginMessage', 'No user found.')); }
-
+          //return done(null, user);
+          return done(null, false, req.flash('loginMessage', 'No user found.'));
+      }
+      return done(null,user)    ;  
       // Make sure the password is correct
       user.verifyPassword(password, function(err, isMatch){ 
+          
         if (err) { 
             console.log('bad pass')
             return done(err, req.flash('loginMessage', 'bad password.')); }
@@ -73,6 +77,7 @@ module.exports = function(passport) {
             return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); }
 
         // Success
+        
         return done(null, user);
       });
     });

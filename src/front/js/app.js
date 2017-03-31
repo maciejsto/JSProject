@@ -25,8 +25,8 @@ angular.module('appname',[
     .config(function($stateProvider, $urlRouterProvider,$locationProvider, $httpProvider, USER_ROLES) {
 
     // use the HTML5 History API
-        $locationProvider.html5Mode(false);
-        $locationProvider.hashPrefix('!');
+        //$locationProvider.html5Mode(false);
+        //$locationProvider.hashPrefix('!');
      
 
       $urlRouterProvider.otherwise('/api/login');
@@ -45,7 +45,7 @@ angular.module('appname',[
         //   controller: 'indexController',
           templateUrl: "api/views/home.ejs",
           data: {
-             authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+             //authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
           }
         })
         .state('home', {

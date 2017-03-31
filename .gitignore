@@ -1,5 +1,8 @@
-.idea/
-npm-debug.log
+/.idea/
+/.c9
 src/backend/auth
 /bower_components
 /node_modules
+/spec
+/lib
+npm-debug.log

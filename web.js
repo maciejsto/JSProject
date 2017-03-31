@@ -116,26 +116,26 @@ router.use(function(req, res, next) {
 });
 
 router.route('/about')
-    .get(ensureAuthenticated, routes.about.dummyFunction);
+    .get( routes.about.dummyFunction);
 //     //.get(routes.about.dummyFunction) ...
 
 
 router.route('/admin')
-     .get(ensureAuthenticated, routes.admin);
+     .get( routes.admin);
      ////adminController().run(req,res,next);
     
 router.route('/home')
-    .get(ensureAuthenticated, routes.home);
+    .get( routes.home);
     // .get(ensureAuthenticated, function(req, res, next){
     //   res.render('home', {title: 'home route'}); 
     // });
     
  router.route('/arduino')
-     .get(ensureAuthenticated, routes.arduino);
+     .get(routes.arduino);
      
 
  router.route('/portfolio')
-     .get(ensureAuthenticated, routes.portfolio);
+     .get( routes.portfolio);
 
 // router.route('/projects')
     // .get(ensureAuthenticated, function(req, res, next){
@@ -157,12 +157,12 @@ router.route('/login')
     
 router.route('/signup')
     .get(routes.signup);    
-    
+    /*
 router.route('/login')
     .get(routes.login)
     .post(passport.authenticate('local-login', { 
         successRedirect: '/api/index',
-        failureRedirect: '/api/login' }));
+        failureRedirect: '/api/login' }));*/
     
 
 // // process the signup form
@@ -175,15 +175,15 @@ router.route('/login')
 
 
 router.route('/index')
-    .get(ensureAuthenticated, routes.index);
+    .get( routes.index);
 //     .get(function(req,res){
 //         res.json("index page");
 //     })
 
 // // Create endpoint handlers for /beers
 router.route('/beers')
-  .post(ensureAuthenticated, beerController.postBeers)
-  .get( ensureAuthenticated, beerController.getBeers);
+  .post( beerController.postBeers)
+  .get(  beerController.getBeers);
 
 // // Create endpoint handlers for /beers/:beer_id
 router.route('/beers/:beer_id')
@@ -192,9 +192,14 @@ router.route('/beers/:beer_id')
   .delete(authController.isAuthenticated, beerController.deleteBeer);
 
 // Create endpoint handlers for /users
+//router.route('/users')
+//  .post( ensureAuthenticated, userController.postUsers)
+//  .get( ensureAuthenticated,userController.getUsers);
+
+// Create endpoint handlers for /users
 router.route('/users')
-  .post( ensureAuthenticated, userController.postUsers)
-  .get( ensureAuthenticated,userController.getUsers);
+  .post( userController.postUsers)
+  .get( userController.getUsers);
 
 //create endpoint handlers for /users/:user_id 
 router.route('/users/:user_id')

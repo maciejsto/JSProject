@@ -18,12 +18,14 @@ angular.module('arduinoController', [])
 	    
 		Socket.emit('arduino:send', {msg: 'message from arduino controller'});
 	    Socket.emit('arduino:send2', {msg: ' another message from arduino controller'});
+	    
 	    Socket.on('server:msg', function(resp){
 	    	var _temp = round_num(resp.data);
 	    	
 	    	
 			var c = _temp.toString().split(".")
 	    	
+	    	//received fake temperature from server 
 	    	$scope.temp0 = c[0];
 	    	$scope.temp1 = c[1];
 	    });
